@@ -1,60 +1,99 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DollarSign, Calendar } from 'lucide-react';
+import BetModal from './BetModal';
 
-export default function PredictionCard({ prediction }) {
+export default function PredictionCard({ prediction, language }) {
+  const [showBetModal, setShowBetModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleBetClick = (option) => {
+    setSelectedOption(option);
+    setShowBetModal(true);
+  };
+
+  const translations = {
+    pt: { yes: 'SIM', no: 'NÃO' },
+    en: { yes: 'YES', no: 'NO' },
+    es: { yes: 'SÍ', no: 'NO' },
+    hi: { yes: 'हाँ', no: 'नहीं' },
+    ar: { yes: 'نعم', no: 'لا' },
+    zh: { yes: '是', no: '否' },
+    fr: { yes: 'OUI', no: 'NON' },
+    ru: { yes: 'ДА', no: 'НЕТ' },
+    de: { yes: 'JA', no: 'NEIN' },
+    ja: { yes: 'はい', no: 'いいえ' }
+  };
+
+  const t = translations[language] || translations.pt;
+
   return (
-    <div
-      className="rounded-2xl border-2 bg-background backdrop-blur p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
-      style={{ width: '420px', minHeight: '220px' }}
-    >
-      {/* Tag */}
-      <div className="mb-3">
-        <span className="text-sm font-bold px-4 py-1.5 rounded-full bg-muted text-foreground">
-          {prediction.category}
-        </span>
+    <>
+      <div
+        className="rounded-2xl backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
+        style={{ 
+          width: '480px', 
+          minHeight: '240px',
+          border: '3px solid',
+          borderImage: 'linear-gradient(135deg, rgba(212,168,67,0.6), rgba(234,179,8,0.6)) 1',
+          borderRadius: '16px',
+          background: 'var(--background)'
+        }}
+      >
+        {/* Tag */}
+        <div className="mb-4">
+          <span className="text-base font-bold px-5 py-2 rounded-full bg-muted text-foreground">
+            {prediction.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2">
+          {prediction.title}
+        </h3>
+
+        {/* Stats */}
+        <div className="flex items-center gap-5 mb-6 text-base text-muted-foreground">
+          {prediction.total_volume && (
+            <div className="flex items-center gap-1.5">
+              <DollarSign className="h-5 w-5" />
+              <span className="font-semibold">{prediction.total_volume.toLocaleString()}</span>
+            </div>
+          )}
+          {prediction.end_date && (
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-5 w-5" />
+              <span className="font-medium">{new Date(prediction.end_date).toLocaleDateString('pt-BR')}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Betting Options */}
+        <div className="grid grid-cols-2 gap-4">
+          <Button
+            onClick={() => handleBetClick('yes')}
+            className="h-14 rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold text-lg shadow-md flex items-center justify-center gap-2"
+          >
+            <span>{t.yes}</span>
+            <span className="font-extrabold">{prediction.yes_percentage}%</span>
+          </Button>
+          <Button
+            onClick={() => handleBetClick('no')}
+            className="h-14 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-lg shadow-md flex items-center justify-center gap-2"
+          >
+            <span>{t.no}</span>
+            <span className="font-extrabold">{prediction.no_percentage}%</span>
+          </Button>
+        </div>
       </div>
 
-      {/* Title */}
-      <h3 className="font-bold text-xl leading-tight mb-4 line-clamp-2">
-        {prediction.title}
-      </h3>
-
-      {/* Stats */}
-      <div className="flex items-center gap-4 mb-5 text-sm text-muted-foreground">
-        {prediction.total_volume && (
-          <div className="flex items-center gap-1">
-            <DollarSign className="h-4 w-4" />
-            <span className="font-medium">{prediction.total_volume.toLocaleString()}</span>
-          </div>
-        )}
-        {prediction.end_date && (
-          <div className="flex items-center gap-1">
-            <Calendar className="h-4 w-4" />
-            <span>{new Date(prediction.end_date).toLocaleDateString('pt-BR')}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Betting Options */}
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          className="h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold text-sm shadow-md"
-        >
-          <div className="flex flex-col items-center">
-            <span>SIM</span>
-            <span className="text-xs font-extrabold">{prediction.yes_percentage}%</span>
-          </div>
-        </Button>
-        <Button
-          className="h-12 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm shadow-md"
-        >
-          <div className="flex flex-col items-center">
-            <span>NÃO</span>
-            <span className="text-xs font-extrabold">{prediction.no_percentage}%</span>
-          </div>
-        </Button>
-      </div>
-    </div>
+      <BetModal 
+        isOpen={showBetModal} 
+        onClose={() => setShowBetModal(false)} 
+        prediction={prediction}
+        selectedOption={selectedOption}
+        language={language}
+      />
+    </>
   );
 }

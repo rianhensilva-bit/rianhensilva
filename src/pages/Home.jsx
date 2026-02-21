@@ -25,10 +25,17 @@ export default function Home() {
     document.documentElement.classList.toggle('dark');
   };
 
-  const { data: predictions = [], isLoading } = useQuery({
+  const { data: predictions = [], isLoading, refetch } = useQuery({
     queryKey: ['predictions'],
     queryFn: () => base44.entities.Prediction.list(),
   });
+
+  const handleLogoClick = () => {
+    setSelectedCategory(null);
+    setSelectedSubcategory(null);
+    setSearchQuery('');
+    refetch();
+  };
 
   const filteredPredictions = predictions.filter(pred => {
     const matchesSearch = !searchQuery || 
@@ -63,6 +70,7 @@ export default function Home() {
         setSearchQuery={setSearchQuery}
         language={language}
         setLanguage={setLanguage}
+        onLogoClick={handleLogoClick}
       />
       
       <CategoryTabs
@@ -70,6 +78,7 @@ export default function Home() {
         setSelectedCategory={setSelectedCategory}
         selectedSubcategory={selectedSubcategory}
         setSelectedSubcategory={setSelectedSubcategory}
+        language={language}
       />
 
       <div className="flex">
@@ -97,7 +106,7 @@ export default function Home() {
             ) : (
               <div className="flex flex-wrap gap-6">
                 {sortedPredictions.map((prediction) => (
-                  <PredictionCard key={prediction.id} prediction={prediction} />
+                  <PredictionCard key={prediction.id} prediction={prediction} language={language} />
                 ))}
               </div>
             )}
@@ -108,6 +117,7 @@ export default function Home() {
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
           predictions={predictions}
+          language={language}
         />
       </div>
 

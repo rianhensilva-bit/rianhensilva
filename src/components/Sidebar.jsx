@@ -1,14 +1,29 @@
 import React from 'react';
 import { TrendingUp, Award, Clock, BarChart3 } from 'lucide-react';
 
-const FILTERS = [
-  { id: 'trending', label: 'Trending', icon: TrendingUp },
-  { id: 'most_bet', label: 'Mais Apostados', icon: Award },
-  { id: 'recent', label: 'Recém Criados', icon: Clock },
-  { id: 'volume', label: 'Maiores Volumes', icon: BarChart3 }
+const FILTERS = (t) => [
+  { id: 'trending', label: t.trending, icon: TrendingUp },
+  { id: 'most_bet', label: t.mostBet, icon: Award },
+  { id: 'recent', label: t.recent, icon: Clock },
+  { id: 'volume', label: t.volume, icon: BarChart3 }
 ];
 
-export default function Sidebar({ selectedFilter, setSelectedFilter, predictions }) {
+export default function Sidebar({ selectedFilter, setSelectedFilter, predictions, language }) {
+  
+  const translations = {
+    pt: { trending: 'Trending', mostBet: 'Mais Apostados', recent: 'Recém Criados', volume: 'Maiores Volumes', filters: 'FILTROS' },
+    en: { trending: 'Trending', mostBet: 'Most Bet', recent: 'Recently Created', volume: 'Highest Volume', filters: 'FILTERS' },
+    es: { trending: 'Tendencia', mostBet: 'Más Apostados', recent: 'Recién Creados', volume: 'Mayor Volumen', filters: 'FILTROS' },
+    hi: { trending: 'ट्रेंडिंग', mostBet: 'सबसे अधिक', recent: 'नए बनाए', volume: 'उच्चतम मात्रा', filters: 'फ़िल्टर' },
+    ar: { trending: 'رائج', mostBet: 'الأكثر رهانًا', recent: 'تم إنشاؤه مؤخرًا', volume: 'أعلى حجم', filters: 'مرشحات' },
+    zh: { trending: '热门', mostBet: '最多投注', recent: '最近创建', volume: '最大交易量', filters: '筛选' },
+    fr: { trending: 'Tendances', mostBet: 'Plus Pariés', recent: 'Récemment Créés', volume: 'Volume le Plus Élevé', filters: 'FILTRES' },
+    ru: { trending: 'В тренде', mostBet: 'Самые ставки', recent: 'Недавно созданные', volume: 'Наибольший объем', filters: 'ФИЛЬТРЫ' },
+    de: { trending: 'Trending', mostBet: 'Meist Gewettet', recent: 'Kürzlich Erstellt', volume: 'Höchstes Volumen', filters: 'FILTER' },
+    ja: { trending: 'トレンド', mostBet: '最も賭けられた', recent: '最近作成された', volume: '最大ボリューム', filters: 'フィルター' }
+  };
+  
+  const t = translations[language] || translations.pt;
   const getTopPredictionsForFilter = (filterId) => {
     let sorted = [...predictions];
     
@@ -31,9 +46,9 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
   };
 
   return (
-    <aside className="w-80 border-l bg-background/50 backdrop-blur p-6 space-y-4">
-      <h2 className="text-sm font-bold text-muted-foreground mb-6 px-3">FILTROS</h2>
-      {FILTERS.map((filter) => {
+    <aside className="w-96 pl-8 pr-6 py-6 space-y-6">
+      <h2 className="text-base font-bold text-muted-foreground mb-6">{t.filters}</h2>
+      {FILTERS(t).map((filter) => {
         const Icon = filter.icon;
         const topPredictions = getTopPredictionsForFilter(filter.id);
         
@@ -42,27 +57,27 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
             <button
               onClick={() => setSelectedFilter(filter.id)}
               className={`
-                w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-all
+                w-full flex items-center gap-4 px-5 py-4 rounded-xl font-bold text-lg transition-all
                 ${selectedFilter === filter.id 
                   ? 'bg-foreground text-background shadow-md' 
                   : 'hover:bg-muted text-muted-foreground hover:text-foreground'
                 }
               `}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-6 w-6" />
               <span>{filter.label}</span>
             </button>
             
             {/* Top 3 predictions for this filter */}
-            <div className="mt-3 space-y-2 px-2">
+            <div className="mt-4 space-y-3 pl-2">
               {topPredictions.map((pred, idx) => (
                 <div 
                   key={pred.id} 
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-2 rounded-lg hover:bg-muted/50"
+                  className="text-base text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-3 rounded-lg hover:bg-muted/50"
                 >
-                  <div className="flex items-start gap-2">
-                    <span className="text-xs font-bold text-amber-500 mt-0.5">{idx + 1}.</span>
-                    <span className="line-clamp-2 leading-tight">{pred.title}</span>
+                  <div className="flex items-start gap-3">
+                    <span className="text-sm font-bold text-amber-500 mt-0.5">{idx + 1}.</span>
+                    <span className="line-clamp-2 leading-snug">{pred.title}</span>
                   </div>
                 </div>
               ))}
