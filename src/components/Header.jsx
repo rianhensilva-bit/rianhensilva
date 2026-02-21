@@ -34,7 +34,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
             {/* Social Media Button */}
             <button
               onClick={() => setShowSocial(true)}
-              className="text-sm font-bold text-zinc-200 dark:text-zinc-100 hover:text-foreground transition-colors"
+              className="text-sm font-bold text-zinc-900 dark:text-zinc-100 hover:text-foreground transition-colors"
             >
               {t.social}
             </button>

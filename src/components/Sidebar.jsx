@@ -46,8 +46,8 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
   };
 
   return (
-    <aside className="py-6 space-y-6" style={{ width: '400px', position: 'sticky', top: '120px' }}>
-      <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 mb-6">{t.filters}</h2>
+    <aside className="py-6 space-y-6" style={{ width: '450px', position: 'sticky', top: '120px' }}>
+      <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-50 mb-8">{t.filters}</h2>
       {FILTERS(t).map((filter) => {
         const Icon = filter.icon;
         const topPredictions = getTopPredictionsForFilter(filter.id);
@@ -57,26 +57,26 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
             <button
               onClick={() => setSelectedFilter(filter.id)}
               className={`
-                w-full flex items-center gap-4 px-5 py-4 rounded-xl font-black text-xl transition-all
+                w-full flex items-center gap-5 px-6 py-5 rounded-xl font-black text-2xl transition-all
                 ${selectedFilter === filter.id 
                   ? 'bg-foreground text-background shadow-md' 
                   : 'hover:bg-muted text-zinc-900 dark:text-zinc-50 hover:text-foreground'
                 }
               `}
             >
-              <Icon className="h-7 w-7" />
+              <Icon className="h-8 w-8" />
               <span>{filter.label}</span>
             </button>
             
             {/* Top 3 predictions for this filter */}
-            <div className="mt-4 space-y-3 pl-2">
+            <div className="mt-5 space-y-4 pl-2">
               {topPredictions.map((pred, idx) => (
                 <div 
                   key={pred.id} 
-                  className="text-base text-zinc-600 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-3 rounded-lg hover:bg-muted/50"
+                  className="text-lg text-zinc-600 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-4 rounded-lg hover:bg-muted/50"
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="text-base font-bold mt-0.5" style={{ color: '#F59E0B' }}>{idx + 1}.</span>
+                  <div className="flex items-start gap-4">
+                    <span className="text-xl font-bold mt-0.5" style={{ color: '#F59E0B' }}>{idx + 1}.</span>
                     <span className="line-clamp-2 leading-snug">{pred.title}</span>
                   </div>
                 </div>
