@@ -12,7 +12,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
 
   const translations = {
-    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'GANHE PREVENDO O FUTURO', market: 'MERCADO DE PREVISÕES', social: 'Redes Sociais' },
+    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
     en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
     es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
     hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
@@ -34,7 +34,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
             {/* Social Media Button */}
             <button
               onClick={() => setShowSocial(true)}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-bold text-zinc-200 dark:text-zinc-100 hover:text-foreground transition-colors"
             >
               {t.social}
             </button>
@@ -45,21 +45,22 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 <div className="flex items-center gap-4">
                   <button 
                     onClick={onLogoClick}
-                    className="text-5xl font-black tracking-tight elegant-font hover:opacity-90 transition-opacity cursor-pointer"
+                    className="text-5xl font-black tracking-tight elegant-font hover:opacity-90 transition-opacity cursor-pointer dark:border-transparent border-black"
                     style={{
                       background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
-                      filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.4))'
+                      filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.4))',
+                      WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.3)'
                     }}
                   >
                     GUANXI
                   </button>
-                  <span className="text-base font-bold elegant-font text-zinc-200 dark:text-zinc-100">
+                  <span className="text-base font-bold elegant-font text-zinc-800 dark:text-zinc-100">
                     {t.market}
                   </span>
                 </div>
-                <p className="text-base font-semibold text-zinc-200 dark:text-zinc-100 mt-1 ml-1 uppercase">
+                <p className="text-base font-semibold text-zinc-800 dark:text-zinc-100 mt-1 ml-1 uppercase">
                   {t.subtitle}
                 </p>
               </div>

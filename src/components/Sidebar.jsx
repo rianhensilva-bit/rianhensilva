@@ -46,8 +46,8 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
   };
 
   return (
-    <aside className="w-96 pl-12 pr-12 py-6 space-y-6">
-      <h2 className="text-xl font-black text-zinc-100 dark:text-zinc-50 mb-6">{t.filters}</h2>
+    <aside className="w-96 py-6 space-y-6" style={{ marginLeft: 'auto', marginRight: 'auto', paddingLeft: '3rem', paddingRight: '3rem' }}>
+      <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 mb-6">{t.filters}</h2>
       {FILTERS(t).map((filter) => {
         const Icon = filter.icon;
         const topPredictions = getTopPredictionsForFilter(filter.id);
@@ -60,7 +60,7 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
                 w-full flex items-center gap-4 px-5 py-4 rounded-xl font-black text-xl transition-all
                 ${selectedFilter === filter.id 
                   ? 'bg-foreground text-background shadow-md' 
-                  : 'hover:bg-muted text-zinc-100 dark:text-zinc-50 hover:text-foreground'
+                  : 'hover:bg-muted text-zinc-900 dark:text-zinc-50 hover:text-foreground'
                 }
               `}
             >
@@ -73,7 +73,7 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
               {topPredictions.map((pred, idx) => (
                 <div 
                   key={pred.id} 
-                  className="text-base text-zinc-300 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-3 rounded-lg hover:bg-muted/50"
+                  className="text-base text-zinc-600 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-3 rounded-lg hover:bg-muted/50"
                 >
                   <div className="flex items-start gap-3">
                     <span className="text-base font-bold mt-0.5" style={{ color: '#F59E0B' }}>{idx + 1}.</span>

@@ -85,10 +85,10 @@ export default function Home() {
         <main className="flex-1 p-8">
           <div className="container mx-auto max-w-6xl">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2 text-zinc-100 dark:text-zinc-50">
-                {selectedCategory || 'Todos os Mercados'}
+              <h2 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">
+                {selectedCategory || 'MERCADOS'}
               </h2>
-              <p className="text-zinc-300 dark:text-zinc-300">
+              <p className="text-zinc-600 dark:text-zinc-300">
                 {sortedPredictions.length} previsões disponíveis
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function Home() {
               </div>
             ) : sortedPredictions.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-zinc-300 dark:text-zinc-300 text-lg">
+                <p className="text-zinc-600 dark:text-zinc-300 text-lg">
                   Nenhuma previsão encontrada
                 </p>
               </div>

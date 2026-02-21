@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DollarSign, Calendar } from 'lucide-react';
 import BetModal from './BetModal';
+import { CATEGORIES } from './CategoryTabs';
 
 export default function PredictionCard({ prediction, language }) {
+  const categoryData = CATEGORIES.find(c => c.name === prediction.category);
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -30,13 +32,12 @@ export default function PredictionCard({ prediction, language }) {
   return (
     <>
       <div
-        className="backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
+        className="backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all rounded-3xl"
         style={{ 
           width: '480px', 
           minHeight: '240px',
           border: '3px solid',
           borderImage: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B) 1',
-          borderRadius: '20px',
           background: 'var(--background)'
         }}
       >
@@ -48,12 +49,12 @@ export default function PredictionCard({ prediction, language }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2 text-zinc-100 dark:text-zinc-50">
+        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2 text-zinc-900 dark:text-zinc-50">
           {prediction.title}
         </h3>
 
         {/* Stats */}
-        <div className="flex items-center gap-5 mb-6 text-base text-zinc-300 dark:text-zinc-300">
+        <div className="flex items-center gap-5 mb-6 text-base text-zinc-600 dark:text-zinc-300">
           {prediction.total_volume && (
             <div className="flex items-center gap-1.5">
               <DollarSign className="h-5 w-5" />
