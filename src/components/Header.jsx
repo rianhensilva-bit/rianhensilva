@@ -12,9 +12,9 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
 
   const translations = {
-    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'ganhe prevendo o futuro!', market: 'MERCADO DE PREVISÕES', social: 'Redes Sociais' },
-    en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'earn by predicting the future!', market: 'PREDICTION MARKET', social: 'Social Media' },
-    es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡gana prediciendo el futuro!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
+    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'GANHE PREVENDO O FUTURO', market: 'MERCADO DE PREVISÕES', social: 'Redes Sociais' },
+    en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
+    es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
     hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
     ar: { search: '...ابحث عن الأسواق والتوقعات', enter: 'دخول', signup: 'تسجيل', createBet: 'إنشاء رهان', earnCommission: 'اربح عمولة', subtitle: '!اربح من خلال التنبؤ بالمستقبل', market: 'سوق التوقعات', social: 'وسائل التواصل' },
     zh: { search: '搜索市场和预测...', enter: '登录', signup: '注册', createBet: '创建投注', earnCommission: '赚取佣金', subtitle: '通过预测未来赚钱！', market: '预测市场', social: '社交媒体' },
@@ -29,7 +29,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   return (
     <>
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-5">
           <div className="flex items-center justify-between gap-6">
             {/* Social Media Button */}
             <button
@@ -42,25 +42,31 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
             {/* Logo and Tagline */}
             <div className="flex items-center gap-4 ml-8">
               <div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button 
                     onClick={onLogoClick}
-                    className="text-5xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent drop-shadow-lg elegant-font hover:opacity-80 transition-opacity cursor-pointer"
+                    className="text-5xl font-black tracking-tight elegant-font hover:opacity-90 transition-opacity cursor-pointer"
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.4))'
+                    }}
                   >
                     GUANXI
                   </button>
-                  <span className="text-base font-semibold text-muted-foreground elegant-font">
+                  <span className="text-base font-bold elegant-font text-zinc-200 dark:text-zinc-100">
                     {t.market}
                   </span>
                 </div>
-                <p className="text-base text-muted-foreground mt-1 ml-1">
+                <p className="text-base font-semibold text-zinc-200 dark:text-zinc-100 mt-1 ml-1 uppercase">
                   {t.subtitle}
                 </p>
               </div>
             </div>
 
             {/* Search Bar */}
-            <div className="flex-1 max-w-xl relative">
+            <div className="flex-1 max-w-xl relative" style={{ marginTop: '4px' }}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
@@ -92,12 +98,18 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 onMouseEnter={() => setIsHoveringCreate(true)}
                 onMouseLeave={() => setIsHoveringCreate(false)}
                 onClick={() => setShowCreateBet(true)}
-                className="rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 hover:from-amber-500 hover:via-yellow-600 hover:to-amber-700 text-black font-bold px-5 shadow-lg h-9 text-sm transition-all"
+                className="rounded-full text-black font-bold px-5 shadow-lg h-9 text-sm transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
+                }}
               >
                 {isHoveringCreate ? t.earnCommission : t.createBet}
               </Button>
               <Button
-                className="rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 hover:from-amber-500 hover:via-yellow-600 hover:to-amber-700 text-black font-bold px-5 shadow-lg h-9 text-sm"
+                className="rounded-full text-black font-bold px-5 shadow-lg h-9 text-sm"
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
+                }}
               >
                 {t.signup}
               </Button>

@@ -30,13 +30,13 @@ export default function PredictionCard({ prediction, language }) {
   return (
     <>
       <div
-        className="rounded-2xl backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
+        className="backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
         style={{ 
           width: '480px', 
           minHeight: '240px',
           border: '3px solid',
-          borderImage: 'linear-gradient(135deg, rgba(212,168,67,0.6), rgba(234,179,8,0.6)) 1',
-          borderRadius: '16px',
+          borderImage: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B) 1',
+          borderRadius: '20px',
           background: 'var(--background)'
         }}
       >
@@ -48,12 +48,12 @@ export default function PredictionCard({ prediction, language }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2">
+        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2 text-zinc-100 dark:text-zinc-50">
           {prediction.title}
         </h3>
 
         {/* Stats */}
-        <div className="flex items-center gap-5 mb-6 text-base text-muted-foreground">
+        <div className="flex items-center gap-5 mb-6 text-base text-zinc-300 dark:text-zinc-300">
           {prediction.total_volume && (
             <div className="flex items-center gap-1.5">
               <DollarSign className="h-5 w-5" />

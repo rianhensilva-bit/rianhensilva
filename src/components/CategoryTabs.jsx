@@ -231,7 +231,7 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
     <div className="border-b bg-background/50 backdrop-blur">
       <div className="container mx-auto px-6">
         {/* Main Categories */}
-        <div className="flex flex-wrap items-center gap-2 py-4">
+        <div className="flex flex-wrap items-center justify-center gap-3 py-5">
           {CATEGORIES.map((category) => {
             const isActive = selectedCategory === category.name;
             return (
@@ -242,10 +242,10 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
                   setSelectedCategory(category.name);
                   setSelectedSubcategory(null);
                 }}
-                className="px-5 py-2.5 rounded-full border-2 font-semibold text-sm whitespace-nowrap transition-all hover:scale-105"
+                className="px-6 py-3 rounded-full border-2 font-bold text-base whitespace-nowrap transition-all hover:scale-105"
                 style={{
                   backgroundColor: isActive ? category.color : 'transparent',
-                  borderColor: `${category.color}40`,
+                  borderColor: `${category.color}60`,
                   color: isActive ? '#fff' : category.color
                 }}
               >
@@ -255,9 +255,12 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
           })}
         </div>
 
+        {/* Divider */}
+        <div className="border-t border-border/50 mb-4"></div>
+
         {/* Subcategories - Always visible */}
-        <div className="pb-4 pt-2 min-h-[44px]">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="pb-5 min-h-[48px]">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {currentCategory?.subcategories.map((sub) => {
               const isActiveSub = selectedSubcategory === sub;
               return (
@@ -267,7 +270,7 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
                     setSelectedCategory(currentCategory.name);
                     setSelectedSubcategory(sub);
                   }}
-                  className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
+                  className="px-5 py-2 rounded-full text-base font-semibold transition-all"
                   style={{
                     backgroundColor: isActiveSub ? currentCategory.color : `${currentCategory.color}15`,
                     color: isActiveSub ? '#fff' : currentCategory.color
