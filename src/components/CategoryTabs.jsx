@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
 
 const CATEGORIES = [
   {
@@ -51,6 +50,26 @@ const CATEGORIES = [
     name: 'Tecnologia & Ciência',
     color: 'green',
     subcategories: ['IA', 'Startups', 'Descobertas', 'Inovação', 'Pesquisa']
+  },
+  {
+    name: 'Guerras',
+    color: 'slate',
+    subcategories: ['Conflitos Internacionais', 'Tensões Geopolíticas', 'Acordos de Paz', 'Sanções', 'Alianças Militares']
+  },
+  {
+    name: 'Mortes',
+    color: 'zinc',
+    subcategories: ['Celebridades', 'Políticos Idosos', 'Monarcas', 'Ícones da Cultura', 'Líderes Mundiais']
+  },
+  {
+    name: 'Escândalos',
+    color: 'rose',
+    subcategories: ['Políticos', 'Celebridades', 'Empresários', 'Esportistas', 'Vazamentos']
+  },
+  {
+    name: 'Improváveis',
+    color: 'violet',
+    subcategories: ['Eventos Sobrenaturais', 'Aliens', 'Fenômenos Inexplicáveis', 'Profecias', 'Teorias da Conspiração']
   }
 ];
 
@@ -64,68 +83,77 @@ const colorClasses = {
   pink: 'bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20 hover:bg-pink-500/20',
   indigo: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20',
   red: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20 hover:bg-red-500/20',
-  green: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 hover:bg-green-500/20'
+  green: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 hover:bg-green-500/20',
+  slate: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20 hover:bg-slate-500/20',
+  zinc: 'bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border-zinc-500/20 hover:bg-zinc-500/20',
+  rose: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 hover:bg-rose-500/20',
+  violet: 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20 hover:bg-violet-500/20'
 };
 
+export { CATEGORIES };
+
 export default function CategoryTabs({ selectedCategory, setSelectedCategory, selectedSubcategory, setSelectedSubcategory }) {
-  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredCategory, setHoveredCategory] = useState('Política');
+
+  useEffect(() => {
+    if (!hoveredCategory) {
+      setHoveredCategory('Política');
+    }
+  }, [hoveredCategory]);
+
+  const currentCategory = CATEGORIES.find(c => c.name === hoveredCategory);
 
   return (
     <div className="border-b bg-background/50 backdrop-blur">
       <div className="container mx-auto px-6">
         {/* Main Categories */}
         <div className="flex items-center gap-2 py-4 overflow-x-auto scrollbar-hide">
-          {CATEGORIES.map((category) => (
-            <button
-              key={category.name}
-              onMouseEnter={() => setHoveredCategory(category.name)}
-              onMouseLeave={() => setHoveredCategory(null)}
-              onClick={() => {
-                setSelectedCategory(category.name);
-                setSelectedSubcategory(null);
-              }}
-              className={`
-                px-5 py-2.5 rounded-full border-2 font-semibold text-sm whitespace-nowrap transition-all
-                ${colorClasses[category.color]}
-                ${selectedCategory === category.name ? 'ring-2 ring-offset-2 ring-offset-background' : ''}
-              `}
-            >
-              {category.name}
-            </button>
-          ))}
+          {CATEGORIES.map((category) => {
+            const isActive = selectedCategory === category.name;
+            return (
+              <button
+                key={category.name}
+                onMouseEnter={() => setHoveredCategory(category.name)}
+                onClick={() => {
+                  setSelectedCategory(category.name);
+                  setSelectedSubcategory(null);
+                }}
+                className={`
+                  px-5 py-2.5 rounded-full border-2 font-semibold text-sm whitespace-nowrap transition-all
+                  ${colorClasses[category.color]}
+                  ${isActive ? 'ring-2 ring-offset-2 ring-offset-background' : ''}
+                `}
+              >
+                {category.name}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Subcategories on Hover */}
-        <AnimatePresence>
-          {hoveredCategory && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="overflow-hidden"
-            >
-              <div className="flex items-center gap-2 pb-4 pt-2">
-                {CATEGORIES.find(c => c.name === hoveredCategory)?.subcategories.map((sub) => (
-                  <button
-                    key={sub}
-                    onClick={() => {
-                      setSelectedCategory(hoveredCategory);
-                      setSelectedSubcategory(sub);
-                    }}
-                    className={`
-                      px-4 py-1.5 rounded-full text-sm font-medium transition-all
-                      bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground
-                      ${selectedSubcategory === sub ? 'bg-foreground text-background' : ''}
-                    `}
-                  >
-                    {sub}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Subcategories - Always visible */}
+        <div className="pb-4 pt-2 min-h-[44px]">
+          <div className="flex items-center gap-2">
+            {currentCategory?.subcategories.map((sub) => {
+              const isActiveSub = selectedSubcategory === sub;
+              return (
+                <button
+                  key={sub}
+                  onClick={() => {
+                    setSelectedCategory(currentCategory.name);
+                    setSelectedSubcategory(sub);
+                  }}
+                  className={`
+                    px-4 py-1.5 rounded-full text-sm font-medium transition-all
+                    bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground
+                    ${isActiveSub ? 'bg-foreground text-background' : ''}
+                  `}
+                >
+                  {sub}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -5,28 +5,31 @@ import Header from '../components/Header';
 import CategoryTabs from '../components/CategoryTabs';
 import PredictionCard from '../components/PredictionCard';
 import Sidebar from '../components/Sidebar';
+import Footer from '../components/Footer';
 import { Loader2 } from 'lucide-react';
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState('trending');
+  const [language, setLanguage] = useState('pt');
 
-  // Toggle dark mode
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
   };
 
-  // Fetch predictions
   const { data: predictions = [], isLoading } = useQuery({
     queryKey: ['predictions'],
     queryFn: () => base44.entities.Prediction.list(),
   });
 
-  // Filter predictions
   const filteredPredictions = predictions.filter(pred => {
     const matchesSearch = !searchQuery || 
       pred.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -36,11 +39,10 @@ export default function Home() {
     return matchesSearch && matchesCategory && matchesSubcategory;
   });
 
-  // Sort by filter
   const sortedPredictions = [...filteredPredictions].sort((a, b) => {
     switch (selectedFilter) {
       case 'trending':
-        return (b.yes_percentage + b.no_percentage) - (a.yes_percentage + a.no_percentage);
+        return Math.abs(50 - a.yes_percentage) - Math.abs(50 - b.yes_percentage);
       case 'most_bet':
         return (b.total_volume || 0) - (a.total_volume || 0);
       case 'recent':
@@ -53,12 +55,14 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-background">
       <Header 
         darkMode={darkMode} 
         toggleDarkMode={toggleDarkMode}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        language={language}
+        setLanguage={setLanguage}
       />
       
       <CategoryTabs
@@ -69,14 +73,8 @@ export default function Home() {
       />
 
       <div className="flex">
-        <Sidebar 
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-        />
-
         <main className="flex-1 p-8">
-          <div className="container mx-auto max-w-7xl">
-            {/* Header */}
+          <div className="container mx-auto max-w-6xl">
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2">
                 {selectedCategory || 'Todos os Mercados'}
@@ -86,7 +84,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Predictions Grid */}
             {isLoading ? (
               <div className="flex items-center justify-center py-20">
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -98,7 +95,7 @@ export default function Home() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="flex flex-wrap gap-6">
                 {sortedPredictions.map((prediction) => (
                   <PredictionCard key={prediction.id} prediction={prediction} />
                 ))}
@@ -106,7 +103,15 @@ export default function Home() {
             )}
           </div>
         </main>
+
+        <Sidebar 
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+          predictions={predictions}
+        />
       </div>
+
+      <Footer />
     </div>
   );
 }
