@@ -46,8 +46,8 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
   };
 
   return (
-    <aside className="py-6 space-y-6" style={{ width: '450px', position: 'sticky', top: '120px' }}>
-      <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-50 mb-8">{t.filters}</h2>
+    <aside className="py-6 space-y-6" style={{ width: '450px', position: 'sticky', top: '120px', marginLeft: '-8rem' }}>
+      <h2 className="text-3xl font-black text-zinc-900 dark:text-zinc-50 mb-8">{t.filters}</h2>
       {FILTERS(t).map((filter) => {
         const Icon = filter.icon;
         const topPredictions = getTopPredictionsForFilter(filter.id);
@@ -64,7 +64,7 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
                 }
               `}
             >
-              <Icon className="h-8 w-8" />
+              <Icon className="h-9 w-9" />
               <span>{filter.label}</span>
             </button>
             
@@ -73,10 +73,10 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
               {topPredictions.map((pred, idx) => (
                 <div 
                   key={pred.id} 
-                  className="text-lg text-zinc-600 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-4 rounded-lg hover:bg-muted/50"
+                  className="text-xl text-zinc-600 dark:text-zinc-300 hover:text-foreground transition-colors cursor-pointer p-4 rounded-lg hover:bg-muted/50"
                 >
                   <div className="flex items-start gap-4">
-                    <span className="text-xl font-bold mt-0.5" style={{ color: '#F59E0B' }}>{idx + 1}.</span>
+                    <span className="text-2xl font-bold mt-0.5" style={{ color: '#F59E0B' }}>{idx + 1}.</span>
                     <span className="line-clamp-2 leading-snug">{pred.title}</span>
                   </div>
                 </div>
