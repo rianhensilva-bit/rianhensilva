@@ -81,9 +81,9 @@ export default function Home() {
         language={language}
       />
 
-      <div className="flex">
-        <main className="flex-1 p-8">
-          <div className="container mx-auto max-w-6xl">
+      <div className="flex gap-6">
+        <main className="flex-1 p-8 pr-0">
+          <div className="container mx-auto" style={{ maxWidth: '1100px' }}>
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">
                 {selectedCategory || 'MERCADOS'}
