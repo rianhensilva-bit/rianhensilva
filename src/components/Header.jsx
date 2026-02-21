@@ -4,11 +4,13 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import SocialMediaModal from './SocialMediaModal';
 import CreateBetModal from './CreateBetModal';
+import SignupModal from './SignupModal';
 import LanguageSelector from './LanguageSelector';
 
 export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearchQuery, language, setLanguage, onLogoClick }) {
   const [showSocial, setShowSocial] = useState(false);
   const [showCreateBet, setShowCreateBet] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
 
   const translations = {
@@ -107,6 +109,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 {isHoveringCreate ? t.earnCommission : t.createBet}
               </Button>
               <Button
+                onClick={() => setShowSignup(true)}
                 className="rounded-full text-black font-bold px-5 shadow-lg h-9 text-sm"
                 style={{
                   background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
@@ -118,9 +121,10 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
           </div>
         </div>
       </header>
-      
+
       <SocialMediaModal isOpen={showSocial} onClose={() => setShowSocial(false)} language={language} />
       <CreateBetModal isOpen={showCreateBet} onClose={() => setShowCreateBet(false)} language={language} />
-    </>
-  );
-}
+      <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language={language} />
+      </>
+      );
+      }

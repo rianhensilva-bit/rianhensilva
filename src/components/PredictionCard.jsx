@@ -4,7 +4,7 @@ import { DollarSign, Calendar } from 'lucide-react';
 import BetModal from './BetModal';
 import { CATEGORIES } from './CategoryTabs';
 
-export default function PredictionCard({ prediction, language }) {
+export default function PredictionCard({ prediction, language, onTitleClick }) {
   const categoryData = CATEGORIES.find(c => c.name === prediction.category);
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -56,7 +56,10 @@ export default function PredictionCard({ prediction, language }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-bold text-xl leading-tight mb-5 line-clamp-2 text-zinc-900 dark:text-zinc-50">
+        <h3 
+          onClick={() => onTitleClick(prediction)}
+          className="font-bold text-2xl leading-tight mb-5 line-clamp-2 text-zinc-900 dark:text-zinc-50 cursor-pointer hover:opacity-80 transition-opacity"
+        >
           {prediction.title}
         </h3>
 

@@ -6,6 +6,7 @@ import CategoryTabs from '../components/CategoryTabs';
 import PredictionCard from '../components/PredictionCard';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import PredictionDetailsModal from '../components/PredictionDetailsModal';
 import { Loader2 } from 'lucide-react';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState('trending');
   const [language, setLanguage] = useState('pt');
+  const [selectedPrediction, setSelectedPrediction] = useState(null);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -106,7 +108,12 @@ export default function Home() {
             ) : (
               <div className="flex flex-wrap gap-6">
                 {sortedPredictions.map((prediction) => (
-                  <PredictionCard key={prediction.id} prediction={prediction} language={language} />
+                  <PredictionCard 
+                    key={prediction.id} 
+                    prediction={prediction} 
+                    language={language}
+                    onTitleClick={setSelectedPrediction}
+                  />
                 ))}
               </div>
             )}
@@ -122,6 +129,13 @@ export default function Home() {
       </div>
 
       <Footer />
+
+      <PredictionDetailsModal
+        prediction={selectedPrediction}
+        isOpen={!!selectedPrediction}
+        onClose={() => setSelectedPrediction(null)}
+        language={language}
+      />
     </div>
   );
 }
