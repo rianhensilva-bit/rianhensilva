@@ -43,7 +43,13 @@ export default function PredictionCard({ prediction, language }) {
       >
         {/* Tag */}
         <div className="mb-4">
-          <span className="text-base font-bold px-5 py-2 rounded-full bg-muted text-foreground">
+          <span 
+            className="text-base font-bold px-5 py-2 rounded-full"
+            style={{
+              backgroundColor: categoryData ? `${categoryData.color}20` : 'var(--muted)',
+              color: categoryData ? categoryData.color : 'var(--foreground)'
+            }}
+          >
             {prediction.category}
           </span>
         </div>
