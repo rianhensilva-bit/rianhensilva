@@ -29,7 +29,7 @@ export default function Home() {
 
   const { data: predictions = [], isLoading, refetch } = useQuery({
     queryKey: ['predictions'],
-    queryFn: () => base44.entities.Prediction.list(),
+    queryFn: () => base44.entities.Prediction.list()
   });
 
   const handleLogoClick = () => {
@@ -39,12 +39,12 @@ export default function Home() {
     refetch();
   };
 
-  const filteredPredictions = predictions.filter(pred => {
-    const matchesSearch = !searchQuery || 
-      pred.title.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredPredictions = predictions.filter((pred) => {
+    const matchesSearch = !searchQuery ||
+    pred.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !selectedCategory || pred.category === selectedCategory;
     const matchesSubcategory = !selectedSubcategory || pred.subcategory === selectedSubcategory;
-    
+
     return matchesSearch && matchesCategory && matchesSubcategory;
   });
 
@@ -65,27 +65,27 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header 
-        darkMode={darkMode} 
+      <Header
+        darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         language={language}
         setLanguage={setLanguage}
-        onLogoClick={handleLogoClick}
-      />
+        onLogoClick={handleLogoClick} />
+
       
       <CategoryTabs
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         selectedSubcategory={selectedSubcategory}
         setSelectedSubcategory={setSelectedSubcategory}
-        language={language}
-      />
+        language={language} />
+
 
       <div className="flex gap-6">
         <main className="flex-1 p-8 pr-0">
-          <div className="container mx-auto" style={{ maxWidth: '1100px' }}>
+          <div className="mx-auto my-1 px-12 container" style={{ maxWidth: '1100px' }}>
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">
                 {selectedCategory || 'MERCADOS'}
@@ -95,37 +95,37 @@ export default function Home() {
               </p>
             </div>
 
-            {isLoading ? (
-              <div className="flex items-center justify-center py-20">
+            {isLoading ?
+            <div className="flex items-center justify-center py-20">
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              </div>
-            ) : sortedPredictions.length === 0 ? (
-              <div className="text-center py-20">
+              </div> :
+            sortedPredictions.length === 0 ?
+            <div className="text-center py-20">
                 <p className="text-zinc-600 dark:text-zinc-300 text-lg">
                   Nenhuma previsão encontrada
                 </p>
+              </div> :
+
+            <div className="mx-5 px-8 flex flex-wrap gap-6">
+                {sortedPredictions.map((prediction) =>
+              <PredictionCard
+                key={prediction.id}
+                prediction={prediction}
+                language={language}
+                onTitleClick={setSelectedPrediction} />
+
+              )}
               </div>
-            ) : (
-              <div className="flex flex-wrap gap-6">
-                {sortedPredictions.map((prediction) => (
-                  <PredictionCard 
-                    key={prediction.id} 
-                    prediction={prediction} 
-                    language={language}
-                    onTitleClick={setSelectedPrediction}
-                  />
-                ))}
-              </div>
-            )}
+            }
           </div>
         </main>
 
-        <Sidebar 
+        <Sidebar
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
           predictions={predictions}
-          language={language}
-        />
+          language={language} />
+
       </div>
 
       <Footer />
@@ -134,8 +134,8 @@ export default function Home() {
         prediction={selectedPrediction}
         isOpen={!!selectedPrediction}
         onClose={() => setSelectedPrediction(null)}
-        language={language}
-      />
-    </div>
-  );
+        language={language} />
+
+    </div>);
+
 }
