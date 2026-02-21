@@ -46,7 +46,7 @@ export default function Sidebar({ selectedFilter, setSelectedFilter, predictions
   };
 
   return (
-    <aside className="w-96 py-6 space-y-6" style={{ marginLeft: 'auto', marginRight: 'auto', paddingLeft: '3rem', paddingRight: '3rem' }}>
+    <aside className="py-6 space-y-6" style={{ width: '400px', position: 'sticky', top: '120px' }}>
       <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 mb-6">{t.filters}</h2>
       {FILTERS(t).map((filter) => {
         const Icon = filter.icon;

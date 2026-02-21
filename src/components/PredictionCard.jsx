@@ -32,13 +32,17 @@ export default function PredictionCard({ prediction, language }) {
   return (
     <>
       <div
-        className="backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all rounded-3xl"
+        className="backdrop-blur p-7 hover:shadow-2xl hover:-translate-y-1 transition-all relative overflow-hidden"
         style={{ 
           width: '480px', 
           minHeight: '240px',
-          border: '3px solid',
-          borderImage: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B) 1',
-          background: 'var(--background)'
+          borderRadius: '24px',
+          background: 'var(--background)',
+          boxShadow: '0 0 0 3px transparent',
+          backgroundImage: 'linear-gradient(var(--background), var(--background)), linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+          border: '3px solid transparent'
         }}
       >
         {/* Tag */}

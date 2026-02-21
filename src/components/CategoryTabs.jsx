@@ -231,7 +231,7 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
     <div className="border-b bg-background/50 backdrop-blur">
       <div className="container mx-auto px-6">
         {/* Main Categories */}
-        <div className="flex items-center justify-center gap-3 py-5 overflow-x-auto scrollbar-hide">
+        <div className="flex flex-wrap items-center justify-center gap-3 py-5">
           {CATEGORIES.map((category) => {
             const isActive = selectedCategory === category.name;
             return (
@@ -260,7 +260,7 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
 
         {/* Subcategories - Always visible */}
         <div className="pb-5 min-h-[52px]">
-          <div className="flex items-center justify-center gap-3 overflow-x-auto scrollbar-hide">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {currentCategory?.subcategories.map((sub) => {
               const isActiveSub = selectedSubcategory === sub;
               return (
