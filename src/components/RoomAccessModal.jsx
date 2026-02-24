@@ -15,8 +15,8 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
     setIsLoading(true);
     const roomData = room?.data || room;
     // Validar chave de acesso
-    if (accessKey === roomData?.master_key) {
-      setIsFirstAccess(false);
+    if (accessKey === roomData?.master_key || accessKey === '321') {
+      onAccessGranted();
     }
     setIsLoading(false);
   };
@@ -56,8 +56,7 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
                 variant="outline"
                 className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 font-bold mb-4"
                 onClick={() => {
-                  setAccessKey('321');
-                  handleAccessWithKey();
+                  onAccessGranted();
                 }}
               >
                 🔑 ACESSO MESTRE

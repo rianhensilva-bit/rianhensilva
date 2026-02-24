@@ -19,7 +19,7 @@ export default function RoomCard({ room, onRoomClick }) {
   };
 
   const roomData = room.data || room;
-  const memberCount = Math.floor(Math.random() * 500) + 50;
+  const memberCount = roomData.member_count || 0;
 
   return (
     <div

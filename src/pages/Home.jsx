@@ -56,7 +56,8 @@ export default function Home() {
 
   const handleAccessGranted = () => {
     setShowAccessModal(false);
-    // TODO: Redirecionar para a página da sala
+    // Redirecionar para a dashboard do gerente
+    window.location.href = `/ManagerDashboard?roomId=${selectedRoom.id}`;
   };
 
   return (
