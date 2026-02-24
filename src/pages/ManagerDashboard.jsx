@@ -7,12 +7,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Plus, Calendar, Crown } from 'lucide-react';
+import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 export default function ManagerDashboard() {
   const queryClient = useQueryClient();
   const [showCreatePrediction, setShowCreatePrediction] = useState(false);
+  const [editingPrediction, setEditingPrediction] = useState(null);
   const [newPrediction, setNewPrediction] = useState({
     title: '',
     description: '',
@@ -61,9 +62,52 @@ export default function ManagerDashboard() {
     }
   });
 
+  const updatePredictionMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Prediction.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['predictions', roomId]);
+      setEditingPrediction(null);
+    }
+  });
+
   const handleCreatePrediction = (e) => {
     e.preventDefault();
     createPredictionMutation.mutate(newPrediction);
+  };
+
+  const handleEditPrediction = (prediction) => {
+    const predData = prediction.data || prediction;
+    setEditingPrediction({
+      id: prediction.id,
+      end_date: predData.end_date || ''
+    });
+  };
+
+  const handleUpdateEndDate = () => {
+    if (editingPrediction) {
+      updatePredictionMutation.mutate({
+        id: editingPrediction.id,
+        data: { end_date: editingPrediction.end_date }
+      });
+    }
+  };
+
+  const handleClosePrediction = (prediction) => {
+    if (confirm('Tem certeza que deseja fechar esta previsão?')) {
+      updatePredictionMutation.mutate({
+        id: prediction.id,
+        data: { status: 'closed' }
+      });
+    }
+  };
+
+  const handleResolvePrediction = (prediction, result) => {
+    if (confirm(`Resolver previsão como "${result}"?`)) {
+      updatePredictionMutation.mutate({
+        id: prediction.id,
+        data: { status: 'resolved', result }
+      });
+    }
   };
 
   const roomData = room?.data || room;
@@ -176,6 +220,7 @@ export default function ManagerDashboard() {
               ) : (
                 predictions.map((prediction) => {
                   const predData = prediction.data || prediction;
+                  const isEditing = editingPrediction?.id === prediction.id;
                   return (
                     <div key={prediction.id} className="border rounded-lg p-4">
                       <div className="flex justify-between items-start mb-2">
@@ -184,12 +229,14 @@ export default function ManagerDashboard() {
                           <p className="text-sm text-zinc-500">{predData.category}</p>
                         </div>
                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          predData.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          predData.status === 'active' ? 'bg-green-100 text-green-800' : 
+                          predData.status === 'closed' ? 'bg-gray-100 text-gray-800' :
+                          'bg-blue-100 text-blue-800'
                         }`}>
                           {predData.status}
                         </span>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-zinc-600">
+                      <div className="flex items-center gap-4 text-sm text-zinc-600 mb-3">
                         <span>Volume: R$ {predData.total_volume || 0}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1">
@@ -197,6 +244,42 @@ export default function ManagerDashboard() {
                           {predData.end_date ? new Date(predData.end_date).toLocaleDateString('pt-BR') : 'Sem data'}
                         </span>
                       </div>
+                      
+                      {isEditing ? (
+                        <div className="flex gap-2 items-center mt-3 pt-3 border-t">
+                          <Input
+                            type="date"
+                            value={editingPrediction.end_date}
+                            onChange={(e) => setEditingPrediction({ ...editingPrediction, end_date: e.target.value })}
+                            className="flex-1"
+                          />
+                          <Button onClick={handleUpdateEndDate} size="sm" className="bg-green-600 hover:bg-green-700">
+                            Salvar
+                          </Button>
+                          <Button onClick={() => setEditingPrediction(null)} size="sm" variant="outline">
+                            Cancelar
+                          </Button>
+                        </div>
+                      ) : predData.status === 'active' && (
+                        <div className="flex gap-2 mt-3 pt-3 border-t">
+                          <Button onClick={() => handleEditPrediction(prediction)} size="sm" variant="outline">
+                            <Edit className="h-4 w-4 mr-1" />
+                            Editar Data
+                          </Button>
+                          <Button onClick={() => handleClosePrediction(prediction)} size="sm" variant="outline">
+                            <XCircle className="h-4 w-4 mr-1" />
+                            Fechar
+                          </Button>
+                          <Button onClick={() => handleResolvePrediction(prediction, 'yes')} size="sm" className="bg-green-600 hover:bg-green-700">
+                            <CheckCircle className="h-4 w-4 mr-1" />
+                            Sim
+                          </Button>
+                          <Button onClick={() => handleResolvePrediction(prediction, 'no')} size="sm" className="bg-red-600 hover:bg-red-700">
+                            <CheckCircle className="h-4 w-4 mr-1" />
+                            Não
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   );
                 })
