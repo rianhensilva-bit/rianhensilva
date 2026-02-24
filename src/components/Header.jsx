@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { Search, Sun, Moon, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import SocialMediaModal from './SocialMediaModal';
 import CreateBetModal from './CreateBetModal';
 import SignupModal from './SignupModal';
@@ -16,7 +22,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
 
   const translations = {
-    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
+    pt: { search: 'Buscar salas de comunidades', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
     en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', becomeManager: 'Become Manager', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
     es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
     hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
@@ -93,38 +99,30 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
               >
                 {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
-              <Button
-                variant="outline"
-                className="rounded-full border-2 border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950 font-semibold px-5 h-9 text-sm"
-              >
-                {t.enter}
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-2 border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950 font-semibold px-5 h-9 text-sm"
+                  >
+                    {t.enter}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-40">
+                  <DropdownMenuItem onClick={() => setShowSignup(true)}>
+                    JOGADOR
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setShowManager(true)}>
+                    GERENTE
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button
                 onClick={() => setShowManager(true)}
                 variant="outline"
                 className="rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
               >
                 {t.becomeManager}
-              </Button>
-              <Button
-                onMouseEnter={() => setIsHoveringCreate(true)}
-                onMouseLeave={() => setIsHoveringCreate(false)}
-                onClick={() => setShowCreateBet(true)}
-                className="rounded-full text-black font-bold px-5 shadow-lg h-9 text-sm transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
-                }}
-              >
-                {isHoveringCreate ? t.earnCommission : t.createBet}
-              </Button>
-              <Button
-                onClick={() => setShowSignup(true)}
-                className="rounded-full text-black font-bold px-5 shadow-lg h-9 text-sm"
-                style={{
-                  background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
-                }}
-              >
-                {t.signup}
               </Button>
             </div>
           </div>

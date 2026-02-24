@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Crown, AlertCircle } from 'lucide-react';
+import CreateRoomModal from './CreateRoomModal';
 
 export default function BecomeManagerModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -15,11 +16,13 @@ export default function BecomeManagerModal({ isOpen, onClose }) {
     address: ''
   });
 
+  const [showCreateRoom, setShowCreateRoom] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Processar pagamento e criar gerente
-    alert('Cadastro realizado! Você será redirecionado para criar sua sala.');
+    // Fechar este modal e abrir o de criação de sala
     onClose();
+    setShowCreateRoom(true);
   };
 
   return (
@@ -109,5 +112,11 @@ export default function BecomeManagerModal({ isOpen, onClose }) {
         </form>
       </DialogContent>
     </Dialog>
+    
+    <CreateRoomModal 
+      isOpen={showCreateRoom} 
+      onClose={() => setShowCreateRoom(false)} 
+    />
+  </>
   );
 }

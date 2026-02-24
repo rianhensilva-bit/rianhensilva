@@ -18,7 +18,11 @@ export default function CreateRoomModal({ isOpen, onClose }) {
     name: '',
     primary_label: '',
     secondary_label: '',
-    label_color: '#D4AF37'
+    country: 'BRASIL',
+    country_flag: '🇧🇷',
+    label_color: '#D4AF37',
+    manager_contact_method: 'whatsapp',
+    manager_contact: ''
   });
 
   const createRoomMutation = useMutation({
@@ -103,6 +107,30 @@ export default function CreateRoomModal({ isOpen, onClose }) {
                 />
               ))}
             </div>
+          </div>
+
+          <div>
+            <Label htmlFor="contact_method">Escolha por onde deseja receber solicitações de chave</Label>
+            <Select value={formData.manager_contact_method} onValueChange={(value) => setFormData({ ...formData, manager_contact_method: value })}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="whatsapp">WhatsApp</SelectItem>
+                <SelectItem value="email">E-mail</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="contact">{formData.manager_contact_method === 'whatsapp' ? 'WhatsApp' : 'E-mail'}</Label>
+            <Input
+              id="contact"
+              required
+              placeholder={formData.manager_contact_method === 'whatsapp' ? '(00) 00000-0000' : 'seu@email.com'}
+              value={formData.manager_contact}
+              onChange={(e) => setFormData({ ...formData, manager_contact: e.target.value })}
+            />
           </div>
 
           <div className="flex gap-3 pt-4">

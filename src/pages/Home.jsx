@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import CategoryTabs from '../components/CategoryTabs';
 import RoomCard from '../components/RoomCard';
 import RoomAccessModal from '../components/RoomAccessModal';
+import RoomSidebar from '../components/RoomSidebar';
 import Footer from '../components/Footer';
 import { Loader2 } from 'lucide-react';
 
@@ -78,7 +79,9 @@ export default function Home() {
         language={language}
       />
 
-      <div className="container mx-auto px-8 py-12" style={{ maxWidth: '1400px' }}>
+      <div className="flex">
+        <div className="flex-1">
+          <div className="container mx-auto px-8 py-12" style={{ maxWidth: '1200px' }}>
         <div className="mb-8">
           <h2 className="text-4xl font-bold mb-1 text-zinc-900 dark:text-zinc-50 elegant-font">
             SALAS PRIVADAS
@@ -112,6 +115,10 @@ export default function Home() {
             ))}
           </div>
         )}
+          </div>
+        </div>
+
+        <RoomSidebar rooms={rooms} />
       </div>
 
       <Footer />

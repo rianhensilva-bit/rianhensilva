@@ -19,6 +19,7 @@ export default function RoomCard({ room, onRoomClick }) {
   };
 
   const roomData = room.data || room;
+  const memberCount = Math.floor(Math.random() * 500) + 50;
 
   return (
     <div
@@ -65,8 +66,12 @@ export default function RoomCard({ room, onRoomClick }) {
         <Lock className="h-6 w-6 text-[#D4AF37]" />
       </div>
 
-      <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-        <Users className="h-4 w-4" />
+      <div className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="flex items-center gap-2">
+          <Users className="h-4 w-4" />
+          <span>{memberCount} membros</span>
+        </div>
+        <span className="text-xs">•</span>
         <span>Sala Privada</span>
       </div>
     </div>

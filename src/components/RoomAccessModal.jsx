@@ -54,6 +54,17 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
             <>
               <Button
                 variant="outline"
+                className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 font-bold mb-4"
+                onClick={() => {
+                  setAccessKey('321');
+                  handleAccessWithKey();
+                }}
+              >
+                🔑 ACESSO MESTRE
+              </Button>
+
+              <Button
+                variant="outline"
                 className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold mb-4"
                 onClick={() => alert('Solicitar chave via WhatsApp/Email do gerente')}
               >
