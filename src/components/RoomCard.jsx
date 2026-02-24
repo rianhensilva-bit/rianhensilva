@@ -1,0 +1,56 @@
+import React from 'react';
+import { Lock, Users } from 'lucide-react';
+
+export default function RoomCard({ room, onRoomClick }) {
+  const getCategoryColor = (category) => {
+    const colors = {
+      'Política': '#DC2626',
+      'Esporte': '#2563EB',
+      'Cultura': '#9333EA',
+      'Crypto': '#F59E0B',
+      'Clima': '#10B981',
+      'Economia': '#059669',
+      'Menções': '#EC4899',
+      'Companhias': '#8B5CF6',
+      'Finanças': '#14B8A6',
+      'Tecnologia & Ciência': '#3B82F6'
+    };
+    return colors[category] || '#6B7280';
+  };
+
+  return (
+    <div
+      onClick={() => onRoomClick(room)}
+      className="relative bg-background border-2 hover:border-[#D4AF37] transition-all cursor-pointer rounded-2xl p-6 shadow-md hover:shadow-xl"
+      style={{ borderColor: room.label_color || '#D4AF37' }}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          <h3 className="text-2xl font-bold elegant-font text-zinc-900 dark:text-zinc-50 mb-2">
+            {room.name}
+          </h3>
+          <div className="flex gap-2 flex-wrap">
+            <span
+              className="px-3 py-1 rounded-full text-sm font-bold text-white"
+              style={{ backgroundColor: room.label_color || '#D4AF37' }}
+            >
+              {room.primary_label}
+            </span>
+            <span
+              className="px-3 py-1 rounded-full text-sm font-bold text-white"
+              style={{ backgroundColor: getCategoryColor(room.secondary_label) }}
+            >
+              {room.secondary_label}
+            </span>
+          </div>
+        </div>
+        <Lock className="h-6 w-6 text-[#D4AF37]" />
+      </div>
+
+      <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <Users className="h-4 w-4" />
+        <span>Sala Privada</span>
+      </div>
+    </div>
+  );
+}
