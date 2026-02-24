@@ -80,9 +80,12 @@ export default function Home() {
 
       <div className="container mx-auto px-8 py-12" style={{ maxWidth: '1400px' }}>
         <div className="mb-8">
-          <h2 className="text-4xl font-bold mb-2 text-zinc-900 dark:text-zinc-50 elegant-font">
+          <h2 className="text-4xl font-bold mb-1 text-zinc-900 dark:text-zinc-50 elegant-font">
             SALAS PRIVADAS
           </h2>
+          <p className="text-2xl font-semibold text-[#D4AF37] mb-2">
+            SELECIONE UMA COMUNIDADE GUANXI
+          </p>
           <p className="text-zinc-600 dark:text-zinc-300 text-lg">
             {filteredRooms.length} salas disponíveis
           </p>

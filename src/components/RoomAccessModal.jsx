@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Lock, LogIn } from 'lucide-react';
+import { Lock, LogIn, Mail, MessageCircle } from 'lucide-react';
 
 export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted }) {
   const [accessKey, setAccessKey] = useState('');
@@ -52,21 +52,57 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
         <div className="space-y-4 py-4">
           {isFirstAccess ? (
             <>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Chave de Acesso</label>
-                <Input
-                  placeholder="Digite a chave fornecida pelo gerente"
-                  value={accessKey}
-                  onChange={(e) => setAccessKey(e.target.value)}
-                />
-              </div>
               <Button
-                onClick={handleAccessWithKey}
-                disabled={isLoading || !accessKey}
-                className="w-full bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold"
+                variant="outline"
+                className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold mb-4"
+                onClick={() => alert('Solicitar chave via WhatsApp/Email do gerente')}
               >
-                Verificar Chave
+                <MessageCircle className="mr-2 h-4 w-4" />
+                SOLICITAR CHAVE DE ACESSO
               </Button>
+              
+              <div className="border-t pt-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Chave de Acesso</label>
+                  <Input
+                    placeholder="Digite a chave fornecida pelo gerente"
+                    value={accessKey}
+                    onChange={(e) => setAccessKey(e.target.value)}
+                  />
+                </div>
+                <Button
+                  onClick={handleAccessWithKey}
+                  disabled={isLoading || !accessKey}
+                  className="w-full bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold mt-4"
+                >
+                  Verificar Chave
+                </Button>
+              </div>
+
+              <div className="border-t pt-4 mt-4">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">Já possui login?</p>
+                <div className="space-y-3">
+                  <Input
+                    placeholder="Nome de usuário"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <Input
+                    type="password"
+                    placeholder="Senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Button
+                    onClick={handleLogin}
+                    disabled={isLoading || !username || !password}
+                    className="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold"
+                  >
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Fazer Login
+                  </Button>
+                </div>
+              </div>
             </>
           ) : (
             <>

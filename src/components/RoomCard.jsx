@@ -26,20 +26,36 @@ export default function RoomCard({ room, onRoomClick }) {
       className="relative bg-background border-2 hover:border-[#D4AF37] transition-all cursor-pointer rounded-2xl p-6 shadow-md hover:shadow-xl"
       style={{ borderColor: roomData.label_color || '#D4AF37' }}
     >
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start gap-4 mb-4">
+        {roomData.room_image && (
+          <div className="flex-shrink-0">
+            <img 
+              src={roomData.room_image} 
+              alt={roomData.name}
+              className="w-16 h-16 rounded-xl object-cover border-2"
+              style={{ borderColor: roomData.label_color || '#D4AF37' }}
+            />
+          </div>
+        )}
         <div className="flex-1">
-          <h3 className="text-2xl font-bold elegant-font text-zinc-900 dark:text-zinc-50 mb-2">
+          <h3 className="text-xl font-bold elegant-font text-zinc-900 dark:text-zinc-50 mb-2">
             {roomData.name}
           </h3>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap items-center">
             <span
-              className="px-3 py-1 rounded-full text-sm font-bold text-white"
+              className="px-3 py-1 rounded-full text-xs font-bold text-white flex items-center gap-1"
+              style={{ backgroundColor: roomData.label_color || '#D4AF37' }}
+            >
+              {roomData.country_flag} {roomData.country}
+            </span>
+            <span
+              className="px-3 py-1 rounded-full text-xs font-bold text-white"
               style={{ backgroundColor: roomData.label_color || '#D4AF37' }}
             >
               {roomData.primary_label}
             </span>
             <span
-              className="px-3 py-1 rounded-full text-sm font-bold text-white"
+              className="px-3 py-1 rounded-full text-xs font-bold text-white"
               style={{ backgroundColor: getCategoryColor(roomData.secondary_label) }}
             >
               {roomData.secondary_label}
