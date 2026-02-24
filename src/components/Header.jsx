@@ -5,17 +5,19 @@ import { Button } from '@/components/ui/button';
 import SocialMediaModal from './SocialMediaModal';
 import CreateBetModal from './CreateBetModal';
 import SignupModal from './SignupModal';
+import BecomeManagerModal from './BecomeManagerModal';
 import LanguageSelector from './LanguageSelector';
 
 export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearchQuery, language, setLanguage, onLogoClick }) {
   const [showSocial, setShowSocial] = useState(false);
   const [showCreateBet, setShowCreateBet] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showManager, setShowManager] = useState(false);
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
 
   const translations = {
-    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
-    en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
+    pt: { search: 'Buscar mercados e previsões...', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
+    en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', becomeManager: 'Become Manager', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
     es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
     hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
     ar: { search: '...ابحث عن الأسواق والتوقعات', enter: 'دخول', signup: 'تسجيل', createBet: 'إنشاء رهان', earnCommission: 'اربح عمولة', subtitle: '!اربح من خلال التنبؤ بالمستقبل', market: 'سوق التوقعات', social: 'وسائل التواصل' },
@@ -98,6 +100,13 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 {t.enter}
               </Button>
               <Button
+                onClick={() => setShowManager(true)}
+                variant="outline"
+                className="rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
+              >
+                {t.becomeManager}
+              </Button>
+              <Button
                 onMouseEnter={() => setIsHoveringCreate(true)}
                 onMouseLeave={() => setIsHoveringCreate(false)}
                 onClick={() => setShowCreateBet(true)}
@@ -125,6 +134,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
       <SocialMediaModal isOpen={showSocial} onClose={() => setShowSocial(false)} language={language} />
       <CreateBetModal isOpen={showCreateBet} onClose={() => setShowCreateBet(false)} language={language} />
       <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language={language} />
+      <BecomeManagerModal isOpen={showManager} onClose={() => setShowManager(false)} />
       </>
       );
       }
