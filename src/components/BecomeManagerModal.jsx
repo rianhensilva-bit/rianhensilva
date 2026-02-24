@@ -26,7 +26,8 @@ export default function BecomeManagerModal({ isOpen, onClose }) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold elegant-font flex items-center gap-2">
@@ -111,12 +112,12 @@ export default function BecomeManagerModal({ isOpen, onClose }) {
           </div>
         </form>
       </DialogContent>
-    </Dialog>
-    
-    <CreateRoomModal 
-      isOpen={showCreateRoom} 
-      onClose={() => setShowCreateRoom(false)} 
-    />
-  </>
+      </Dialog>
+      
+      <CreateRoomModal 
+        isOpen={showCreateRoom} 
+        onClose={() => setShowCreateRoom(false)} 
+      />
+    </>
   );
 }
