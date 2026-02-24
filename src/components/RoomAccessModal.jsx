@@ -13,8 +13,9 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
 
   const handleAccessWithKey = async () => {
     setIsLoading(true);
+    const roomData = room?.data || room;
     // Validar chave de acesso
-    if (accessKey === room.master_key) {
+    if (accessKey === roomData?.master_key) {
       setIsFirstAccess(false);
     }
     setIsLoading(false);
@@ -36,13 +37,15 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
     setIsLoading(false);
   };
 
+  const roomData = room?.data || room;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold elegant-font flex items-center gap-2">
             <Lock className="h-6 w-6 text-[#D4AF37]" />
-            Acesso à Sala: {room?.name}
+            Acesso à Sala: {roomData?.name}
           </DialogTitle>
         </DialogHeader>
 

@@ -39,10 +39,11 @@ export default function Home() {
   };
 
   const filteredRooms = rooms.filter(room => {
+    const roomData = room.data || room;
     const matchesSearch = !searchQuery || 
-      room.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = !selectedCategory || room.secondary_label === selectedCategory;
-    const matchesSubcategory = !selectedSubcategory || room.primary_label === selectedSubcategory;
+      roomData.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || roomData.secondary_label === selectedCategory;
+    const matchesSubcategory = !selectedSubcategory || roomData.primary_label === selectedSubcategory;
 
     return matchesSearch && matchesCategory && matchesSubcategory;
   });

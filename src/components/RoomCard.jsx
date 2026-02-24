@@ -18,29 +18,31 @@ export default function RoomCard({ room, onRoomClick }) {
     return colors[category] || '#6B7280';
   };
 
+  const roomData = room.data || room;
+
   return (
     <div
       onClick={() => onRoomClick(room)}
       className="relative bg-background border-2 hover:border-[#D4AF37] transition-all cursor-pointer rounded-2xl p-6 shadow-md hover:shadow-xl"
-      style={{ borderColor: room.label_color || '#D4AF37' }}
+      style={{ borderColor: roomData.label_color || '#D4AF37' }}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h3 className="text-2xl font-bold elegant-font text-zinc-900 dark:text-zinc-50 mb-2">
-            {room.name}
+            {roomData.name}
           </h3>
           <div className="flex gap-2 flex-wrap">
             <span
               className="px-3 py-1 rounded-full text-sm font-bold text-white"
-              style={{ backgroundColor: room.label_color || '#D4AF37' }}
+              style={{ backgroundColor: roomData.label_color || '#D4AF37' }}
             >
-              {room.primary_label}
+              {roomData.primary_label}
             </span>
             <span
               className="px-3 py-1 rounded-full text-sm font-bold text-white"
-              style={{ backgroundColor: getCategoryColor(room.secondary_label) }}
+              style={{ backgroundColor: getCategoryColor(roomData.secondary_label) }}
             >
-              {room.secondary_label}
+              {roomData.secondary_label}
             </span>
           </div>
         </div>
