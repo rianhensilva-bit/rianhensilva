@@ -3,10 +3,9 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import Header from '../components/Header';
 import CategoryTabs from '../components/CategoryTabs';
-import PredictionCard from '../components/PredictionCard';
-import Sidebar from '../components/Sidebar';
+import RoomCard from '../components/RoomCard';
+import RoomAccessModal from '../components/RoomAccessModal';
 import Footer from '../components/Footer';
-import PredictionDetailsModal from '../components/PredictionDetailsModal';
 import { Loader2 } from 'lucide-react';
 
 export default function Home() {
@@ -14,9 +13,9 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-  const [selectedFilter, setSelectedFilter] = useState('trending');
   const [language, setLanguage] = useState('pt');
-  const [selectedPrediction, setSelectedPrediction] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [showAccessModal, setShowAccessModal] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -27,9 +26,9 @@ export default function Home() {
     document.documentElement.classList.toggle('dark');
   };
 
-  const { data: predictions = [], isLoading, refetch } = useQuery({
-    queryKey: ['predictions'],
-    queryFn: () => base44.entities.Prediction.list(),
+  const { data: rooms = [], isLoading, refetch } = useQuery({
+    queryKey: ['rooms'],
+    queryFn: () => base44.entities.Room.list(),
   });
 
   const handleLogoClick = () => {
@@ -39,29 +38,24 @@ export default function Home() {
     refetch();
   };
 
-  const filteredPredictions = predictions.filter(pred => {
+  const filteredRooms = rooms.filter(room => {
     const matchesSearch = !searchQuery || 
-      pred.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = !selectedCategory || pred.category === selectedCategory;
-    const matchesSubcategory = !selectedSubcategory || pred.subcategory === selectedSubcategory;
+      room.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || room.secondary_label === selectedCategory;
+    const matchesSubcategory = !selectedSubcategory || room.primary_label === selectedSubcategory;
 
     return matchesSearch && matchesCategory && matchesSubcategory;
   });
 
-  const sortedPredictions = [...filteredPredictions].sort((a, b) => {
-    switch (selectedFilter) {
-      case 'trending':
-        return Math.abs(50 - a.yes_percentage) - Math.abs(50 - b.yes_percentage);
-      case 'most_bet':
-        return (b.total_volume || 0) - (a.total_volume || 0);
-      case 'recent':
-        return new Date(b.created_date) - new Date(a.created_date);
-      case 'volume':
-        return (b.total_volume || 0) - (a.total_volume || 0);
-      default:
-        return 0;
-    }
-  });
+  const handleRoomClick = (room) => {
+    setSelectedRoom(room);
+    setShowAccessModal(true);
+  };
+
+  const handleAccessGranted = () => {
+    setShowAccessModal(false);
+    // TODO: Redirecionar para a página da sala
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,59 +77,46 @@ export default function Home() {
         language={language}
       />
 
+      <div className="container mx-auto px-8 py-12" style={{ maxWidth: '1400px' }}>
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold mb-2 text-zinc-900 dark:text-zinc-50 elegant-font">
+            SALAS PRIVADAS
+          </h2>
+          <p className="text-zinc-600 dark:text-zinc-300 text-lg">
+            {filteredRooms.length} salas disponíveis
+          </p>
+        </div>
 
-      <div className="flex gap-6">
-        <main className="flex-1 p-8 pr-0">
-          <div className="container mx-auto" style={{ maxWidth: '1100px' }}>
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">
-                {selectedCategory || 'MERCADOS'}
-              </h2>
-              <p className="text-zinc-600 dark:text-zinc-300">
-                {sortedPredictions.length} previsões disponíveis
-              </p>
-            </div>
-
-            {isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              </div>
-            ) : sortedPredictions.length === 0 ? (
-              <div className="text-center py-20">
-                <p className="text-zinc-600 dark:text-zinc-300 text-lg">
-                  Nenhuma previsão encontrada
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-6">
-                {sortedPredictions.map((prediction) => (
-                  <PredictionCard 
-                    key={prediction.id} 
-                    prediction={prediction} 
-                    language={language}
-                    onTitleClick={setSelectedPrediction}
-                  />
-                ))}
-              </div>
-            )}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
-        </main>
-
-        <Sidebar 
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-          predictions={predictions}
-          language={language}
-        />
+        ) : filteredRooms.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-zinc-600 dark:text-zinc-300 text-lg">
+              Nenhuma sala encontrada
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredRooms.map((room) => (
+              <RoomCard 
+                key={room.id} 
+                room={room}
+                onRoomClick={handleRoomClick}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
 
-      <PredictionDetailsModal
-        prediction={selectedPrediction}
-        isOpen={!!selectedPrediction}
-        onClose={() => setSelectedPrediction(null)}
-        language={language}
+      <RoomAccessModal
+        room={selectedRoom}
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        onAccessGranted={handleAccessGranted}
       />
     </div>
   );
