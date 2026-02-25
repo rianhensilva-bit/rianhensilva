@@ -50,12 +50,14 @@
 import Home from './pages/Home';
 import ManagerDashboard from './pages/ManagerDashboard';
 import RoomView from './pages/RoomView';
+import BetHistory from './pages/BetHistory';
 
 
 export const PAGES = {
     "Home": Home,
     "ManagerDashboard": ManagerDashboard,
     "RoomView": RoomView,
+    "BetHistory": BetHistory,
 }
 
 export const pagesConfig = {

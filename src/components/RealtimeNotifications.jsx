@@ -3,16 +3,29 @@ import { base44 } from '@/api/base44Client';
 import toast from 'react-hot-toast';
 import { TrendingUp, CheckCircle, XCircle, Clock } from 'lucide-react';
 
-export default function RealtimeNotifications({ roomId, userType = 'player' }) {
+export default function RealtimeNotifications({ roomId, userType = 'player', userId }) {
   useEffect(() => {
     if (!roomId) return;
 
+    // Verificar se o usuário está seguindo a sala (para players)
+    const checkFollowing = async () => {
+      if (userType === 'player' && userId) {
+        const follows = await base44.entities.Follow.filter({ user_id: userId, room_id: roomId });
+        return follows.length > 0;
+      }
+      return true; // Gerentes sempre recebem notificações
+    };
+
     // Subscrever a mudanças em previsões
-    const unsubscribe = base44.entities.Prediction.subscribe((event) => {
+    const unsubscribe = base44.entities.Prediction.subscribe(async (event) => {
       const prediction = event.data;
       
       // Filtrar apenas previsões da sala atual
       if (prediction?.room_id !== roomId) return;
+
+      // Para players, verificar se está seguindo a sala
+      const isFollowing = await checkFollowing();
+      if (!isFollowing) return;
 
       // Notificar baseado no tipo de evento
       if (event.type === 'create') {
@@ -131,7 +144,7 @@ export default function RealtimeNotifications({ roomId, userType = 'player' }) {
     return () => {
       unsubscribe();
     };
-  }, [roomId, userType]);
+  }, [roomId, userType, userId]);
 
   return null; // Componente não renderiza nada visualmente
 }
