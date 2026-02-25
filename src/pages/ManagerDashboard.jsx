@@ -469,11 +469,11 @@ export default function ManagerDashboard() {
         </DialogContent>
       </Dialog>
 
-      <RoomSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} room={room} />
-      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={roomId} />
-      <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
-      <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
-      <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
+        <RoomSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} room={room} />
+        <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={roomId} />
+        <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
+        <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
+        <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
       </div>
     </div>
   );
