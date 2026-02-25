@@ -49,11 +49,13 @@
  */
 import Home from './pages/Home';
 import ManagerDashboard from './pages/ManagerDashboard';
+import RoomView from './pages/RoomView';
 
 
 export const PAGES = {
     "Home": Home,
     "ManagerDashboard": ManagerDashboard,
+    "RoomView": RoomView,
 }
 
 export const pagesConfig = {

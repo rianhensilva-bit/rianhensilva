@@ -10,13 +10,14 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
   const [password, setPassword] = useState('');
   const [isFirstAccess, setIsFirstAccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [userType, setUserType] = useState('player'); // 'player' or 'manager'
 
   const handleAccessWithKey = async () => {
     setIsLoading(true);
     const roomData = room?.data || room;
     // Validar chave de acesso
     if (accessKey === roomData?.master_key || accessKey === '321') {
-      onAccessGranted();
+      onAccessGranted(userType);
     }
     setIsLoading(false);
   };
@@ -25,7 +26,7 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
     setIsLoading(true);
     // Criar login e senha para o usuário
     // TODO: Implementar lógica de criação
-    onAccessGranted();
+    onAccessGranted('player');
     setIsLoading(false);
   };
 
@@ -33,7 +34,7 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
     setIsLoading(true);
     // Fazer login
     // TODO: Implementar lógica de login
-    onAccessGranted();
+    onAccessGranted('player');
     setIsLoading(false);
   };
 
@@ -52,14 +53,34 @@ export default function RoomAccessModal({ room, isOpen, onClose, onAccessGranted
         <div className="space-y-4 py-4">
           {isFirstAccess ? (
             <>
+              <div className="mb-4 space-y-2">
+                <p className="text-sm font-semibold text-center">Entrar como:</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant={userType === 'player' ? 'default' : 'outline'}
+                    onClick={() => setUserType('player')}
+                    className="w-full"
+                  >
+                    JOGADOR
+                  </Button>
+                  <Button
+                    variant={userType === 'manager' ? 'default' : 'outline'}
+                    onClick={() => setUserType('manager')}
+                    className="w-full"
+                  >
+                    GERENTE
+                  </Button>
+                </div>
+              </div>
+
               <Button
                 variant="outline"
                 className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 font-bold mb-4"
                 onClick={() => {
-                  onAccessGranted();
+                  onAccessGranted(userType);
                 }}
               >
-                🔑 ACESSO MESTRE
+                🔑 ACESSO MESTRE ({userType === 'player' ? 'JOGADOR' : 'GERENTE'})
               </Button>
 
               <Button

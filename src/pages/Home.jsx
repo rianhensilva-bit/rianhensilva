@@ -54,10 +54,14 @@ export default function Home() {
     setShowAccessModal(true);
   };
 
-  const handleAccessGranted = () => {
+  const handleAccessGranted = (userType = 'manager') => {
     setShowAccessModal(false);
-    // Redirecionar para a dashboard do gerente
-    window.location.href = `/ManagerDashboard?roomId=${selectedRoom.id}`;
+    // Redirecionar baseado no tipo de usuário
+    if (userType === 'manager') {
+      window.location.href = `/ManagerDashboard?roomId=${selectedRoom.id}`;
+    } else {
+      window.location.href = `/RoomView?roomId=${selectedRoom.id}`;
+    }
   };
 
   return (

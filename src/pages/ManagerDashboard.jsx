@@ -7,13 +7,24 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle } from 'lucide-react';
+import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle, ArrowLeft, Settings, BookOpen, Sun, Moon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import RoomSettingsModal from '@/components/RoomSettingsModal';
+import MembersListModal from '@/components/MembersListModal';
+import ActivePredictionsModal from '@/components/ActivePredictionsModal';
+import AllPredictionsModal from '@/components/AllPredictionsModal';
+import UserManualModal from '@/components/UserManualModal';
 
 export default function ManagerDashboard() {
   const queryClient = useQueryClient();
+  const [darkMode, setDarkMode] = useState(true);
   const [showCreatePrediction, setShowCreatePrediction] = useState(false);
   const [editingPrediction, setEditingPrediction] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showMembers, setShowMembers] = useState(false);
+  const [showActivePredictions, setShowActivePredictions] = useState(false);
+  const [showAllPredictions, setShowAllPredictions] = useState(false);
+  const [showManual, setShowManual] = useState(false);
   const [newPrediction, setNewPrediction] = useState({
     title: '',
     description: '',
@@ -22,6 +33,11 @@ export default function ManagerDashboard() {
     end_date: '',
     options: []
   });
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark');
+  };
 
   // Pegar informações da sala (simulando - em produção viria da URL ou contexto)
   const roomId = new URLSearchParams(window.location.search).get('roomId');
@@ -114,14 +130,56 @@ export default function ManagerDashboard() {
   const roomData = room?.data || room;
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={() => window.location.href = '/'}
+              className="gap-2"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              Voltar para Home
+            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleDarkMode}
+                className="rounded-full"
+              >
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowSettings(true)}
+                className="gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                Configurações
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowManual(true)}
+                className="gap-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black"
+              >
+                <BookOpen className="h-4 w-4" />
+                Manual
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto p-8">
+        {/* Title */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
             <Crown className="h-10 w-10 text-[#D4AF37]" />
             <div>
-              <h1 className="text-4xl font-bold elegant-font text-zinc-900 dark:text-zinc-50">
+              <h1 className="text-4xl font-bold elegant-font">
                 Dashboard do Gerente
               </h1>
               <p className="text-xl text-zinc-600 dark:text-zinc-400">
@@ -133,7 +191,7 @@ export default function ManagerDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
+          <Card className="cursor-pointer hover:border-[#D4AF37] transition-all" onClick={() => setShowMembers(true)}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
@@ -142,26 +200,29 @@ export default function ManagerDashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold text-[#D4AF37]">{roomData?.member_count || 0}</p>
+              <p className="text-xs text-zinc-500 mt-1">Clique para ver lista</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="cursor-pointer hover:border-[#D4AF37] transition-all" onClick={() => setShowActivePredictions(true)}>
             <CardHeader>
               <CardTitle>Previsões Ativas</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold text-green-600">
-                {predictions.filter(p => p.data?.status === 'active').length}
+                {predictions.filter(p => (p.data || p).status === 'active').length}
               </p>
+              <p className="text-xs text-zinc-500 mt-1">Clique para ver detalhes</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="cursor-pointer hover:border-[#D4AF37] transition-all" onClick={() => setShowAllPredictions(true)}>
             <CardHeader>
               <CardTitle>Total de Previsões</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold text-blue-600">{predictions.length}</p>
+              <p className="text-xs text-zinc-500 mt-1">Clique para ver todas</p>
             </CardContent>
           </Card>
         </div>
@@ -407,6 +468,13 @@ export default function ManagerDashboard() {
           </form>
         </DialogContent>
       </Dialog>
+
+      <RoomSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} room={room} />
+      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={roomId} />
+      <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
+      <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
+      <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
+      </div>
     </div>
   );
 }
