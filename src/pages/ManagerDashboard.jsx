@@ -7,13 +7,15 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle, ArrowLeft, Settings, BookOpen, Sun, Moon } from 'lucide-react';
+import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle, ArrowLeft, Settings, BookOpen, Sun, Moon, BarChart3, Shield } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import RoomSettingsModal from '@/components/RoomSettingsModal';
 import MembersListModal from '@/components/MembersListModal';
 import ActivePredictionsModal from '@/components/ActivePredictionsModal';
 import AllPredictionsModal from '@/components/AllPredictionsModal';
 import UserManualModal from '@/components/UserManualModal';
+import RoomAnalytics from '@/components/RoomAnalytics';
+import MemberModerationModal from '@/components/MemberModerationModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
 import { Toaster } from 'react-hot-toast';
 
@@ -27,6 +29,8 @@ export default function ManagerDashboard() {
   const [showActivePredictions, setShowActivePredictions] = useState(false);
   const [showAllPredictions, setShowAllPredictions] = useState(false);
   const [showManual, setShowManual] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showModeration, setShowModeration] = useState(false);
   const [newPrediction, setNewPrediction] = useState({
     title: '',
     description: '',
@@ -66,14 +70,29 @@ export default function ManagerDashboard() {
   });
 
   const createPredictionMutation = useMutation({
-    mutationFn: (data) => base44.entities.Prediction.create({
-      ...data,
-      room_id: roomId,
-      status: 'active',
-      yes_percentage: 50,
-      no_percentage: 50,
-      total_volume: 0
-    }),
+    mutationFn: (data) => {
+      const predictionData = {
+        ...data,
+        room_id: roomId,
+        status: 'active',
+        total_volume: 0
+      };
+
+      // Inicializar percentuais baseado no tipo
+      if (data.bet_type === 'yes_no') {
+        predictionData.yes_percentage = 50;
+        predictionData.no_percentage = 50;
+      } else if (data.bet_type === 'multiple_choice' && data.options) {
+        // Distribuir percentuais igualmente entre as opções
+        const percentage = 100 / data.options.length;
+        predictionData.options = data.options.map(opt => ({
+          ...opt,
+          percentage: percentage
+        }));
+      }
+
+      return base44.entities.Prediction.create(predictionData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(['predictions', roomId]);
       setShowCreatePrediction(false);
@@ -120,7 +139,19 @@ export default function ManagerDashboard() {
     }
   };
 
-  const handleResolvePrediction = (prediction, result) => {
+  const handleResolvePrediction = (prediction) => {
+    const predData = prediction.data || prediction;
+    let result = null;
+
+    if (predData.bet_type === 'yes_no') {
+      const choice = confirm('A previsão se concretizou?\n\nOK = Sim\nCancelar = Não');
+      result = choice ? 'yes' : 'no';
+    } else if (predData.bet_type === 'multiple_choice') {
+      const options = predData.options?.map(opt => opt.label).join('\n') || '';
+      result = prompt(`Qual opção venceu?\n\n${options}\n\nDigite exatamente como mostrado acima:`);
+      if (!result) return;
+    }
+
     if (confirm(`Resolver previsão como "${result}"?`)) {
       updatePredictionMutation.mutate({
         id: prediction.id,
@@ -164,6 +195,22 @@ export default function ManagerDashboard() {
               >
                 <Settings className="h-4 w-4" />
                 Configurações
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowAnalytics(true)}
+                className="gap-2"
+              >
+                <BarChart3 className="h-4 w-4" />
+                Análise
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowModeration(true)}
+                className="gap-2"
+              >
+                <Shield className="h-4 w-4" />
+                Moderação
               </Button>
               <Button
                 variant="outline"
@@ -328,24 +375,20 @@ export default function ManagerDashboard() {
                           </Button>
                         </div>
                       ) : predData.status === 'active' && (
-                        <div className="flex gap-2 mt-3 pt-3 border-t">
-                          <Button onClick={() => handleEditPrediction(prediction)} size="sm" variant="outline">
-                            <Edit className="h-4 w-4 mr-1" />
-                            Editar Data
-                          </Button>
-                          <Button onClick={() => handleClosePrediction(prediction)} size="sm" variant="outline">
-                            <XCircle className="h-4 w-4 mr-1" />
-                            Fechar
-                          </Button>
-                          <Button onClick={() => handleResolvePrediction(prediction, 'yes')} size="sm" className="bg-green-600 hover:bg-green-700">
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Sim
-                          </Button>
-                          <Button onClick={() => handleResolvePrediction(prediction, 'no')} size="sm" className="bg-red-600 hover:bg-red-700">
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Não
-                          </Button>
-                        </div>
+                       <div className="flex gap-2 mt-3 pt-3 border-t">
+                         <Button onClick={() => handleEditPrediction(prediction)} size="sm" variant="outline">
+                           <Edit className="h-4 w-4 mr-1" />
+                           Editar Data
+                         </Button>
+                         <Button onClick={() => handleClosePrediction(prediction)} size="sm" variant="outline">
+                           <XCircle className="h-4 w-4 mr-1" />
+                           Fechar
+                         </Button>
+                         <Button onClick={() => handleResolvePrediction(prediction)} size="sm" className="bg-green-600 hover:bg-green-700">
+                           <CheckCircle className="h-4 w-4 mr-1" />
+                           Resolver
+                         </Button>
+                       </div>
                       )}
                     </div>
                   );
@@ -479,6 +522,8 @@ export default function ManagerDashboard() {
       <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
       <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
       <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
+      <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={roomId} />
+      <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={roomId} />
     </div>
   );
 }

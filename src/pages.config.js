@@ -47,17 +47,17 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import BetHistory from './pages/BetHistory';
 import Home from './pages/Home';
 import ManagerDashboard from './pages/ManagerDashboard';
 import RoomView from './pages/RoomView';
-import BetHistory from './pages/BetHistory';
 
 
 export const PAGES = {
+    "BetHistory": BetHistory,
     "Home": Home,
     "ManagerDashboard": ManagerDashboard,
     "RoomView": RoomView,
-    "BetHistory": BetHistory,
 }
 
 export const pagesConfig = {
