@@ -19,7 +19,8 @@ export default function ManagerDashboard() {
     description: '',
     category: '',
     bet_type: 'yes_no',
-    end_date: ''
+    end_date: '',
+    options: []
   });
 
   // Pegar informações da sala (simulando - em produção viria da URL ou contexto)
@@ -58,7 +59,7 @@ export default function ManagerDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries(['predictions', roomId]);
       setShowCreatePrediction(false);
-      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '' });
+      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', options: [] });
     }
   });
 
@@ -300,6 +301,7 @@ export default function ManagerDashboard() {
               <Label>Título *</Label>
               <Input
                 required
+                placeholder="Ex: Vai chover em São Paulo amanhã?"
                 value={newPrediction.title}
                 onChange={(e) => setNewPrediction({ ...newPrediction, title: e.target.value })}
               />
@@ -308,10 +310,64 @@ export default function ManagerDashboard() {
             <div>
               <Label>Descrição</Label>
               <Textarea
+                placeholder="Adicione detalhes sobre a previsão..."
                 value={newPrediction.description}
                 onChange={(e) => setNewPrediction({ ...newPrediction, description: e.target.value })}
               />
             </div>
+
+            <div>
+              <Label>Tipo de Previsão *</Label>
+              <Select
+                value={newPrediction.bet_type}
+                onValueChange={(value) => {
+                  setNewPrediction({ 
+                    ...newPrediction, 
+                    bet_type: value,
+                    options: value === 'multiple_choice' ? [{ label: '', percentage: 0 }, { label: '', percentage: 0 }] : undefined
+                  });
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yes_no">Sim vs Não</SelectItem>
+                  <SelectItem value="multiple_choice">Múltipla Escolha</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {newPrediction.bet_type === 'multiple_choice' && (
+              <div>
+                <Label>Opções (mínimo 2) *</Label>
+                <div className="space-y-2">
+                  {newPrediction.options?.map((option, index) => (
+                    <Input
+                      key={index}
+                      placeholder={`Opção ${index + 1} (ex: Barcelona, Real Madrid)`}
+                      value={option.label}
+                      onChange={(e) => {
+                        const newOptions = [...newPrediction.options];
+                        newOptions[index] = { ...newOptions[index], label: e.target.value };
+                        setNewPrediction({ ...newPrediction, options: newOptions });
+                      }}
+                    />
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setNewPrediction({
+                      ...newPrediction,
+                      options: [...(newPrediction.options || []), { label: '', percentage: 0 }]
+                    })}
+                  >
+                    + Adicionar Opção
+                  </Button>
+                </div>
+              </div>
+            )}
 
             <div>
               <Label>Categoria *</Label>

@@ -119,7 +119,7 @@ export default function Home() {
           </div>
         </div>
 
-        <RoomSidebar rooms={rooms} />
+        <RoomSidebar rooms={rooms} onRoomClick={handleRoomClick} />
       </div>
 
       <Footer />
