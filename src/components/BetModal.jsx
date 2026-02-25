@@ -8,6 +8,12 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption, 
   const [amount, setAmount] = useState('');
   const [selectedPayment, setSelectedPayment] = useState('');
 
+  if (!prediction) {
+    return null;
+  }
+
+  const predictionData = prediction.data || prediction;
+
   const translations = {
     pt: { 
       title: 'Fazer Aposta', 
@@ -60,7 +66,7 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption, 
 
   const calculateProfit = () => {
     if (!amount || isNaN(amount)) return 0;
-    const percentage = selectedOption === 'yes' ? prediction.yes_percentage : prediction.no_percentage;
+    const percentage = selectedOption === 'yes' ? predictionData.yes_percentage : predictionData.no_percentage;
     const multiplier = 100 / percentage;
     return (parseFloat(amount) * multiplier - parseFloat(amount)).toFixed(2);
   };
@@ -82,13 +88,13 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption, 
           {/* Bet Info */}
           <div className="bg-muted/30 rounded-xl p-4">
             <p className="text-sm text-muted-foreground mb-2">{t.betting}:</p>
-            <h3 className="font-bold text-lg mb-3">{prediction.title}</h3>
+            <h3 className="font-bold text-lg mb-3">{predictionData.title}</h3>
             <div className="flex items-center gap-3">
               <span className={`px-4 py-2 rounded-lg font-bold text-white ${selectedOption === 'yes' ? 'bg-green-500' : 'bg-red-500'}`}>
                 {selectedOption === 'yes' ? t.yes : t.no}
               </span>
               <span className="text-2xl font-bold">
-                {selectedOption === 'yes' ? prediction.yes_percentage : prediction.no_percentage}%
+                {selectedOption === 'yes' ? predictionData.yes_percentage : predictionData.no_percentage}%
               </span>
             </div>
           </div>
