@@ -14,6 +14,8 @@ import MembersListModal from '@/components/MembersListModal';
 import ActivePredictionsModal from '@/components/ActivePredictionsModal';
 import AllPredictionsModal from '@/components/AllPredictionsModal';
 import UserManualModal from '@/components/UserManualModal';
+import RealtimeNotifications from '@/components/RealtimeNotifications';
+import { Toaster } from 'react-hot-toast';
 
 export default function ManagerDashboard() {
   const queryClient = useQueryClient();
@@ -131,6 +133,9 @@ export default function ManagerDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      <RealtimeNotifications roomId={roomId} userType="manager" />
+      <Toaster />
+      
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
         <div className="container mx-auto px-6 py-4">

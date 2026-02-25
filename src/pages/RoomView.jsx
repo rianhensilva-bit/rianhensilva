@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Calendar, TrendingUp, Moon, Sun } from 'lucide-react';
 import BetModal from '@/components/BetModal';
+import RealtimeNotifications from '@/components/RealtimeNotifications';
+import { Toaster } from 'react-hot-toast';
 
 export default function RoomView() {
   const [darkMode, setDarkMode] = useState(true);
@@ -42,6 +44,9 @@ export default function RoomView() {
 
   return (
     <div className="min-h-screen bg-background">
+      <RealtimeNotifications roomId={roomId} userType="player" />
+      <Toaster />
+      
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
         <div className="container mx-auto px-6 py-4">
