@@ -1,10 +1,10 @@
 import React from 'react';
 import { TrendingUp, Clock, Flame } from 'lucide-react';
 
-export default function RoomSidebar({ rooms }) {
-  const mostUsedRooms = rooms.slice(0, 3);
-  const trendingRooms = rooms.slice(3, 6);
-  const newRooms = rooms.slice(-3);
+export default function RoomSidebar({ rooms, onRoomClick }) {
+  const mostUsedRooms = rooms.slice(0, 8);
+  const trendingRooms = rooms.slice(3, 11);
+  const newRooms = rooms.slice(-8);
 
   const SidebarSection = ({ title, icon: Icon, rooms }) => (
     <div className="mb-6">
@@ -20,6 +20,7 @@ export default function RoomSidebar({ rooms }) {
           return (
             <div
               key={room.id}
+              onClick={() => onRoomClick(room)}
               className="p-3 rounded-lg bg-background border hover:border-[#D4AF37] transition-all cursor-pointer"
             >
               <div className="flex items-center gap-2">
