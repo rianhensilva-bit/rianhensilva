@@ -37,6 +37,7 @@ export default function ManagerDashboard() {
     category: '',
     bet_type: 'yes_no',
     end_date: '',
+    rules: '',
     options: []
   });
 
@@ -75,7 +76,8 @@ export default function ManagerDashboard() {
         ...data,
         room_id: roomId,
         status: 'active',
-        total_volume: 0
+        total_volume: 0,
+        chart_history: []
       };
 
       // Inicializar percentuais baseado no tipo
@@ -83,11 +85,13 @@ export default function ManagerDashboard() {
         predictionData.yes_percentage = 50;
         predictionData.no_percentage = 50;
       } else if (data.bet_type === 'multiple_choice' && data.options) {
-        // Distribuir percentuais igualmente entre as opções
+        // Distribuir percentuais igualmente e cores se não tiver
         const percentage = 100 / data.options.length;
-        predictionData.options = data.options.map(opt => ({
+        const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+        predictionData.options = data.options.map((opt, idx) => ({
           ...opt,
-          percentage: percentage
+          percentage: percentage,
+          color: opt.color || colors[idx % colors.length]
         }));
       }
 
@@ -96,7 +100,7 @@ export default function ManagerDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries(['predictions', roomId]);
       setShowCreatePrediction(false);
-      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', options: [] });
+      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', rules: '', options: [] });
     }
   });
 
@@ -451,26 +455,48 @@ export default function ManagerDashboard() {
               <div>
                 <Label>Opções (mínimo 2) *</Label>
                 <div className="space-y-2">
-                  {newPrediction.options?.map((option, index) => (
-                    <Input
-                      key={index}
-                      placeholder={`Opção ${index + 1} (ex: Barcelona, Real Madrid)`}
-                      value={option.label}
-                      onChange={(e) => {
-                        const newOptions = [...newPrediction.options];
-                        newOptions[index] = { ...newOptions[index], label: e.target.value };
-                        setNewPrediction({ ...newPrediction, options: newOptions });
-                      }}
-                    />
-                  ))}
+                  {newPrediction.options?.map((option, index) => {
+                    const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+                    return (
+                      <div key={index} className="flex gap-2 items-center">
+                        <Input
+                          type="color"
+                          value={option.color || colors[index % colors.length]}
+                          onChange={(e) => {
+                            const newOptions = [...newPrediction.options];
+                            newOptions[index] = { ...newOptions[index], color: e.target.value };
+                            setNewPrediction({ ...newPrediction, options: newOptions });
+                          }}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          placeholder={`Opção ${index + 1} (ex: Barcelona, Real Madrid)`}
+                          value={option.label}
+                          onChange={(e) => {
+                            const newOptions = [...newPrediction.options];
+                            newOptions[index] = { ...newOptions[index], label: e.target.value };
+                            setNewPrediction({ ...newPrediction, options: newOptions });
+                          }}
+                          className="flex-1"
+                        />
+                      </div>
+                    );
+                  })}
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => setNewPrediction({
-                      ...newPrediction,
-                      options: [...(newPrediction.options || []), { label: '', percentage: 0 }]
-                    })}
+                    onClick={() => {
+                      const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+                      setNewPrediction({
+                        ...newPrediction,
+                        options: [...(newPrediction.options || []), { 
+                          label: '', 
+                          percentage: 0, 
+                          color: colors[newPrediction.options.length % colors.length] 
+                        }]
+                      });
+                    }}
                   >
                     + Adicionar Opção
                   </Button>
@@ -503,6 +529,19 @@ export default function ManagerDashboard() {
                 value={newPrediction.end_date}
                 onChange={(e) => setNewPrediction({ ...newPrediction, end_date: e.target.value })}
               />
+            </div>
+
+            <div>
+              <Label>Regras e Critérios de Finalização</Label>
+              <Textarea
+                placeholder="Descreva os critérios que determinarão o resultado da aposta..."
+                value={newPrediction.rules}
+                onChange={(e) => setNewPrediction({ ...newPrediction, rules: e.target.value })}
+                rows={3}
+              />
+              <p className="text-xs text-zinc-500 mt-1">
+                Exemplo: "A aposta será resolvida como SIM se o evento ocorrer até a data especificada, conforme confirmado por fontes oficiais."
+              </p>
             </div>
 
             <div className="flex gap-3 pt-4">
