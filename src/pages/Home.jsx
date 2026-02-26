@@ -33,7 +33,6 @@ export default function Home() {
 
   const handleLogoClick = () => {
     setSelectedCategory(null);
-    setSelectedSubcategory(null);
     setSearchQuery('');
     refetch();
   };
@@ -43,9 +42,8 @@ export default function Home() {
     const matchesSearch = !searchQuery || 
       roomData.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !selectedCategory || roomData.secondary_label === selectedCategory;
-    const matchesSubcategory = !selectedSubcategory || roomData.primary_label === selectedSubcategory;
 
-    return matchesSearch && matchesCategory && matchesSubcategory;
+    return matchesSearch && matchesCategory;
   });
 
   const handleRoomClick = (room) => {
@@ -78,22 +76,20 @@ export default function Home() {
       <CategoryTabs
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        selectedSubcategory={selectedSubcategory}
-        setSelectedSubcategory={setSelectedSubcategory}
         language={language}
       />
 
       <div className="flex">
         <div className="flex-1">
-          <div className="container mx-auto px-8 py-12" style={{ maxWidth: '1200px' }}>
-        <div className="mb-8">
-          <h2 className="text-4xl font-bold mb-1 text-zinc-900 dark:text-zinc-50 elegant-font">
+          <div className="container mx-auto px-3 md:px-8 py-8 md:py-12" style={{ maxWidth: '1200px' }}>
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-4xl font-bold mb-1 text-zinc-900 dark:text-zinc-50 elegant-font">
             SALAS PRIVADAS
           </h2>
-          <p className="text-2xl font-semibold text-[#D4AF37] mb-2">
+          <p className="text-lg md:text-2xl font-semibold text-[#D4AF37] mb-2">
             SELECIONE UMA COMUNIDADE GUANXI
           </p>
-          <p className="text-zinc-600 dark:text-zinc-300 text-lg">
+          <p className="text-zinc-600 dark:text-zinc-300 text-base md:text-lg">
             {filteredRooms.length} salas disponíveis
           </p>
         </div>
@@ -109,7 +105,7 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
             {filteredRooms.map((room) => (
               <RoomCard 
                 key={room.id} 
@@ -122,7 +118,10 @@ export default function Home() {
           </div>
         </div>
 
-        <RoomSidebar rooms={rooms} onRoomClick={handleRoomClick} />
+        {/* Sidebar - Hidden no Mobile */}
+        <div className="hidden lg:block">
+          <RoomSidebar rooms={rooms} onRoomClick={handleRoomClick} />
+        </div>
       </div>
 
       <Footer />
