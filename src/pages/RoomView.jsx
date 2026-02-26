@@ -10,6 +10,7 @@ import BetModal from '@/components/BetModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
+import { CATEGORIES } from '@/components/CategoryTabs';
 
 export default function RoomView() {
   const queryClient = useQueryClient();
@@ -18,6 +19,7 @@ export default function RoomView() {
   const [showBetModal, setShowBetModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [subcategoryFilter, setSubcategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   
   const roomId = new URLSearchParams(window.location.search).get('roomId');
@@ -76,7 +78,8 @@ export default function RoomView() {
       const predData = pred.data || pred;
       const matchesSearch = predData.title?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = categoryFilter === 'all' || predData.category === categoryFilter;
-      return matchesSearch && matchesCategory;
+      const matchesSubcategory = subcategoryFilter === 'all' || predData.subcategory === subcategoryFilter;
+      return matchesSearch && matchesCategory && matchesSubcategory;
     })
     .sort((a, b) => {
       const aData = a.data || a;
@@ -88,6 +91,10 @@ export default function RoomView() {
       }
       return 0;
     });
+
+  // Obter subcategorias da categoria selecionada
+  const selectedCategoryData = CATEGORIES.find(c => c.name === categoryFilter);
+  const subcategories = selectedCategoryData?.subcategories || [];
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -140,7 +147,7 @@ export default function RoomView() {
       </header>
 
       {/* Content */}
-      <div className="container mx-auto px-6 py-8 max-w-6xl">
+      <div className="container mx-auto px-3 md:px-6 py-6 md:py-8 max-w-6xl">
         <div className="mb-8">
           <div className="flex items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-4">
@@ -165,8 +172,8 @@ export default function RoomView() {
 
         {/* Busca e Filtros */}
         <div className="mb-6 space-y-4">
-          <div className="flex gap-4 flex-wrap">
-            <div className="relative flex-1 min-w-[200px]">
+          <div className="flex gap-3 md:gap-4 flex-wrap">
+            <div className="relative flex-1 min-w-[150px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
               <Input
                 placeholder="Buscar previsões..."
@@ -175,21 +182,32 @@ export default function RoomView() {
                 className="pl-10"
               />
             </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-48">
+            <Select value={categoryFilter} onValueChange={(v) => { setCategoryFilter(v); setSubcategoryFilter('all'); }}>
+              <SelectTrigger className="w-[140px] md:w-48">
                 <SelectValue placeholder="Categoria" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas Categorias</SelectItem>
-                <SelectItem value="Política">Política</SelectItem>
-                <SelectItem value="Esporte">Esporte</SelectItem>
-                <SelectItem value="Cultura">Cultura</SelectItem>
-                <SelectItem value="Crypto">Crypto</SelectItem>
-                <SelectItem value="Economia">Economia</SelectItem>
+                {CATEGORIES.map(cat => (
+                  <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            {categoryFilter !== 'all' && subcategories.length > 0 && (
+              <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
+                <SelectTrigger className="w-[140px] md:w-48">
+                  <SelectValue placeholder="Subcategoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas Subcategorias</SelectItem>
+                  {subcategories.map(sub => (
+                    <SelectItem key={sub} value={sub}>{sub}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-[140px] md:w-48">
                 <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>
               <SelectContent>

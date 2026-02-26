@@ -201,17 +201,7 @@ const CATEGORIES = [
 
 export { CATEGORIES };
 
-export default function CategoryTabs({ selectedCategory, setSelectedCategory, selectedSubcategory, setSelectedSubcategory, language }) {
-  const [hoveredCategory, setHoveredCategory] = useState('Política');
-
-  useEffect(() => {
-    if (!hoveredCategory) {
-      setHoveredCategory('Política');
-    }
-  }, [hoveredCategory]);
-
-  const currentCategory = CATEGORIES.find(c => c.name === hoveredCategory);
-  
+export default function CategoryTabs({ selectedCategory, setSelectedCategory, language }) {
   const getCategoryName = (category) => {
     const langMap = {
       en: category.nameEn,
@@ -228,59 +218,27 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, se
   };
 
   return (
-    <div className="border-b bg-background/50 backdrop-blur">
-      <div className="container mx-auto px-6">
-        {/* Main Categories */}
-        <div className="flex flex-wrap items-center justify-center gap-3 py-5">
+    <div className="border-b bg-background/95 backdrop-blur sticky top-0 z-40">
+      <div className="container mx-auto px-3 md:px-6">
+        {/* Categorias Principais - Estilo Kalshi Clean */}
+        <div className="flex items-center gap-2 md:gap-3 py-4 overflow-x-auto scrollbar-hide">
           {CATEGORIES.map((category) => {
             const isActive = selectedCategory === category.name;
             return (
               <button
                 key={category.name}
-                onMouseEnter={() => setHoveredCategory(category.name)}
-                onClick={() => {
-                  setSelectedCategory(category.name);
-                  setSelectedSubcategory(null);
-                }}
-                className="px-7 py-3 rounded-full border-2 font-bold text-lg whitespace-nowrap transition-all hover:scale-105"
+                onClick={() => setSelectedCategory(isActive ? null : category.name)}
+                className="px-4 md:px-5 py-2 rounded-lg font-semibold text-sm md:text-base whitespace-nowrap transition-all flex-shrink-0"
                 style={{
                   backgroundColor: isActive ? category.color : 'transparent',
-                  borderColor: `${category.color}60`,
-                  color: isActive ? '#fff' : category.color
+                  color: isActive ? '#fff' : category.color,
+                  border: `1.5px solid ${category.color}${isActive ? '' : '40'}`
                 }}
               >
                 {getCategoryName(category)}
               </button>
             );
           })}
-        </div>
-
-        {/* Divider */}
-        <div className="border-t-2 border-border/60 mb-5"></div>
-
-        {/* Subcategories - Always visible */}
-        <div className="pb-5 min-h-[52px]">
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {currentCategory?.subcategories.map((sub) => {
-              const isActiveSub = selectedSubcategory === sub;
-              return (
-                <button
-                  key={sub}
-                  onClick={() => {
-                    setSelectedCategory(currentCategory.name);
-                    setSelectedSubcategory(sub);
-                  }}
-                  className="px-6 py-2.5 rounded-full text-lg font-bold transition-all whitespace-nowrap"
-                  style={{
-                    backgroundColor: isActiveSub ? currentCategory.color : `${currentCategory.color}15`,
-                    color: isActiveSub ? '#fff' : currentCategory.color
-                  }}
-                >
-                  {sub}
-                </button>
-              );
-            })}
-          </div>
         </div>
       </div>
     </div>

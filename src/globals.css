@@ -71,6 +71,14 @@ css
     scrollbar-width: none;
   }
 
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+
   .elegant-font {
     font-family: 'Playfair Display', serif;
   }
