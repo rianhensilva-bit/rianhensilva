@@ -42,23 +42,23 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   return (
     <>
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container mx-auto px-6 py-5">
-          <div className="flex items-center justify-between gap-6">
-            {/* Social Media Button */}
+        <div className="container mx-auto px-3 md:px-6 py-3 md:py-5">
+          <div className="flex items-center justify-between gap-2 md:gap-6">
+            {/* Social Media Button - Hidden no Mobile */}
             <button
               onClick={() => setShowSocial(true)}
-              className="text-sm font-bold text-zinc-900 dark:text-zinc-100 hover:text-foreground transition-colors"
+              className="hidden md:block text-sm font-bold text-zinc-900 dark:text-zinc-100 hover:text-foreground transition-colors"
             >
               {t.social}
             </button>
 
             {/* Logo and Tagline */}
-            <div className="flex items-center gap-4 ml-8">
+            <div className="flex items-center gap-2 md:gap-4 md:ml-8">
               <div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
                   <button 
                     onClick={onLogoClick}
-                    className="text-5xl font-black tracking-tight elegant-font hover:opacity-90 transition-opacity cursor-pointer dark:border-transparent border-black"
+                    className="text-2xl md:text-5xl font-black tracking-tight elegant-font hover:opacity-90 transition-opacity cursor-pointer dark:border-transparent border-black"
                     style={{
                       background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)',
                       WebkitBackgroundClip: 'text',
@@ -69,18 +69,18 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                   >
                     GUANXI
                   </button>
-                  <span className="text-base font-bold elegant-font text-zinc-800 dark:text-zinc-100">
+                  <span className="hidden md:block text-base font-bold elegant-font text-zinc-800 dark:text-zinc-100">
                     {t.market}
                   </span>
                 </div>
-                <p className="text-base font-semibold text-zinc-800 dark:text-zinc-100 mt-1 ml-1 uppercase">
+                <p className="hidden md:block text-base font-semibold text-zinc-800 dark:text-zinc-100 mt-1 ml-1 uppercase">
                   {t.subtitle}
                 </p>
               </div>
             </div>
 
             {/* Search Bar */}
-            <div className="flex-1 max-w-xl relative" style={{ marginTop: '4px' }}>
+            <div className="hidden md:flex flex-1 max-w-xl relative" style={{ marginTop: '4px' }}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
@@ -92,21 +92,23 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              <LanguageSelector language={language} setLanguage={setLanguage} />
+            <div className="flex items-center gap-1 md:gap-2">
+              <div className="hidden md:block">
+                <LanguageSelector language={language} setLanguage={setLanguage} />
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleDarkMode}
-                className="rounded-full h-11 w-11"
+                className="rounded-full h-8 w-8 md:h-11 md:w-11"
               >
-                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {darkMode ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
-                    className="rounded-full border-2 border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950 font-semibold px-5 h-9 text-sm"
+                    className="rounded-full border-2 border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950 font-semibold px-3 md:px-5 h-8 md:h-9 text-xs md:text-sm"
                   >
                     {t.enter}
                   </Button>
@@ -124,7 +126,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 <Button
                   onClick={() => window.location.href = '/ManagerDashboard?roomId=699e308fcbde9d531c720b2e'}
                   variant="outline"
-                  className="rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
+                  className="hidden md:inline-flex rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
                 >
                   {t.manageRoom}
                 </Button>
@@ -132,7 +134,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 <Button
                   onClick={() => setShowMyRooms(true)}
                   variant="outline"
-                  className="rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
+                  className="hidden md:inline-flex rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
                 >
                   {t.myRooms}
                 </Button>
@@ -140,7 +142,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 <Button
                   onClick={() => setShowManager(true)}
                   variant="outline"
-                  className="rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
+                  className="hidden md:inline-flex rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
                 >
                   {t.becomeManager}
                 </Button>

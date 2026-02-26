@@ -69,28 +69,31 @@ export default function PredictionCard({ prediction, language, onTitleClick, use
         </h3>
 
         {/* Stats */}
-        <div className="flex items-center gap-5 mb-6 text-base text-zinc-600 dark:text-zinc-300 flex-wrap">
+        <div className="flex items-center justify-center gap-3 md:gap-5 mb-6 text-sm md:text-base text-zinc-600 dark:text-zinc-300">
           {prediction.total_volume && (
             <div className="flex items-center gap-1.5">
-              <DollarSign className="h-5 w-5" />
+              <DollarSign className="h-4 w-4 md:h-5 md:w-5" />
               <span className="font-semibold">{prediction.total_volume.toLocaleString()}</span>
             </div>
           )}
           <div className="flex items-center gap-1.5">
-            <TrendingUp className="h-5 w-5 text-green-600" />
+            <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
             <span className="font-semibold text-green-600">Hoje: R$ 0</span>
           </div>
           {prediction.end_date && (
             <div className="flex items-center gap-1.5">
-              <Calendar className="h-5 w-5" />
+              <Calendar className="h-4 w-4 md:h-5 md:w-5" />
               <span className="font-medium">{new Date(prediction.end_date).toLocaleDateString('pt-BR')}</span>
             </div>
           )}
+        </div>
+        
+        {/* Botão Regras - Linha Separada */}
+        <div className="flex justify-center mb-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowRules(true)}
-            className="ml-auto"
           >
             <Info className="h-4 w-4 mr-1" />
             Regras
