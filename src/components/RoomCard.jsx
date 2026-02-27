@@ -1,7 +1,8 @@
-import React from 'react';
-import { Lock, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { Lock, Users, HelpCircle, X } from 'lucide-react';
 
 export default function RoomCard({ room, onRoomClick }) {
+  const [showBio, setShowBio] = useState(false);
   const getCategoryColor = (category) => {
     const colors = {
       'Política': '#DC2626',
