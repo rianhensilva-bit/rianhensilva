@@ -67,15 +67,13 @@ export default function RoomCard({ room, onRoomClick }) {
           </div>
           <div className="flex flex-col items-center gap-2">
             <Lock className="h-5 w-5 text-[#D4AF37]" />
-            {roomData.bio && (
-              <button
-                onClick={(e) => { e.stopPropagation(); setShowBio(true); }}
-                className="h-6 w-6 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
-                title="Ver descrição da sala"
-              >
-                <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">?</span>
-              </button>
-            )}
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowBio(true); }}
+              className="h-6 w-6 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
+              title="Ver descrição da sala"
+            >
+              <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">?</span>
+            </button>
           </div>
         </div>
 
@@ -106,7 +104,7 @@ export default function RoomCard({ room, onRoomClick }) {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed">{roomData.bio}</p>
+            <p className="text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed">{roomData.bio || 'Sem descrição disponível para esta sala.'}</p>
           </div>
         </div>
       )}
