@@ -218,21 +218,20 @@ export default function CategoryTabs({ selectedCategory, setSelectedCategory, la
   };
 
   return (
-    <div className="border-b bg-background/95 backdrop-blur sticky top-0 z-40">
+    <div className="border-b border-border/40 bg-background/80 backdrop-blur sticky top-0 z-40">
       <div className="container mx-auto px-3 md:px-6">
-        {/* Categorias Principais - Estilo Kalshi Clean */}
-        <div className="flex items-center gap-2 md:gap-3 py-4 overflow-x-scroll md:overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1.5 md:gap-2 py-2.5 overflow-x-auto scrollbar-hide">
           {CATEGORIES.map((category) => {
             const isActive = selectedCategory === category.name;
             return (
               <button
                 key={category.name}
                 onClick={() => setSelectedCategory(isActive ? null : category.name)}
-                className="px-4 md:px-5 py-2 rounded-lg font-semibold text-sm md:text-base whitespace-nowrap transition-all flex-shrink-0"
+                className="px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all flex-shrink-0 font-medium"
                 style={{
-                  backgroundColor: isActive ? category.color : 'transparent',
-                  color: isActive ? '#fff' : category.color,
-                  border: `1.5px solid ${category.color}${isActive ? '' : '40'}`
+                  backgroundColor: isActive ? category.color + 'CC' : category.color + '15',
+                  color: isActive ? '#fff' : category.color + 'CC',
+                  border: `1px solid ${category.color}${isActive ? '80' : '25'}`
                 }}
               >
                 {getCategoryName(category)}
