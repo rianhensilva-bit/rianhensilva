@@ -96,6 +96,10 @@ export default function RoomView() {
   const selectedCategoryData = CATEGORIES.find(c => c.name === categoryFilter);
   const subcategories = selectedCategoryData?.subcategories || [];
 
+  React.useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');

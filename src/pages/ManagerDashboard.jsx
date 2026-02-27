@@ -41,6 +41,10 @@ export default function ManagerDashboard() {
     options: []
   });
 
+  React.useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
