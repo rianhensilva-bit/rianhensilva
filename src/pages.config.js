@@ -51,6 +51,7 @@ import BetHistory from './pages/BetHistory';
 import Home from './pages/Home';
 import ManagerDashboard from './pages/ManagerDashboard';
 import RoomView from './pages/RoomView';
+import UserProfile from './pages/UserProfile';
 
 
 export const PAGES = {
@@ -58,6 +59,7 @@ export const PAGES = {
     "Home": Home,
     "ManagerDashboard": ManagerDashboard,
     "RoomView": RoomView,
+    "UserProfile": UserProfile,
 }
 
 export const pagesConfig = {
