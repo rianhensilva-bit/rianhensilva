@@ -20,6 +20,7 @@ export default function Home() {
   const [language, setLanguage] = useState('pt');
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
