@@ -316,6 +316,14 @@ export default function RoomView() {
             })}
           </div>
         )}
+
+        {filteredPredictions.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(p) => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          />
+        )}
       </div>
 
       <BetModal
