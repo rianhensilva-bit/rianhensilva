@@ -168,6 +168,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
       <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language={language} />
       <BecomeManagerModal isOpen={showManager} onClose={() => setShowManager(false)} />
       <MyRoomsModal isOpen={showMyRooms} onClose={() => setShowMyRooms(false)} />
+      <NotificationSettingsModal isOpen={showNotifSettings} onClose={() => setShowNotifSettings(false)} />
       </>
       );
       }
