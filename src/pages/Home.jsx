@@ -42,14 +42,19 @@ export default function Home() {
     refetch();
   };
 
-  const filteredRooms = rooms.filter(room => {
+  const filteredRooms = useMemo(() => rooms.filter(room => {
     const roomData = room.data || room;
     const matchesSearch = !searchQuery || 
       roomData.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !selectedCategory || roomData.secondary_label === selectedCategory;
-
     return matchesSearch && matchesCategory;
-  });
+  }), [rooms, searchQuery, selectedCategory]);
+
+  const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
+  const paginatedRooms = useMemo(() => {
+    const start = (currentPage - 1) * ROOMS_PER_PAGE;
+    return filteredRooms.slice(start, start + ROOMS_PER_PAGE);
+  }, [filteredRooms, currentPage]);
 
   const handleRoomClick = (room) => {
     setSelectedRoom(room);
