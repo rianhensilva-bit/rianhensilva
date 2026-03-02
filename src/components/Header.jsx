@@ -101,6 +101,15 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={() => setShowNotifSettings(true)}
+                className="rounded-full h-8 w-8 md:h-11 md:w-11"
+                title="Configurar notificações"
+              >
+                <Bell className="h-4 w-4 md:h-5 md:w-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={toggleDarkMode}
                 className="rounded-full h-8 w-8 md:h-11 md:w-11"
               >
