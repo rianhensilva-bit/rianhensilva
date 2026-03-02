@@ -8,10 +8,7 @@ import RoomCard from '../components/RoomCard';
 import RoomAccessModal from '../components/RoomAccessModal';
 import RoomSidebar from '../components/RoomSidebar';
 import Footer from '../components/Footer';
-import Pagination from '../components/Pagination';
 import { Loader2 } from 'lucide-react';
-
-const ROOMS_PER_PAGE = 9;
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -20,7 +17,6 @@ export default function Home() {
   const [language, setLanguage] = useState('pt');
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showAccessModal, setShowAccessModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
