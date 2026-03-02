@@ -35,14 +35,8 @@ export default function Home() {
   const handleLogoClick = () => {
     setSelectedCategory(null);
     setSearchQuery('');
-    setCurrentPage(1);
     refetch();
   };
-
-  // Reset page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, selectedCategory]);
 
   const filteredRooms = useMemo(() => rooms.filter(room => {
     const roomData = room.data || room;
@@ -51,12 +45,6 @@ export default function Home() {
     const matchesCategory = !selectedCategory || roomData.secondary_label === selectedCategory;
     return matchesSearch && matchesCategory;
   }), [rooms, searchQuery, selectedCategory]);
-
-  const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
-  const paginatedRooms = useMemo(() => {
-    const start = (currentPage - 1) * ROOMS_PER_PAGE;
-    return filteredRooms.slice(start, start + ROOMS_PER_PAGE);
-  }, [filteredRooms, currentPage]);
 
   const handleRoomClick = (room) => {
     setSelectedRoom(room);
