@@ -1,5 +1,5 @@
 import GuidedTour from '@/components/GuidedTour';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import Header from '../components/Header';
@@ -8,7 +8,10 @@ import RoomCard from '../components/RoomCard';
 import RoomAccessModal from '../components/RoomAccessModal';
 import RoomSidebar from '../components/RoomSidebar';
 import Footer from '../components/Footer';
+import Pagination from '../components/Pagination';
 import { Loader2 } from 'lucide-react';
+
+const ROOMS_PER_PAGE = 9;
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
