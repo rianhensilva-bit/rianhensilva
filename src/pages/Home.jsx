@@ -39,8 +39,14 @@ export default function Home() {
   const handleLogoClick = () => {
     setSelectedCategory(null);
     setSearchQuery('');
+    setCurrentPage(1);
     refetch();
   };
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory]);
 
   const filteredRooms = useMemo(() => rooms.filter(room => {
     const roomData = room.data || room;
