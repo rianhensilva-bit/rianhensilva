@@ -1,13 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import Pagination from '@/components/Pagination';
-
-const PREDICTIONS_PER_PAGE = 8;
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Calendar, TrendingUp, Moon, Sun, Search, Filter, Star, History } from 'lucide-react';
+import { ArrowLeft, Calendar, TrendingUp, Moon, Sun, Search, Star, History } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import BetModal from '@/components/BetModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
@@ -25,10 +22,9 @@ export default function RoomView() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [subcategoryFilter, setSubcategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date');
-  const [currentPage, setCurrentPage] = useState(1);
   
   const roomId = new URLSearchParams(window.location.search).get('roomId');
-  const userId = 'current-user-id'; // Em produção, vem do auth
+  const userId = 'current-user-id';
 
   const { data: room } = useQuery({
     queryKey: ['room', roomId],
@@ -65,9 +61,7 @@ export default function RoomView() {
   const unfollowMutation = useMutation({
     mutationFn: async () => {
       const follows = await base44.entities.Follow.filter({ user_id: userId, room_id: roomId });
-      if (follows[0]) {
-        await base44.entities.Follow.delete(follows[0].id);
-      }
+      if (follows[0]) await base44.entities.Follow.delete(follows[0].id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['follow', roomId, userId]);
@@ -77,7 +71,6 @@ export default function RoomView() {
 
   const roomData = room?.data || room;
 
-  // Filtrar e ordenar previsões
   const filteredPredictions = useMemo(() => predictions
     .filter(pred => {
       const predData = pred.data || pred;
@@ -94,18 +87,6 @@ export default function RoomView() {
       return 0;
     }), [predictions, searchQuery, categoryFilter, subcategoryFilter, sortBy]);
 
-  const totalPages = Math.ceil(filteredPredictions.length / PREDICTIONS_PER_PAGE);
-  const paginatedPredictions = useMemo(() => {
-    const start = (currentPage - 1) * PREDICTIONS_PER_PAGE;
-    return filteredPredictions.slice(start, start + PREDICTIONS_PER_PAGE);
-  }, [filteredPredictions, currentPage]);
-
-  // Reset page on filter change
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, categoryFilter, subcategoryFilter, sortBy]);
-
-  // Obter subcategorias da categoria selecionada
   const selectedCategoryData = CATEGORIES.find(c => c.name === categoryFilter);
   const subcategories = selectedCategoryData?.subcategories || [];
 
@@ -128,34 +109,19 @@ export default function RoomView() {
       <RealtimeNotifications roomId={roomId} userType="player" userId={userId} />
       <Toaster />
       
-      {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              onClick={() => window.location.href = '/'}
-              className="gap-2"
-            >
+            <Button variant="ghost" onClick={() => window.location.href = '/'} className="gap-2">
               <ArrowLeft className="h-5 w-5" />
               Voltar
             </Button>
             <h1 className="text-2xl font-bold elegant-font">{roomData?.name}</h1>
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => window.location.href = '/BetHistory'}
-                className="rounded-full"
-              >
+              <Button variant="ghost" size="icon" onClick={() => window.location.href = '/BetHistory'} className="rounded-full">
                 <History className="h-5 w-5" />
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleDarkMode}
-                className="rounded-full"
-              >
+              <Button variant="ghost" size="icon" onClick={toggleDarkMode} className="rounded-full">
                 {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
             </div>
@@ -163,7 +129,6 @@ export default function RoomView() {
         </div>
       </header>
 
-      {/* Content */}
       <div className="container mx-auto px-3 md:px-6 py-6 md:py-8 max-w-6xl">
         <div className="mb-8">
           <div className="flex items-center justify-between gap-4 mb-4">
@@ -187,7 +152,6 @@ export default function RoomView() {
           </div>
         </div>
 
-        {/* Busca e Filtros */}
         <div className="mb-6 space-y-4">
           <div className="flex gap-3 md:gap-4 flex-wrap">
             <div className="relative flex-1 min-w-[150px]">
@@ -235,10 +199,7 @@ export default function RoomView() {
           </div>
         </div>
 
-        <h3 className="text-xl font-bold mb-4">
-          Previsões Disponíveis ({filteredPredictions.length})
-          {totalPages > 1 && <span className="text-sm font-normal text-zinc-400 ml-2">— pág. {currentPage}/{totalPages}</span>}
-        </h3>
+        <h3 className="text-xl font-bold mb-4">Previsões Disponíveis ({filteredPredictions.length})</h3>
 
         {filteredPredictions.length === 0 ? (
           <Card>
@@ -250,7 +211,7 @@ export default function RoomView() {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {paginatedPredictions.map((prediction) => {
+            {filteredPredictions.map((prediction) => {
               const predData = prediction.data || prediction;
               return (
                 <Card key={prediction.id} className="hover:border-[#D4AF37] transition-all">
@@ -280,17 +241,11 @@ export default function RoomView() {
 
                     {predData.bet_type === 'yes_no' ? (
                       <div className="grid grid-cols-2 gap-3">
-                        <Button
-                          onClick={() => handleBet(prediction)}
-                          className="h-16 bg-green-600 hover:bg-green-700 text-white font-bold text-lg"
-                        >
+                        <Button onClick={() => handleBet(prediction)} className="h-16 bg-green-600 hover:bg-green-700 text-white font-bold text-lg">
                           SIM
                           <span className="block text-sm font-normal">{predData.yes_percentage || 50}%</span>
                         </Button>
-                        <Button
-                          onClick={() => handleBet(prediction)}
-                          className="h-16 bg-red-600 hover:bg-red-700 text-white font-bold text-lg"
-                        >
+                        <Button onClick={() => handleBet(prediction)} className="h-16 bg-red-600 hover:bg-red-700 text-white font-bold text-lg">
                           NÃO
                           <span className="block text-sm font-normal">{predData.no_percentage || 50}%</span>
                         </Button>
@@ -298,12 +253,7 @@ export default function RoomView() {
                     ) : (
                       <div className="space-y-2">
                         {predData.options?.map((option, idx) => (
-                          <Button
-                            key={idx}
-                            onClick={() => handleBet(prediction)}
-                            variant="outline"
-                            className="w-full h-12 justify-between"
-                          >
+                          <Button key={idx} onClick={() => handleBet(prediction)} variant="outline" className="w-full h-12 justify-between">
                             <span>{option.label}</span>
                             <span className="text-sm text-zinc-500">{option.percentage || 0}%</span>
                           </Button>
@@ -316,21 +266,9 @@ export default function RoomView() {
             })}
           </div>
         )}
-
-        {filteredPredictions.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(p) => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          />
-        )}
       </div>
 
-      <BetModal
-        isOpen={showBetModal}
-        onClose={() => setShowBetModal(false)}
-        prediction={selectedPrediction}
-      />
+      <BetModal isOpen={showBetModal} onClose={() => setShowBetModal(false)} prediction={selectedPrediction} />
       <RoomChat roomId={roomId} username="Visitante" userId={userId} />
     </div>
   );
