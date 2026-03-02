@@ -25,6 +25,7 @@ export default function RoomView() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [subcategoryFilter, setSubcategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date');
+  const [currentPage, setCurrentPage] = useState(1);
   
   const roomId = new URLSearchParams(window.location.search).get('roomId');
   const userId = 'current-user-id'; // Em produção, vem do auth
