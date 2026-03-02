@@ -24,6 +24,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [isHoveringCreate, setIsHoveringCreate] = useState(false);
   const [userRole, setUserRole] = useState(null); // 'manager', 'player', or null
   const [showMyRooms, setShowMyRooms] = useState(false);
+  const [showNotifSettings, setShowNotifSettings] = useState(false);
 
   const translations = {
     pt: { search: 'Buscar salas de comunidades', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', manageRoom: 'Gerenciar Minha Sala', myRooms: 'Acessar Minhas Salas', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
