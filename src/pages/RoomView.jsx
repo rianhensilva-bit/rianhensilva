@@ -11,6 +11,7 @@ import RealtimeNotifications from '@/components/RealtimeNotifications';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { CATEGORIES } from '@/components/CategoryTabs';
+import RoomChat from '@/components/RoomChat';
 
 export default function RoomView() {
   const queryClient = useQueryClient();
