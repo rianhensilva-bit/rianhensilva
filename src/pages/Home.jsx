@@ -121,15 +121,22 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
-            {filteredRooms.map((room) => (
-              <RoomCard 
-                key={room.id} 
-                room={room}
-                onRoomClick={handleRoomClick}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
+              {paginatedRooms.map((room) => (
+                <RoomCard 
+                  key={room.id} 
+                  room={room}
+                  onRoomClick={handleRoomClick}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(p) => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            />
+          </>
         )}
           </div>
         </div>
