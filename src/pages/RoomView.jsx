@@ -78,7 +78,7 @@ export default function RoomView() {
   const roomData = room?.data || room;
 
   // Filtrar e ordenar previsões
-  const filteredPredictions = predictions
+  const filteredPredictions = useMemo(() => predictions
     .filter(pred => {
       const predData = pred.data || pred;
       const matchesSearch = predData.title?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -89,13 +89,21 @@ export default function RoomView() {
     .sort((a, b) => {
       const aData = a.data || a;
       const bData = b.data || b;
-      if (sortBy === 'date') {
-        return new Date(b.created_date) - new Date(a.created_date);
-      } else if (sortBy === 'volume') {
-        return (bData.total_volume || 0) - (aData.total_volume || 0);
-      }
+      if (sortBy === 'date') return new Date(b.created_date) - new Date(a.created_date);
+      if (sortBy === 'volume') return (bData.total_volume || 0) - (aData.total_volume || 0);
       return 0;
-    });
+    }), [predictions, searchQuery, categoryFilter, subcategoryFilter, sortBy]);
+
+  const totalPages = Math.ceil(filteredPredictions.length / PREDICTIONS_PER_PAGE);
+  const paginatedPredictions = useMemo(() => {
+    const start = (currentPage - 1) * PREDICTIONS_PER_PAGE;
+    return filteredPredictions.slice(start, start + PREDICTIONS_PER_PAGE);
+  }, [filteredPredictions, currentPage]);
+
+  // Reset page on filter change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, categoryFilter, subcategoryFilter, sortBy]);
 
   // Obter subcategorias da categoria selecionada
   const selectedCategoryData = CATEGORIES.find(c => c.name === categoryFilter);
