@@ -14,6 +14,7 @@ import SignupModal from './SignupModal';
 import BecomeManagerModal from './BecomeManagerModal';
 import LanguageSelector from './LanguageSelector';
 import MyRoomsModal from './MyRoomsModal';
+import NotificationSettingsModal from './NotificationSettingsModal';
 
 export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearchQuery, language, setLanguage, onLogoClick }) {
   const [showSocial, setShowSocial] = useState(false);
