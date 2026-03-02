@@ -133,6 +133,7 @@ export default function Home() {
         onClose={() => setShowAccessModal(false)}
         onAccessGranted={handleAccessGranted}
       />
+      <GuidedTour />
     </div>
   );
 }

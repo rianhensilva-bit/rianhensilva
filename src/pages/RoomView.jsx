@@ -308,6 +308,7 @@ export default function RoomView() {
         onClose={() => setShowBetModal(false)}
         prediction={selectedPrediction}
       />
+      <RoomChat roomId={roomId} username="Visitante" userId={userId} />
     </div>
   );
 }
