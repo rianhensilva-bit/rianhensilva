@@ -235,7 +235,10 @@ export default function RoomView() {
           </div>
         </div>
 
-        <h3 className="text-xl font-bold mb-4">Previsões Disponíveis ({filteredPredictions.length})</h3>
+        <h3 className="text-xl font-bold mb-4">
+          Previsões Disponíveis ({filteredPredictions.length})
+          {totalPages > 1 && <span className="text-sm font-normal text-zinc-400 ml-2">— pág. {currentPage}/{totalPages}</span>}
+        </h3>
 
         {filteredPredictions.length === 0 ? (
           <Card>
@@ -247,7 +250,7 @@ export default function RoomView() {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {filteredPredictions.map((prediction) => {
+            {paginatedPredictions.map((prediction) => {
               const predData = prediction.data || prediction;
               return (
                 <Card key={prediction.id} className="hover:border-[#D4AF37] transition-all">
