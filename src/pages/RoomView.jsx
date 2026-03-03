@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, Moon, Sun, Search, History, Lightbulb } from 'lucide-react';
-import RecommendPredictionModal from '@/components/RecommendPredictionModal';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import BetModal from '@/components/BetModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
@@ -14,18 +13,19 @@ import toast from 'react-hot-toast';
 import { CATEGORIES } from '@/components/CategoryTabs';
 import RoomChat from '@/components/RoomChat';
 import RoomPredictionCard from '@/components/RoomPredictionCard';
+import RecommendPredictionModal from '@/components/RecommendPredictionModal';
 
 export default function RoomView() {
   const queryClient = useQueryClient();
   const [darkMode, setDarkMode] = useState(true);
   const [selectedPrediction, setSelectedPrediction] = useState(null);
   const [showBetModal, setShowBetModal] = useState(false);
+  const [showRecommend, setShowRecommend] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [subcategoryFilter, setSubcategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   
-  const [showRecommend, setShowRecommend] = useState(false);
   const roomId = new URLSearchParams(window.location.search).get('roomId');
   const userId = 'current-user-id';
 
