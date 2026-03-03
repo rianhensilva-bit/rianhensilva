@@ -117,7 +117,7 @@ export default function RoomView() {
               <ArrowLeft className="h-5 w-5" />
               Voltar
             </Button>
-            <h1 className="text-2xl font-bold elegant-font">{roomData?.name}</h1>
+            <h1 className="text-2xl font-black elegant-font" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 6px rgba(251,191,36,0.4))' }}>GUANXI</h1>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" onClick={() => window.location.href = '/BetHistory'} className="rounded-full">
                 <History className="h-5 w-5" />
@@ -142,14 +142,7 @@ export default function RoomView() {
                 <p className="text-zinc-500">{roomData?.country_flag} {roomData?.secondary_label}</p>
               </div>
             </div>
-            <Button
-              onClick={() => isFollowing ? unfollowMutation.mutate() : followMutation.mutate()}
-              variant={isFollowing ? "default" : "outline"}
-              className={isFollowing ? "bg-[#D4AF37] hover:bg-[#B8941F] text-black" : ""}
-            >
-              <Star className={`h-4 w-4 mr-2 ${isFollowing ? 'fill-current' : ''}`} />
-              {isFollowing ? 'Seguindo' : 'Seguir Sala'}
-            </Button>
+
           </div>
         </div>
 
