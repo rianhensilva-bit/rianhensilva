@@ -38,8 +38,11 @@ export default function ManagerDashboard() {
     bet_type: 'yes_no',
     end_date: '',
     rules: '',
-    options: []
+    options: [],
+    label_color: '#D4AF37'
   });
+
+  const BORDER_COLORS = ['#D4AF37', '#DC2626', '#2563EB', '#9333EA', '#F59E0B', '#10B981', '#EC4899', '#8B5CF6', '#14B8A6', '#6366F1'];
 
   React.useEffect(() => {
     document.documentElement.classList.add('dark');
