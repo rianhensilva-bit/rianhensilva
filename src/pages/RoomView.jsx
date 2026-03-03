@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { CATEGORIES } from '@/components/CategoryTabs';
 import RoomChat from '@/components/RoomChat';
+import RoomPredictionCard from '@/components/RoomPredictionCard';
 
 export default function RoomView() {
   const queryClient = useQueryClient();
