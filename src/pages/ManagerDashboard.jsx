@@ -340,6 +340,11 @@ export default function ManagerDashboard() {
           </CardContent>
         </Card>
 
+        {/* Recomendações dos membros */}
+        <div className="mb-8">
+          <RecommendationsPanel roomId={roomId} />
+        </div>
+
         {/* Lista de Previsões */}
         <Card>
           <CardHeader>
