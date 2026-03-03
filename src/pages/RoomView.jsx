@@ -211,60 +211,10 @@ export default function RoomView() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-4">
-            {filteredPredictions.map((prediction) => {
-              const predData = prediction.data || prediction;
-              return (
-                <Card key={prediction.id} className="hover:border-[#D4AF37] transition-all">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <CardTitle className="text-xl mb-2">{predData.title}</CardTitle>
-                        <p className="text-sm text-zinc-500">{predData.description}</p>
-                      </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
-                        ATIVA
-                      </span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-4 mb-4 text-sm text-zinc-600 dark:text-zinc-400">
-                      <span className="flex items-center gap-1">
-                        <TrendingUp className="h-4 w-4" />
-                        Volume: R$ {predData.total_volume || 0}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {predData.end_date ? new Date(predData.end_date).toLocaleDateString('pt-BR') : 'Sem data'}
-                      </span>
-                    </div>
-
-                    {predData.bet_type === 'yes_no' ? (
-                      <div className="grid grid-cols-2 gap-3">
-                        <Button onClick={() => handleBet(prediction)} className="h-16 bg-green-600 hover:bg-green-700 text-white font-bold text-lg">
-                          SIM
-                          <span className="block text-sm font-normal">{predData.yes_percentage || 50}%</span>
-                        </Button>
-                        <Button onClick={() => handleBet(prediction)} className="h-16 bg-red-600 hover:bg-red-700 text-white font-bold text-lg">
-                          NÃO
-                          <span className="block text-sm font-normal">{predData.no_percentage || 50}%</span>
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        {predData.options?.map((option, idx) => (
-                          <Button key={idx} onClick={() => handleBet(prediction)} variant="outline" className="w-full h-12 justify-between">
-                            <span>{option.label}</span>
-                            <span className="text-sm text-zinc-500">{option.percentage || 0}%</span>
-                          </Button>
-                        ))}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+            {filteredPredictions.map((prediction) => (
+              <RoomPredictionCard key={prediction.id} prediction={prediction} onBet={handleBet} />
+            ))}
           </div>
         )}
       </div>
