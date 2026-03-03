@@ -128,7 +128,8 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
-                    className="rounded-full border-2 border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950 font-semibold px-3 md:px-5 h-8 md:h-9 text-xs md:text-sm"
+                    className="rounded-full border-2 font-bold px-3 md:px-5 h-8 md:h-9 text-xs md:text-sm"
+                    style={{ borderColor: '#D4AF37', color: '#D4AF37' }}
                   >
                     {t.enter}
                   </Button>

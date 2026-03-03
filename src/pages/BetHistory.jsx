@@ -10,6 +10,10 @@ export default function BetHistory() {
   const [darkMode, setDarkMode] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
 
+  React.useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
@@ -60,7 +64,7 @@ export default function BetHistory() {
               <ArrowLeft className="h-5 w-5" />
               Voltar
             </Button>
-            <h1 className="text-2xl font-bold elegant-font">Meu Histórico</h1>
+            <h1 className="text-2xl font-black elegant-font" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 6px rgba(251,191,36,0.4))' }}>GUANXI</h1>
             <Button
               variant="ghost"
               size="icon"
