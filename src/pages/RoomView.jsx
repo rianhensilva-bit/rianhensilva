@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Moon, Sun, Search, Star, History } from 'lucide-react';
+import { ArrowLeft, Moon, Sun, Search, History } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import BetModal from '@/components/BetModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
