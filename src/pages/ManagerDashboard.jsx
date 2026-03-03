@@ -539,6 +539,21 @@ export default function ManagerDashboard() {
             </div>
 
             <div>
+              <Label>Cor da Borda do Card</Label>
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {BORDER_COLORS.map(color => (
+                  <button
+                    key={color}
+                    type="button"
+                    onClick={() => setNewPrediction({ ...newPrediction, label_color: color })}
+                    className={`w-9 h-9 rounded-full border-2 transition-all ${newPrediction.label_color === color ? 'border-black dark:border-white scale-110' : 'border-transparent'}`}
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div>
               <Label>Regras e Critérios de Finalização</Label>
               <Textarea
                 placeholder="Descreva os critérios que determinarão o resultado da aposta..."
