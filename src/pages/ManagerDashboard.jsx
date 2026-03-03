@@ -308,6 +308,11 @@ export default function ManagerDashboard() {
           </Button>
         </div>
 
+        {/* Recomendações de Previsões */}
+        <div className="mb-8">
+          <RecommendationsPanel roomId={roomId} />
+        </div>
+
         {/* Lista de Membros */}
         <Card className="mb-8">
           <CardHeader>
