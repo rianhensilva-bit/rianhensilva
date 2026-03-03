@@ -107,7 +107,7 @@ export default function ManagerDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries(['predictions', roomId]);
       setShowCreatePrediction(false);
-      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', rules: '', options: [] });
+      setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', rules: '', options: [], label_color: '#D4AF37' });
     }
   });
 
