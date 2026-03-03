@@ -84,7 +84,8 @@ export default function ManagerDashboard() {
         room_id: roomId,
         status: 'active',
         total_volume: 0,
-        chart_history: []
+        chart_history: [],
+        label_color: data.label_color || '#D4AF37'
       };
 
       // Inicializar percentuais baseado no tipo
