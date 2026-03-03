@@ -10,6 +10,8 @@ export const defaultPrefs = {
   new_predictions: true,
   closed_predictions: true,
   resolved_predictions: true,
+  bet_updates: true,
+  mentions: true,
   push_enabled: false,
 };
 
