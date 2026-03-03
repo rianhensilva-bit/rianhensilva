@@ -21,6 +21,7 @@ import UserManualModal from '@/components/UserManualModal';
 import RoomAnalytics from '@/components/RoomAnalytics';
 import MemberModerationModal from '@/components/MemberModerationModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
+import RecommendationsPanel from '@/components/RecommendationsPanel';
 import { Toaster } from 'react-hot-toast';
 
 export default function ManagerDashboard() {
