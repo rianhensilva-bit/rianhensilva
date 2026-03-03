@@ -73,6 +73,18 @@ export default function NotificationSettingsModal({ isOpen, onClose }) {
       label: 'Resultados Definidos',
       desc: 'Quando o resultado de uma previsão for revelado',
     },
+    {
+      key: 'bet_updates',
+      icon: <Bell className="h-5 w-5 text-blue-500" />,
+      label: 'Minhas Apostas',
+      desc: 'Quando sua aposta for ganha ou perdida',
+    },
+    {
+      key: 'mentions',
+      icon: <BellOff className="h-5 w-5 text-purple-500" />,
+      label: 'Menções no Chat',
+      desc: 'Quando alguém mencionar seu @nome no chat',
+    },
   ];
 
   return (
