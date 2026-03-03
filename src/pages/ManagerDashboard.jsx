@@ -193,8 +193,9 @@ export default function ManagerDashboard() {
               className="gap-2"
             >
               <ArrowLeft className="h-5 w-5" />
-              Voltar para Home
+              Voltar
             </Button>
+            <GuanxiLogo />
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
