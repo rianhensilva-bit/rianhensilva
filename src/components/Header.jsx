@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Sun, Moon, Globe, Bell, UserCircle } from 'lucide-react';
+import { Search, Sun, Moon, Globe, Bell } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -99,15 +99,6 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
               <div className="hidden md:block">
                 <LanguageSelector language={language} setLanguage={setLanguage} />
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => window.location.href = '/UserProfile'}
-                className="rounded-full h-8 w-8 md:h-11 md:w-11"
-                title="Meu Perfil"
-              >
-                <UserCircle className="h-4 w-4 md:h-5 md:w-5" />
-              </Button>
               <NotificationCenter />
               <Button
                 variant="ghost"
