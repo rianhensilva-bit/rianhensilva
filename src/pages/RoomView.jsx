@@ -214,7 +214,7 @@ export default function RoomView() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             {filteredPredictions.map((prediction) => (
               <RoomPredictionCard key={prediction.id} prediction={prediction} onBet={handleBet} />
             ))}
