@@ -25,65 +25,71 @@ export default function RoomPredictionCard({ prediction, onBet }) {
 
   return (
     <div
-      className="relative bg-background border-2 rounded-2xl p-4 shadow-md hover:shadow-xl transition-all cursor-pointer flex flex-col h-full"
-      style={{ borderColor }}
+      className="relative bg-background border-2 rounded-2xl shadow-md hover:shadow-xl transition-all cursor-pointer flex flex-col"
+      style={{ borderColor, minHeight: '220px', padding: '20px 24px' }}
     >
       {/* Header */}
-      <div className="mb-3 flex-1">
-        <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="mb-4 flex-1">
+        <div className="flex items-start justify-between gap-2 mb-3">
           <span
-            className="px-2 py-0.5 rounded-full text-xs font-bold text-white shrink-0"
+            className="px-3 py-1 rounded-full text-xs font-bold text-white shrink-0"
             style={{ backgroundColor: CATEGORY_COLORS[predData.category] || '#6B7280' }}
           >
             {predData.category || 'Geral'}
           </span>
-          <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 shrink-0">
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 shrink-0">
             ATIVA
           </span>
         </div>
 
-        <h3 className="font-bold text-sm leading-snug text-zinc-900 dark:text-zinc-50 line-clamp-3 mb-2">
+        <h3 className="font-bold text-base leading-snug text-zinc-900 dark:text-zinc-50 line-clamp-3 mb-3">
           {predData.title}
         </h3>
 
-        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-500">
+        {predData.description && (
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2 mb-3">
+            {predData.description}
+          </p>
+        )}
+
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-500">
           <span className="flex items-center gap-1">
-            <TrendingUp className="h-3 w-3" />
+            <TrendingUp className="h-4 w-4" />
             R$ {predData.total_volume || 0}
           </span>
           <span className="flex items-center gap-1">
-            <Calendar className="h-3 w-3" />
+            <Calendar className="h-4 w-4" />
             {predData.end_date ? new Date(predData.end_date).toLocaleDateString('pt-BR') : '—'}
           </span>
         </div>
       </div>
 
       {/* Bet buttons */}
-      <div className="mt-auto">
+      <div className="mt-auto pt-3 border-t border-zinc-200 dark:border-zinc-700">
         {predData.bet_type === 'yes_no' ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => onBet(prediction)}
-              className="flex flex-col items-center justify-center py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition-colors"
+              className="flex flex-col items-center justify-center py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition-colors"
             >
               SIM
               <span className="text-xs font-normal opacity-90">{predData.yes_percentage || 50}%</span>
             </button>
             <button
               onClick={() => onBet(prediction)}
-              className="flex flex-col items-center justify-center py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition-colors"
+              className="flex flex-col items-center justify-center py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition-colors"
             >
               NÃO
               <span className="text-xs font-normal opacity-90">{predData.no_percentage || 50}%</span>
             </button>
           </div>
         ) : (
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             {predData.options?.slice(0, 3).map((option, idx) => (
               <button
                 key={idx}
                 onClick={() => onBet(prediction)}
-                className="flex items-center justify-between w-full px-3 py-1.5 rounded-lg border text-xs font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="flex items-center justify-between w-full px-4 py-2 rounded-lg border text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 style={{ borderColor: option.color || borderColor }}
               >
                 <span className="truncate">{option.label}</span>
@@ -93,7 +99,7 @@ export default function RoomPredictionCard({ prediction, onBet }) {
             {predData.options?.length > 3 && (
               <button
                 onClick={() => onBet(prediction)}
-                className="text-xs text-zinc-400 text-center pt-1 hover:text-zinc-600 transition-colors"
+                className="text-sm text-zinc-400 text-center pt-1 hover:text-zinc-600 transition-colors"
               >
                 +{predData.options.length - 3} opções
               </button>
