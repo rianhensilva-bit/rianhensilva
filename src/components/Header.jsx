@@ -70,7 +70,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                       WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.3)'
                     }}
                   >
-                    GUANXI
+                    GALORE
                   </button>
                   <span className="hidden md:block text-base font-bold elegant-font text-zinc-800 dark:text-zinc-100">
                     {t.market}
