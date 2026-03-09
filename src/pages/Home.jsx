@@ -87,7 +87,7 @@ export default function Home() {
             SALAS PRIVADAS
           </h2>
           <p className="text-lg md:text-2xl font-semibold text-[#D4AF37] mb-2">
-            SELECIONE UMA DAS {rooms.length} COMUNIDADES GUANXI
+            SELECIONE UMA DAS {rooms.length} COMUNIDADES GALORE
           </p>
         </div>
 
