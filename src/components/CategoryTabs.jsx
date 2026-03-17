@@ -156,20 +156,6 @@ const CATEGORIES = [
     subcategories: ['Conflitos Internacionais', 'Tensões Geopolíticas', 'Acordos de Paz', 'Sanções', 'Alianças Militares']
   },
   {
-    name: 'Mortes',
-    nameEn: 'Deaths',
-    nameEs: 'Muertes',
-    nameHi: 'मृत्यु',
-    nameAr: 'وفيات',
-    nameZh: '死亡',
-    nameFr: 'Décès',
-    nameRu: 'Смерти',
-    nameDe: 'Todesfälle',
-    nameJa: '死',
-    color: '#475569',
-    subcategories: ['Celebridades', 'Políticos Idosos', 'Monarcas', 'Ícones da Cultura', 'Líderes Mundiais']
-  },
-  {
     name: 'Escândalos',
     nameEn: 'Scandals',
     nameEs: 'Escándalos',
