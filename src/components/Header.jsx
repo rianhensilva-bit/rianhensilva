@@ -72,9 +72,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                   >
                     GALORE
                   </button>
-                  <span className="hidden md:block text-base font-bold elegant-font text-zinc-800 dark:text-zinc-100">
-                    {t.market}
-                  </span>
+
                 </div>
                 <p className="hidden md:block text-base font-semibold text-zinc-800 dark:text-zinc-100 mt-1 ml-1 uppercase">
                   {t.subtitle}
