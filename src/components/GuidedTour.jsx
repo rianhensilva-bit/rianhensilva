@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X, ArrowRight, ArrowLeft, Sparkles, Building2, TrendingUp, Bell } from 'lucide-react';
 
-const TOUR_KEY = 'guanxi_tour_completed';
+const TOUR_KEY = 'galore_tour_completed';
 
 const STEPS = [
   {
     id: 'welcome',
     icon: <Sparkles className="h-8 w-8 text-[#D4AF37]" />,
-    title: 'Bem-vindo ao GUANXI!',
+    title: 'Bem-vindo ao GALORE!',
     description: 'O mercado de previsões onde suas opiniões valem ouro. Vamos te mostrar como funciona em menos de 1 minuto.',
     target: null,
   },
