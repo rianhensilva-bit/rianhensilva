@@ -29,7 +29,7 @@ export default function Footer() {
         
         <div className="pt-8 border-t text-center">
           <p className="text-sm text-muted-foreground">
-            © 2026 <span className="font-bold">GUANXI</span> MERCADO DE PREVISÕES. Todos os direitos reservados.
+            © 2026 <span className="font-bold">GALORE</span>. Todos os direitos reservados.
           </p>
         </div>
       </div>

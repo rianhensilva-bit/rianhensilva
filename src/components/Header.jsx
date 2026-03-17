@@ -28,7 +28,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
 
 
   const translations = {
-    pt: { search: 'Buscar salas de comunidades', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', manageRoom: 'Gerenciar Minha Sala', myRooms: 'Acessar Minhas Salas', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'SUAS PREVISÕES VALEM OURO', market: 'MERCADO DE PREVISÕES', social: 'SOCIAIS' },
+    pt: { search: 'Buscar salas de comunidades', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', manageRoom: 'Gerenciar Minha Sala', myRooms: 'Acessar Minhas Salas', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'MERCADO DE RATEIO E PREVISÕES PROGNÓSTICAS', market: '', social: 'SOCIAIS' },
     en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', becomeManager: 'Become Manager', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
     es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
     hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
