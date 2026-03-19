@@ -67,15 +67,13 @@ export default function Home() {
         toggleDarkMode={toggleDarkMode}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        language={language}
-        setLanguage={setLanguage}
         onLogoClick={handleLogoClick}
       />
       
       <CategoryTabs
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        language={language}
+        language="pt"
       />
 
       <div className="flex">
