@@ -79,7 +79,10 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                   >
                     GALORE
                   </button>
-
+                  {/* Beta Badge */}
+                  <span className="bg-blue-600 text-white text-xs font-black px-2 py-0.5 rounded-full tracking-wider">
+                    BETA
+                  </span>
                 </div>
                 <p className="hidden md:block text-base font-semibold text-zinc-800 dark:text-zinc-100 mt-1 ml-1 uppercase">
                   {t.subtitle}
@@ -101,9 +104,6 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
 
             {/* Actions */}
             <div className="flex items-center gap-1 md:gap-2">
-              <div className="hidden md:block">
-                <LanguageSelector language={language} setLanguage={setLanguage} />
-              </div>
               <NotificationCenter />
               <Button
                 variant="ghost"
@@ -124,17 +124,17 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-40">
-                  <DropdownMenuItem onClick={() => { setShowSignup(true); setUserRole('player'); }}>
+                  <DropdownMenuItem onClick={() => { setShowSignup(true); handleLoginAs('player'); }}>
                     JOGADOR
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => { setShowManager(true); setUserRole('manager'); }}>
+                  <DropdownMenuItem onClick={() => { setShowManager(true); handleLoginAs('manager'); }}>
                     GERENTE
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               {userRole === 'manager' ? (
                 <Button
-                  onClick={() => window.location.href = '/ManagerDashboard?roomId=699e308fcbde9d531c720b2e'}
+                  onClick={() => window.location.href = '/ManagerDashboard'}
                   variant="outline"
                   className="hidden md:inline-flex rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-5 h-9 text-sm"
                 >
@@ -162,12 +162,24 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
         </div>
       </header>
 
+      {/* Welcome Back Toast */}
+      {showWelcomeBack && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 border border-[#D4AF37] text-white px-6 py-3 rounded-xl shadow-xl font-semibold text-sm animate-in fade-in slide-in-from-top-2">
+          ✨ Bem-vindo de volta à GALORE!
+        </div>
+      )}
+
+      {/* First Room Welcome */}
+      {showFirstRoom && (
+        <FirstRoomWelcome onDismiss={() => setShowFirstRoom(false)} />
+      )}
+
       <SocialMediaModal isOpen={showSocial} onClose={() => setShowSocial(false)} language={language} />
       <CreateBetModal isOpen={showCreateBet} onClose={() => setShowCreateBet(false)} language={language} />
       <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language={language} />
       <BecomeManagerModal isOpen={showManager} onClose={() => setShowManager(false)} />
       <MyRoomsModal isOpen={showMyRooms} onClose={() => setShowMyRooms(false)} />
-
-      </>
-      );
+      <CreateRoomModal isOpen={showCreateRoom} onClose={() => setShowCreateRoom(false)} />
+    </>
+  );
       }
