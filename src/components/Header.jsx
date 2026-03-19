@@ -21,25 +21,33 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [showCreateBet, setShowCreateBet] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showManager, setShowManager] = useState(false);
-  const [isHoveringCreate, setIsHoveringCreate] = useState(false);
-  const [userRole, setUserRole] = useState(null); // 'manager', 'player', or null
+  const [userRole, setUserRole] = useState(() => localStorage.getItem('galore_role') || null);
+  const [managerRoomId, setManagerRoomId] = useState(() => localStorage.getItem('galore_manager_room_id') || null);
   const [showMyRooms, setShowMyRooms] = useState(false);
+  const [showWelcomeBack, setShowWelcomeBack] = useState(false);
+  const [showFirstRoom, setShowFirstRoom] = useState(false);
+  const [showCreateRoom, setShowCreateRoom] = useState(false);
 
-
-  const translations = {
-    pt: { search: 'Buscar salas de comunidades', enter: 'Entrar', signup: 'Inscrever-se', becomeManager: 'Tornar-se Gerente', manageRoom: 'Gerenciar Minha Sala', myRooms: 'Acessar Minhas Salas', createBet: 'Criar Aposta', earnCommission: 'Ganhe Comissão', subtitle: 'MERCADO DE RATEIO E PREVISÕES PROGNÓSTICAS', market: '', social: 'SOCIAIS' },
-    en: { search: 'Search markets and predictions...', enter: 'Sign In', signup: 'Sign Up', becomeManager: 'Become Manager', createBet: 'Create Bet', earnCommission: 'Earn Commission', subtitle: 'EARN BY PREDICTING THE FUTURE', market: 'PREDICTION MARKET', social: 'Social Media' },
-    es: { search: 'Buscar mercados y predicciones...', enter: 'Entrar', signup: 'Registrarse', createBet: 'Crear Apuesta', earnCommission: 'Gana Comisión', subtitle: '¡GANA PREDICIENDO EL FUTURO!', market: 'MERCADO DE PREDICCIONES', social: 'Redes Sociales' },
-    hi: { search: 'बाज़ार और भविष्यवाणियाँ खोजें...', enter: 'प्रवेश', signup: 'साइन अप', createBet: 'बेट बनाएं', earnCommission: 'कमीशन कमाएं', subtitle: 'भविष्य की भविष्यवाणी करके कमाएं!', market: 'भविष्यवाणी बाज़ार', social: 'सोशल मीडिया' },
-    ar: { search: '...ابحث عن الأسواق والتوقعات', enter: 'دخول', signup: 'تسجيل', createBet: 'إنشاء رهان', earnCommission: 'اربح عمولة', subtitle: '!اربح من خلال التنبؤ بالمستقبل', market: 'سوق التوقعات', social: 'وسائل التواصل' },
-    zh: { search: '搜索市场和预测...', enter: '登录', signup: '注册', createBet: '创建投注', earnCommission: '赚取佣金', subtitle: '通过预测未来赚钱！', market: '预测市场', social: '社交媒体' },
-    fr: { search: 'Rechercher des marchés...', enter: 'Connexion', signup: 'S\'inscrire', createBet: 'Créer un Pari', earnCommission: 'Gagner une Commission', subtitle: 'gagnez en prédisant l\'avenir!', market: 'MARCHÉ DE PRÉDICTIONS', social: 'Réseaux Sociaux' },
-    ru: { search: 'Поиск рынков и прогнозов...', enter: 'Войти', signup: 'Регистрация', createBet: 'Создать Ставку', earnCommission: 'Заработать Комиссию', subtitle: 'зарабатывайте, предсказывая будущее!', market: 'РЫНОК ПРОГНОЗОВ', social: 'Социальные сети' },
-    de: { search: 'Märkte durchsuchen...', enter: 'Anmelden', signup: 'Registrieren', createBet: 'Wette Erstellen', earnCommission: 'Provision Verdienen', subtitle: 'verdienen Sie, indem Sie die Zukunft vorhersagen!', market: 'VORHERSAGEMARKT', social: 'Soziale Medien' },
-    ja: { search: '市場と予測を検索...', enter: 'ログイン', signup: 'サインアップ', createBet: 'ベットを作成', earnCommission: '手数料を獲得', subtitle: '未来を予測して稼ごう！', market: '予測市場', social: 'ソーシャルメディア' }
+  const t = {
+    search: 'Buscar salas de comunidades',
+    enter: 'Entrar',
+    becomeManager: 'Tornar-se Gerente',
+    manageRoom: 'Acessar Dashboard',
+    myRooms: 'Acessar Minhas Salas',
+    subtitle: 'MERCADO DE RATEIO E PREVISÕES PROGNÓSTICAS',
+    social: 'SOCIAIS'
   };
 
-  const t = translations[language] || translations.pt;
+  const handleLoginAs = (role) => {
+    const isFirstTime = !localStorage.getItem('galore_role');
+    localStorage.setItem('galore_role', role);
+    setUserRole(role);
+    setShowWelcomeBack(true);
+    setTimeout(() => setShowWelcomeBack(false), 3000);
+    if (role === 'manager' && isFirstTime) {
+      setShowFirstRoom(true);
+    }
+  };
 
   return (
     <>
