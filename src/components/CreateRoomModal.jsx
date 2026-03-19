@@ -11,7 +11,7 @@ import { base44 } from '@/api/base44Client';
 import toast from 'react-hot-toast';
 
 const PRIMARY_LABELS = ['GLOBAL', 'NACIONAL', 'EUROPEU', 'ESTADUAL', 'MUNICIPAL'];
-const SECONDARY_LABELS = ['Política', 'Esporte', 'Cultura', 'Crypto', 'Clima', 'Economia', 'Menções', 'Companhias', 'Finanças', 'Tecnologia & Ciência'];
+const SECONDARY_LABELS = ['Política', 'Esporte', 'Cultura', 'Crypto', 'Clima', 'Economia', 'Menções', 'Companhias', 'Tecnologia & Ciência'];
 const COLORS = ['#D4AF37', '#DC2626', '#2563EB', '#9333EA', '#F59E0B', '#10B981', '#EC4899', '#8B5CF6', '#14B8A6'];
 const COUNTRIES = [
   { name: 'Brasil', flag: '🇧🇷' },

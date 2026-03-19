@@ -114,20 +114,6 @@ const CATEGORIES = [
     subcategories: ['IPOs', 'Fusões', 'Falências', 'Lucros', 'Inovações']
   },
   {
-    name: 'Finanças',
-    nameEn: 'Finance',
-    nameEs: 'Finanzas',
-    nameHi: 'वित्त',
-    nameAr: 'مالية',
-    nameZh: '金融',
-    nameFr: 'Finance',
-    nameRu: 'Финансы',
-    nameDe: 'Finanzen',
-    nameJa: '金融',
-    color: '#EF4444',
-    subcategories: ['Ações', 'Fundos', 'Commodities', 'Câmbio', 'Investimentos']
-  },
-  {
     name: 'Tecnologia & Ciência',
     nameEn: 'Tech & Science',
     nameEs: 'Tecnología y Ciencia',
