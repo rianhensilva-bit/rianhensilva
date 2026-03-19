@@ -37,6 +37,7 @@ export default function ManagerDashboard() {
   const [showManual, setShowManual] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showModeration, setShowModeration] = useState(false);
+  const [showCreateRoom, setShowCreateRoom] = useState(false);
   const [newPrediction, setNewPrediction] = useState({
     title: '',
     description: '',
@@ -300,13 +301,23 @@ export default function ManagerDashboard() {
 
         {/* Ações */}
         <div className="mb-8">
-          <Button
-            onClick={() => setShowCreatePrediction(true)}
-            className="bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold"
-          >
-            <Plus className="mr-2 h-5 w-5" />
-            Criar Nova Previsão
-          </Button>
+          {!roomId ? (
+            <Button
+              onClick={() => setShowCreateRoom(true)}
+              className="bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold text-base px-6 h-12"
+            >
+              <Home className="mr-2 h-5 w-5" />
+              Criar sua Sala Privada
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setShowCreatePrediction(true)}
+              className="bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold"
+            >
+              <Plus className="mr-2 h-5 w-5" />
+              Criar Nova Previsão
+            </Button>
+          )}
         </div>
 
         {/* Lista de Membros */}
