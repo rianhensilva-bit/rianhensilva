@@ -545,7 +545,7 @@ export default function ManagerDashboard() {
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
-                  {['Política', 'Esporte', 'Cultura', 'Crypto', 'Clima', 'Economia', 'Menções', 'Companhias', 'Finanças', 'Tecnologia & Ciência'].map(cat => (
+                  {['Política', 'Esporte', 'Cultura', 'Crypto', 'Clima', 'Economia', 'Menções', 'Companhias', 'Tecnologia & Ciência'].map(cat => (
                     <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                   ))}
                 </SelectContent>
@@ -609,6 +609,7 @@ export default function ManagerDashboard() {
       <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
       <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={roomId} />
       <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={roomId} />
+      <CreateRoomModal isOpen={showCreateRoom} onClose={() => setShowCreateRoom(false)} />
     </div>
   );
 }
