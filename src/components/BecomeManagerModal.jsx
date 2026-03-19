@@ -10,11 +10,19 @@ import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
+const BetaBadge = () => (
+  <span className="bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md tracking-widest select-none" style={{ WebkitTextFillColor: 'white' }}>
+    BETA
+  </span>
+);
+
 export default function BecomeManagerModal({ isOpen, onClose, onSuccess }) {
   const queryClient = useQueryClient();
   const [step, setStep] = useState('type'); // 'type', 'pf', 'pj'
   const [managerType, setManagerType] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [showQuick, setShowQuick] = useState(false);
+  const [quickName, setQuickName] = useState('');
 
   const [pfData, setPfData] = useState({
     full_name: '',
