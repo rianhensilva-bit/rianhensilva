@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Sun, Moon, Globe, Bell } from 'lucide-react';
+import { Search, Sun, Moon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,10 +12,9 @@ import SocialMediaModal from './SocialMediaModal';
 import CreateBetModal from './CreateBetModal';
 import SignupModal from './SignupModal';
 import BecomeManagerModal from './BecomeManagerModal';
-import LanguageSelector from './LanguageSelector';
 import MyRoomsModal from './MyRoomsModal';
-import NotificationSettingsModal from './NotificationSettingsModal';
 import NotificationCenter from './NotificationCenter';
+import CreateRoomModal from './CreateRoomModal';
 
 export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearchQuery, language, setLanguage, onLogoClick }) {
   const [showSocial, setShowSocial] = useState(false);
