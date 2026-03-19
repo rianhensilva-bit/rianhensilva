@@ -10,7 +10,7 @@ import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-export default function BecomeManagerModal({ isOpen, onClose }) {
+export default function BecomeManagerModal({ isOpen, onClose, onSuccess }) {
   const queryClient = useQueryClient();
   const [step, setStep] = useState('type'); // 'type', 'pf', 'pj'
   const [managerType, setManagerType] = useState(null);
