@@ -161,6 +161,60 @@ export default function BecomeManagerModal({ isOpen, onClose, onSuccess }) {
           </DialogDescription>
         </DialogHeader>
 
+        {/* Criação Rápida */}
+        <div className="border-2 border-blue-600/40 bg-blue-950/20 rounded-xl p-4 mb-2">
+          <button
+            type="button"
+            onClick={() => setShowQuick(!showQuick)}
+            className="w-full flex items-center justify-between gap-2"
+          >
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-blue-400" />
+              <span className="font-black text-zinc-100 text-sm">Criação Rápida!</span>
+              <BetaBadge />
+            </div>
+            <span className="text-xs text-zinc-400">{showQuick ? '▲' : '▼'}</span>
+          </button>
+          {showQuick && (
+            <div className="mt-3 space-y-3">
+              <div>
+                <Label className="text-zinc-200 text-xs">Nome de Perfil</Label>
+                <Input
+                  placeholder="Ex: GerenteTop"
+                  value={quickName}
+                  onChange={(e) => setQuickName(e.target.value)}
+                  className="mt-1 bg-zinc-800 border-zinc-700 text-zinc-100"
+                />
+                <p className="text-xs text-blue-400 mt-1">⚠️ O nome de perfil e a senha são a mesma coisa</p>
+              </div>
+              <Button
+                type="button"
+                onClick={() => {
+                  if (!quickName.trim()) return;
+                  localStorage.setItem('galore_quick_profile', JSON.stringify({ username: quickName, password: quickName, role: 'manager' }));
+                  localStorage.setItem('galore_role', 'manager');
+                  localStorage.setItem('galore_manager_registered', 'true');
+                  resetForm();
+                  if (onSuccess) onSuccess();
+                  else onClose();
+                }}
+                disabled={!quickName.trim()}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black flex items-center gap-2"
+              >
+                <Zap className="h-4 w-4" />
+                Entrar Rapidamente
+                <BetaBadge />
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <div className="relative flex items-center gap-2 my-2">
+          <div className="flex-1 border-t border-zinc-700" />
+          <span className="text-xs text-zinc-500">ou cadastro completo</span>
+          <div className="flex-1 border-t border-zinc-700" />
+        </div>
+
         <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
           <div className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
