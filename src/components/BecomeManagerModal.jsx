@@ -47,8 +47,9 @@ export default function BecomeManagerModal({ isOpen, onClose, onSuccess }) {
     onSuccess: () => {
       queryClient.invalidateQueries(['manager-verification']);
       toast.success('Solicitação enviada! Aguarde aprovação.');
-      onClose();
       resetForm();
+      if (onSuccess) onSuccess();
+      else onClose();
     },
     onError: () => {
       toast.error('Erro ao enviar solicitação. Tente novamente.');
