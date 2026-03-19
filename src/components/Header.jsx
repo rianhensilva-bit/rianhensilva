@@ -21,19 +21,12 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [showManager, setShowManager] = useState(false);
   const [userRole, setUserRole] = useState(() => localStorage.getItem('galore_role') || null);
   const [showMyRooms, setShowMyRooms] = useState(false);
-  const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   const [showFirstRoom, setShowFirstRoom] = useState(false);
-
-  const triggerWelcomeBack = () => {
-    setShowWelcomeBack(true);
-    setTimeout(() => setShowWelcomeBack(false), 3500);
-  };
 
   const handlePlayerLogin = () => {
     localStorage.setItem('galore_role', 'player');
     setUserRole('player');
     setShowSignup(true);
-    triggerWelcomeBack();
   };
 
   const handleManagerLoggedIn = () => {
@@ -42,7 +35,6 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
     localStorage.setItem('galore_manager_registered', 'true');
     setUserRole('manager');
     setShowManager(false);
-    triggerWelcomeBack();
     if (isFirstTime) {
       setTimeout(() => setShowFirstRoom(true), 500);
     }
