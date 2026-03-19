@@ -24,8 +24,6 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [showFirstRoom, setShowFirstRoom] = useState(false);
 
   const handlePlayerLogin = () => {
-    localStorage.setItem('galore_role', 'player');
-    setUserRole('player');
     setShowSignup(true);
   };
 
@@ -38,6 +36,11 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
     if (isFirstTime) {
       setTimeout(() => setShowFirstRoom(true), 500);
     }
+  };
+
+  const handleQuickCreate = (role) => {
+    setUserRole(role);
+    if (role === 'manager') handleManagerLoggedIn();
   };
 
   return (
@@ -157,9 +160,17 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
         </div>
       </header>
 
-
       <SocialMediaModal isOpen={showSocial} onClose={() => setShowSocial(false)} language="pt" />
-      <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language="pt" />
+      <SignupModal
+        isOpen={showSignup}
+        onClose={() => setShowSignup(false)}
+        language="pt"
+        onQuickCreate={(role, name) => {
+          localStorage.setItem('galore_role', role);
+          setUserRole(role);
+          setShowSignup(false);
+        }}
+      />
       <BecomeManagerModal isOpen={showManager} onClose={() => setShowManager(false)} onSuccess={handleManagerLoggedIn} />
       <MyRoomsModal isOpen={showMyRooms} onClose={() => setShowMyRooms(false)} />
       {showFirstRoom && <FirstRoomWelcome onDismiss={() => setShowFirstRoom(false)} />}
