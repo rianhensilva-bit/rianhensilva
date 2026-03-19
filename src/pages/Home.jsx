@@ -83,12 +83,14 @@ export default function Home() {
         <div className="flex-1">
           <div className="container mx-auto px-3 md:px-8 py-8 md:py-12" style={{ maxWidth: '1200px' }}>
         <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-4xl font-bold mb-1 text-zinc-900 dark:text-zinc-50 elegant-font">
-            SALAS PRIVADAS
-          </h2>
-          <p className="text-lg md:text-2xl font-semibold text-[#D4AF37] mb-2">
-            SELECIONE UMA DAS {rooms.length} COMUNIDADES GALORE
-          </p>
+          <div className="flex flex-wrap items-baseline gap-3 mb-2">
+            <h2 className="text-2xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-50 elegant-font">
+              SALAS PRIVADAS
+            </h2>
+            <p className="text-lg md:text-2xl font-semibold text-[#D4AF37]">
+              SELECIONE UMA DAS {rooms.length} COMUNIDADES GALORE
+            </p>
+          </div>
         </div>
 
         {isLoading ? (
