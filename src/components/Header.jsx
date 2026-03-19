@@ -165,15 +165,6 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
         </div>
       </header>
 
-      {/* Toast "Bem-vindo de volta" */}
-      {showWelcomeBack && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[100] pointer-events-none">
-          <div className="bg-zinc-900 border-2 border-[#D4AF37] rounded-2xl shadow-2xl px-8 py-5 text-center">
-            <p className="text-[#D4AF37] font-black text-xl elegant-font">Bem-vindo de volta à GALORE</p>
-            <p className="text-zinc-400 text-sm mt-1">Boas previsões! 🎯</p>
-          </div>
-        </div>
-      )}
 
       <SocialMediaModal isOpen={showSocial} onClose={() => setShowSocial(false)} language="pt" />
       <SignupModal isOpen={showSignup} onClose={() => setShowSignup(false)} language="pt" />
