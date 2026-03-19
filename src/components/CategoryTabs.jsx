@@ -156,6 +156,20 @@ const CATEGORIES = [
     subcategories: ['Políticos', 'Celebridades', 'Empresários', 'Esportistas', 'Vazamentos']
   },
   {
+    name: 'Variados',
+    nameEn: 'Various',
+    nameEs: 'Variados',
+    nameHi: 'विविध',
+    nameAr: 'متنوعة',
+    nameZh: '杂项',
+    nameFr: 'Divers',
+    nameRu: 'Разное',
+    nameDe: 'Verschiedenes',
+    nameJa: 'その他',
+    color: '#78716C',
+    subcategories: ['Geral', 'Curiosidades', 'Cotidiano', 'Humor', 'Outros']
+  },
+  {
     name: 'Improváveis',
     nameEn: 'Unlikely',
     nameEs: 'Improbables',
