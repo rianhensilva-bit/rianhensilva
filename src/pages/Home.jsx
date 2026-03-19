@@ -14,7 +14,6 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [language, setLanguage] = useState('pt');
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showAccessModal, setShowAccessModal] = useState(false);
 
