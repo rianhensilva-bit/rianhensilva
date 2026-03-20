@@ -82,6 +82,9 @@ export default function ManagerDashboard() {
 
   const hasRoom = !!roomId || managerRooms.length > 0;
 
+  // Usa o roomId da URL ou, se não tiver, pega o da primeira sala do gerente
+  const effectiveRoomId = roomId || (managerRooms.length > 0 ? (managerRooms[0].id || managerRooms[0]?.id) : null);
+
   const { data: predictions = [] } = useQuery({
     queryKey: ['predictions', roomId],
     queryFn: () => base44.entities.Prediction.filter({ room_id: roomId }),
