@@ -85,20 +85,35 @@ export default function RoomPredictionCard({ prediction, onBet }) {
           </div>
         ) : (
           <div className="flex flex-col gap-2">
-            {predData.options?.slice(0, 3).map((option, idx) => (
-              <div key={idx} className="flex items-center gap-2">
-                <span className="flex-1 text-base font-bold text-zinc-900 dark:text-zinc-50 truncate">
-                  {option.label}
-                </span>
-                <button
-                  onClick={() => onBet(prediction)}
-                  className="shrink-0 px-3 py-1.5 rounded-lg text-white text-sm font-bold transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: option.color || borderColor }}
-                >
-                  {Math.round(option.percentage || 0)}%
-                </button>
-              </div>
-            ))}
+            {predData.options?.slice(0, 3).map((option, idx) => {
+              const maxPct = Math.max(...(predData.options.map(o => o.percentage || 0)));
+              const pct = option.percentage || 0;
+              const barWidth = maxPct > 0 ? Math.round((pct / maxPct) * 80) : 0;
+              return (
+                <div key={idx} className="flex items-center gap-2">
+                  <span className="text-base font-bold text-zinc-900 dark:text-zinc-50 truncate shrink-0 max-w-[45%]">
+                    {option.label}
+                  </span>
+                  <div className="flex-1 flex items-center">
+                    <div
+                      className="h-[3px] rounded-full transition-all"
+                      style={{
+                        width: `${barWidth}%`,
+                        backgroundColor: option.color || borderColor,
+                        marginLeft: 'auto'
+                      }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => onBet(prediction)}
+                    className="shrink-0 px-3 py-1.5 rounded-lg text-white text-sm font-bold transition-opacity hover:opacity-80"
+                    style={{ backgroundColor: option.color || borderColor }}
+                  >
+                    {Math.round(pct)}%
+                  </button>
+                </div>
+              );
+            })}
             {predData.options?.length > 3 && (
               <button
                 onClick={() => onBet(prediction)}
