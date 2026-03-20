@@ -145,6 +145,10 @@ export default function ManagerDashboard() {
 
   const handleCreatePrediction = (e) => {
     e.preventDefault();
+    if (!effectiveRoomId) {
+      alert('Nenhuma sala encontrada. Crie uma sala primeiro.');
+      return;
+    }
     createPredictionMutation.mutate(newPrediction);
   };
 
@@ -195,7 +199,9 @@ export default function ManagerDashboard() {
     }
   };
 
-  const roomData = room?.data || room || (managerRooms.length > 0 ? (managerRooms[0].data || managerRooms[0]) : null);
+  // Se não tem roomId na URL, usa os dados da primeira sala do gerente
+  const effectiveRoom = room || (managerRooms.length > 0 ? managerRooms[0] : null);
+  const roomData = effectiveRoom?.data || effectiveRoom;
 
   return (
     <div className="min-h-screen bg-background">
