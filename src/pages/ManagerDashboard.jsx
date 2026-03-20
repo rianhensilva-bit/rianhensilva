@@ -458,7 +458,7 @@ export default function ManagerDashboard() {
 
       {/* Modal Criar Previsão */}
       <Dialog open={showCreatePrediction} onOpenChange={setShowCreatePrediction}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Criar Nova Previsão</DialogTitle>
           </DialogHeader>
@@ -616,8 +616,12 @@ export default function ManagerDashboard() {
               <Button type="button" variant="outline" onClick={() => setShowCreatePrediction(false)} className="flex-1">
                 Cancelar
               </Button>
-              <Button type="submit" className="flex-1 bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold">
-                Criar Previsão
+              <Button 
+                type="submit" 
+                className="flex-1 bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold"
+                disabled={createPredictionMutation.isPending || !effectiveRoomId}
+              >
+                {createPredictionMutation.isPending ? 'Criando...' : 'Criar Previsão'}
               </Button>
             </div>
           </form>
