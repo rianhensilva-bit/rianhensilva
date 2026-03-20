@@ -145,6 +145,10 @@ export default function ManagerDashboard() {
 
   const handleCreatePrediction = (e) => {
     e.preventDefault();
+    if (!effectiveRoomId) {
+      alert('Nenhuma sala encontrada. Crie uma sala primeiro.');
+      return;
+    }
     createPredictionMutation.mutate(newPrediction);
   };
 
@@ -195,7 +199,9 @@ export default function ManagerDashboard() {
     }
   };
 
-  const roomData = room?.data || room;
+  // Se não tem roomId na URL, usa os dados da primeira sala do gerente
+  const effectiveRoom = room || (managerRooms.length > 0 ? managerRooms[0] : null);
+  const roomData = effectiveRoom?.data || effectiveRoom;
 
   return (
     <div className="min-h-screen bg-background">
@@ -370,7 +376,7 @@ export default function ManagerDashboard() {
 
         {/* Recomendações dos membros */}
         <div className="mb-8">
-          <RecommendationsPanel roomId={effectiveRoomId} />
+          <RecommendationsPanel roomId={roomId} />
         </div>
 
         {/* Lista de Previsões */}
@@ -619,12 +625,12 @@ export default function ManagerDashboard() {
       </Dialog>
 
       <RoomSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} room={room} />
-      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={effectiveRoomId} />
+      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={roomId} />
       <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
       <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
       <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
-      <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={effectiveRoomId} />
-      <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={effectiveRoomId} />
+      <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={roomId} />
+      <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={roomId} />
       <CreateRoomModal isOpen={showCreateRoom} onClose={() => { setShowCreateRoom(false); refetchManagerRooms(); }} />
     </div>
   );
