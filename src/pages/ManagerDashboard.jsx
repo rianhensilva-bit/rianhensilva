@@ -72,6 +72,16 @@ export default function ManagerDashboard() {
     enabled: !!roomId
   });
 
+  const { data: managerRooms = [], refetch: refetchManagerRooms } = useQuery({
+    queryKey: ['managerRooms'],
+    queryFn: async () => {
+      const user = await base44.auth.me();
+      return base44.entities.Room.filter({ manager_id: user.id });
+    }
+  });
+
+  const hasRoom = !!roomId || managerRooms.length > 0;
+
   const { data: predictions = [] } = useQuery({
     queryKey: ['predictions', roomId],
     queryFn: () => base44.entities.Prediction.filter({ room_id: roomId }),
