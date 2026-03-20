@@ -66,8 +66,11 @@ export default function ManagerDashboard() {
   const { data: room } = useQuery({
     queryKey: ['room', roomId],
     queryFn: async () => {
-      const rooms = await base44.entities.Room.list();
-      return rooms.find(r => r.id === roomId);
+      if (roomId) {
+        const rooms = await base44.entities.Room.list();
+        return rooms.find(r => r.id === roomId);
+      }
+      return null;
     },
     enabled: !!roomId
   });
@@ -86,22 +89,22 @@ export default function ManagerDashboard() {
   const effectiveRoomId = roomId || (managerRooms.length > 0 ? (managerRooms[0].id || managerRooms[0]?.id) : null);
 
   const { data: predictions = [] } = useQuery({
-    queryKey: ['predictions', roomId],
-    queryFn: () => base44.entities.Prediction.filter({ room_id: roomId }),
-    enabled: !!roomId
+    queryKey: ['predictions', effectiveRoomId],
+    queryFn: () => base44.entities.Prediction.filter({ room_id: effectiveRoomId }),
+    enabled: !!effectiveRoomId
   });
 
   const { data: members = [] } = useQuery({
-    queryKey: ['members', roomId],
-    queryFn: () => base44.entities.RoomMember.filter({ room_id: roomId }),
-    enabled: !!roomId
+    queryKey: ['members', effectiveRoomId],
+    queryFn: () => base44.entities.RoomMember.filter({ room_id: effectiveRoomId }),
+    enabled: !!effectiveRoomId
   });
 
   const createPredictionMutation = useMutation({
     mutationFn: (data) => {
       const predictionData = {
         ...data,
-        room_id: roomId,
+        room_id: effectiveRoomId,
         status: 'active',
         total_volume: 0,
         chart_history: [],
