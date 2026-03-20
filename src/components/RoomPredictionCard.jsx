@@ -86,15 +86,18 @@ export default function RoomPredictionCard({ prediction, onBet }) {
         ) : (
           <div className="flex flex-col gap-2">
             {predData.options?.slice(0, 3).map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => onBet(prediction)}
-                className="flex items-center justify-between w-full px-4 py-2 rounded-lg border text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-                style={{ borderColor: option.color || borderColor }}
-              >
-                <span className="truncate">{option.label}</span>
-                <span className="text-zinc-500 ml-2 shrink-0">{option.percentage || 0}%</span>
-              </button>
+              <div key={idx} className="flex items-center gap-3">
+                <span className="flex-1 text-sm font-semibold text-zinc-900 dark:text-zinc-50 truncate">
+                  {option.label}
+                </span>
+                <button
+                  onClick={() => onBet(prediction)}
+                  className="shrink-0 px-3 py-1.5 rounded-lg text-white text-xs font-bold transition-opacity hover:opacity-80"
+                  style={{ backgroundColor: option.color || borderColor }}
+                >
+                  {Math.round(option.percentage || 0)}%
+                </button>
+              </div>
             ))}
             {predData.options?.length > 3 && (
               <button
