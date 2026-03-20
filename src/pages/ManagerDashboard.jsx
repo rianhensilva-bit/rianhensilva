@@ -129,7 +129,7 @@ export default function ManagerDashboard() {
       return base44.entities.Prediction.create(predictionData);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['predictions', roomId]);
+      queryClient.invalidateQueries(['predictions', effectiveRoomId]);
       setShowCreatePrediction(false);
       setNewPrediction({ title: '', description: '', category: '', bet_type: 'yes_no', end_date: '', rules: '', options: [], label_color: '#D4AF37' });
     }
@@ -138,7 +138,7 @@ export default function ManagerDashboard() {
   const updatePredictionMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Prediction.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['predictions', roomId]);
+      queryClient.invalidateQueries(['predictions', effectiveRoomId]);
       setEditingPrediction(null);
     }
   });
@@ -199,7 +199,7 @@ export default function ManagerDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <RealtimeNotifications roomId={roomId} userType="manager" />
+      <RealtimeNotifications roomId={effectiveRoomId} userType="manager" />
       <Toaster />
       
       {/* Header */}
