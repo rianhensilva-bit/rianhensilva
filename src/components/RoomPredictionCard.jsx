@@ -52,14 +52,17 @@ export default function RoomPredictionCard({ prediction, onBet }) {
           </p>
         )}
 
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-500">
-          <span className="flex items-center gap-1">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-200 dark:text-zinc-200">
+          <span className="flex items-center gap-1 font-medium">
             <TrendingUp className="h-4 w-4" />
-            R$ {predData.total_volume || 0}
+            VALOR TOTAL: R$ {predData.total_volume || 0}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 font-medium">
             <Calendar className="h-4 w-4" />
-            {predData.end_date ? new Date(predData.end_date).toLocaleDateString('pt-BR') : '—'}
+            {predData.created_date ? new Date(predData.created_date).toLocaleDateString('pt-BR') : '—'}
+            {predData.end_date && (
+              <> → {new Date(predData.end_date).toLocaleDateString('pt-BR')}</>
+            )}
           </span>
         </div>
       </div>
