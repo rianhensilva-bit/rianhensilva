@@ -311,7 +311,7 @@ export default function ManagerDashboard() {
 
         {/* Ações */}
         <div className="mb-8">
-          {!roomId ? (
+          {!hasRoom ? (
             <Button
               onClick={() => setShowCreateRoom(true)}
               className="bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold text-base px-6 h-12"
@@ -619,7 +619,7 @@ export default function ManagerDashboard() {
       <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
       <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={roomId} />
       <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={roomId} />
-      <CreateRoomModal isOpen={showCreateRoom} onClose={() => setShowCreateRoom(false)} />
+      <CreateRoomModal isOpen={showCreateRoom} onClose={() => { setShowCreateRoom(false); refetchManagerRooms(); }} />
     </div>
   );
 }
