@@ -370,7 +370,7 @@ export default function ManagerDashboard() {
 
         {/* Recomendações dos membros */}
         <div className="mb-8">
-          <RecommendationsPanel roomId={roomId} />
+          <RecommendationsPanel roomId={effectiveRoomId} />
         </div>
 
         {/* Lista de Previsões */}
@@ -619,12 +619,12 @@ export default function ManagerDashboard() {
       </Dialog>
 
       <RoomSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} room={room} />
-      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={roomId} />
+      <MembersListModal isOpen={showMembers} onClose={() => setShowMembers(false)} roomId={effectiveRoomId} />
       <ActivePredictionsModal isOpen={showActivePredictions} onClose={() => setShowActivePredictions(false)} predictions={predictions} />
       <AllPredictionsModal isOpen={showAllPredictions} onClose={() => setShowAllPredictions(false)} predictions={predictions} />
       <UserManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
-      <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={roomId} />
-      <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={roomId} />
+      <RoomAnalytics isOpen={showAnalytics} onClose={() => setShowAnalytics(false)} roomId={effectiveRoomId} />
+      <MemberModerationModal isOpen={showModeration} onClose={() => setShowModeration(false)} roomId={effectiveRoomId} />
       <CreateRoomModal isOpen={showCreateRoom} onClose={() => { setShowCreateRoom(false); refetchManagerRooms(); }} />
     </div>
   );
