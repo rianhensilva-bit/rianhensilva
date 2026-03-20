@@ -94,13 +94,13 @@ export default function RoomPredictionCard({ prediction, onBet }) {
                   <span className="text-base font-bold text-zinc-900 dark:text-zinc-50 truncate shrink-0 max-w-[45%]">
                     {option.label}
                   </span>
-                  <div className="flex-1 flex items-center">
+                  <div className="flex-1 flex items-center px-2">
                     <div
                       className="h-[3px] rounded-full transition-all"
                       style={{
                         width: `${barWidth}%`,
                         backgroundColor: option.color || borderColor,
-                        marginLeft: 'auto'
+                        marginRight: 'auto'
                       }}
                     />
                   </div>
