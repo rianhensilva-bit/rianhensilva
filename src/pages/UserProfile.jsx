@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Camera, Edit2, Save, X, TrendingUp, TrendingDown, Star, Calendar, DollarSign, Users, Moon, Sun } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import WalletWidget from '@/components/WalletWidget';
 
 const userId = 'current-user-id';
 
@@ -192,6 +193,11 @@ export default function UserProfile() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Carteira Pix */}
+        <div className="mb-8">
+          <WalletWidget />
+        </div>
 
         {/* Tabs */}
         <Tabs defaultValue="bets">
