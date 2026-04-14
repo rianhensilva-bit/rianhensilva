@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Sun, Moon } from 'lucide-react';
+import { Search, Sun, Moon, Wallet } from 'lucide-react';
+import PixWalletModal from './PixWalletModal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +23,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
   const [userRole, setUserRole] = useState(() => localStorage.getItem('galore_role') || null);
   const [showMyRooms, setShowMyRooms] = useState(false);
   const [showFirstRoom, setShowFirstRoom] = useState(false);
+  const [showWallet, setShowWallet] = useState(false);
 
   const handlePlayerLogin = () => {
     setShowSignup(true);
@@ -98,6 +100,15 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
 
             {/* Actions */}
             <div className="flex items-center gap-1 md:gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowWallet(true)}
+                className="rounded-full h-8 w-8 md:h-11 md:w-11"
+                title="Carteira Pix"
+              >
+                <Wallet className="h-4 w-4 md:h-5 md:w-5 text-[#D4AF37]" />
+              </Button>
               <NotificationCenter />
               <Button
                 variant="ghost"
@@ -174,6 +185,7 @@ export default function Header({ darkMode, toggleDarkMode, searchQuery, setSearc
       <BecomeManagerModal isOpen={showManager} onClose={() => setShowManager(false)} onSuccess={handleManagerLoggedIn} />
       <MyRoomsModal isOpen={showMyRooms} onClose={() => setShowMyRooms(false)} />
       {showFirstRoom && <FirstRoomWelcome onDismiss={() => setShowFirstRoom(false)} />}
+      <PixWalletModal isOpen={showWallet} onClose={() => setShowWallet(false)} />
     </>
   );
 }

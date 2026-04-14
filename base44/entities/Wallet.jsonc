@@ -1,0 +1,28 @@
+{
+  "name": "Wallet",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "ID do usu\u00e1rio"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0,
+      "description": "Saldo dispon\u00edvel em reais"
+    },
+    "total_deposited": {
+      "type": "number",
+      "default": 0,
+      "description": "Total depositado hist\u00f3rico"
+    },
+    "total_withdrawn": {
+      "type": "number",
+      "default": 0,
+      "description": "Total sacado hist\u00f3rico"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Transaction",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "ID do usu\u00e1rio"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "deposit",
+        "withdrawal"
+      ],
+      "description": "Tipo: dep\u00f3sito ou saque"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Valor em reais"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Status da transa\u00e7\u00e3o"
+    },
+    "asaas_id": {
+      "type": "string",
+      "description": "ID da cobran\u00e7a/transfer\u00eancia no Asaas"
+    },
+    "pix_copy_paste": {
+      "type": "string",
+      "description": "C\u00f3digo copia e cola do Pix"
+    },
+    "pix_qr_code": {
+      "type": "string",
+      "description": "QR Code base64 do Pix"
+    },
+    "pix_key": {
+      "type": "string",
+      "description": "Chave Pix para saque"
+    },
+    "pix_key_type": {
+      "type": "string",
+      "enum": [
+        "CPF",
+        "CNPJ",
+        "EMAIL",
+        "PHONE",
+        "EVP"
+      ],
+      "description": "Tipo da chave Pix"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o da transa\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "user_id",
+    "type",
+    "amount"
+  ]
+}
