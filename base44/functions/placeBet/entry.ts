@@ -1,13 +1,19 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-const ASAAS_API_URL = 'https://api.asaas.com/v3';
+const ASAAS_API_URL = 'https://sandbox.asaas.com/api/v3';
 const ASAAS_API_KEY = Deno.env.get('ASAAS_API_KEY');
 
 const MANAGER_FEE = 0.07; // 7% para o gerente
 const POOL_SHARE = 0.93;  // 93% vai para a pool da aposta
 
-async function getOrCreateAsaasCustomer(user) {
-  const searchRes = await fetch(`${ASAAS_API_URL}/customers?email=${encodeURIComponent(user.email)}`, {
+async function getOrCreateAsaasCustomer(user, cpf) {
+  const cpfClean = cpf ? cpf.replace(/\D/g, '') : null;
+  if (!cpfClean || cpfClean.length !== 11) {
+    throw new Error('CPF obrigatório para processar o pagamento via Pix.');
+  }
+
+  // Busca cliente pelo CPF (mais confiável que por email)
+  const searchRes = await fetch(`${ASAAS_API_URL}/customers?cpfCnpj=${cpfClean}`, {
     headers: { 'access_token': ASAAS_API_KEY }
   });
   const searchData = await searchRes.json();
@@ -16,16 +22,19 @@ async function getOrCreateAsaasCustomer(user) {
     return searchData.data[0].id;
   }
 
+  // Cria novo cliente com CPF
   const createRes = await fetch(`${ASAAS_API_URL}/customers`, {
     method: 'POST',
     headers: { 'access_token': ASAAS_API_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: user.full_name || user.email,
       email: user.email,
+      cpfCnpj: cpfClean,
       externalReference: user.id
     })
   });
   const customer = await createRes.json();
+  if (!customer.id) throw new Error(customer.errors?.[0]?.description || 'Erro ao criar cliente no Asaas');
   return customer.id;
 }
 
@@ -35,7 +44,7 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Não autorizado' }, { status: 401 });
 
-    const { amount, prediction_id, selected_option } = await req.json();
+    const { amount, prediction_id, selected_option, cpf } = await req.json();
 
     if (!amount || amount < 1) return Response.json({ error: 'Valor mínimo de R$ 1,00' }, { status: 400 });
     if (!prediction_id) return Response.json({ error: 'Previsão não informada' }, { status: 400 });
@@ -64,7 +73,7 @@ Deno.serve(async (req) => {
     const potentialProfit = potentialReturn - amount;
 
     // Obtém ou cria cliente no Asaas
-    const customerId = await getOrCreateAsaasCustomer(user);
+    const customerId = await getOrCreateAsaasCustomer(user, cpf);
 
     // Cria cobrança Pix para a aposta
     const chargeRes = await fetch(`${ASAAS_API_URL}/payments`, {
@@ -114,8 +123,9 @@ Deno.serve(async (req) => {
 
     return Response.json({
       bet_id: bet.id,
-      pix_copy_paste: pixData.payload,
-      pix_qr_code: pixData.encodedImage,
+      pix_copy_paste: pixData.payload || null,
+      pix_qr_code: pixData.encodedImage || null,
+      pix_expiration: pixData.expirationDate || null,
       amount,
       pool_amount: parseFloat(poolAmount.toFixed(2)),
       manager_fee: parseFloat((amount * MANAGER_FEE).toFixed(2)),

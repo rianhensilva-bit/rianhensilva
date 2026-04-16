@@ -10,6 +10,7 @@ const POOL_PCT = 93;
 
 export default function BetModal({ isOpen, onClose, prediction, selectedOption }) {
   const [amount, setAmount] = useState('');
+  const [cpf, setCpf] = useState('');
   const [step, setStep] = useState('form'); // 'form' | 'pix'
   const [pixData, setPixData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,10 +32,13 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption }
 
   const optionPct = getOptionPercentage();
   const amountNum = parseFloat(amount) || 0;
-  const poolAmount = amountNum * (POOL_PCT / 100);
-  const multiplier = 100 / optionPct;
-  const potentialReturn = poolAmount * multiplier;
+  // Mesmo cálculo do backend:
+  // Se ganhar, recebo minha parte proporcional de toda a pool (93% de TODOS apostadores)
+  // multiplier = POOL_PCT/100 * (100 / optionPct)
+  const multiplier = (POOL_PCT / 100) * (100 / optionPct);
+  const potentialReturn = amountNum * multiplier;
   const potentialProfit = potentialReturn - amountNum;
+  const poolAmount = amountNum * (POOL_PCT / 100);
   const managerFee = amountNum * (MANAGER_FEE_PCT / 100);
 
   const getOptionLabel = () => {
@@ -53,13 +57,19 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption }
       setError('Valor mínimo de R$ 1,00');
       return;
     }
+    const cpfClean = cpf.replace(/\D/g, '');
+    if (!cpfClean || cpfClean.length !== 11) {
+      setError('CPF inválido. Digite os 11 dígitos.');
+      return;
+    }
     setError('');
     setLoading(true);
     try {
       const res = await base44.functions.invoke('placeBet', {
         amount: amountNum,
         prediction_id: prediction.id,
-        selected_option: selectedOption
+        selected_option: selectedOption,
+        cpf: cpfClean
       });
       setPixData(res.data);
       setStep('pix');
@@ -81,6 +91,7 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption }
   const handleClose = () => {
     setStep('form');
     setAmount('');
+    setCpf('');
     setPixData(null);
     setError('');
     setCopied(false);
@@ -142,6 +153,27 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption }
                 />
               </div>
               {error && <p className="text-destructive text-xs mt-1">{error}</p>}
+            </div>
+
+            {/* CPF */}
+            <div>
+              <label className="text-sm font-semibold mb-2 block">CPF do Pagador</label>
+              <Input
+                type="text"
+                value={cpf}
+                onChange={(e) => {
+                  // Máscara CPF: 000.000.000-00
+                  let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+                  v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                  v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                  v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                  setCpf(v);
+                  setError('');
+                }}
+                placeholder="000.000.000-00"
+                className="h-12 text-lg tracking-wider"
+                maxLength={14}
+              />
             </div>
 
             {/* Lucro potencial */}
