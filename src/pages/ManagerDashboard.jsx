@@ -7,11 +7,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle, ArrowLeft, Settings, BookOpen, Sun, Moon, BarChart3, Shield, Home } from 'lucide-react';
+import { Users, Plus, Calendar, Crown, Edit, CheckCircle, XCircle, ArrowLeft, Settings, BookOpen, Sun, Moon, BarChart3, Shield, Home, Eye } from 'lucide-react';
 import CreateRoomModal from '@/components/CreateRoomModal';
 
 const GuanxiLogo = () => (
-  <span className="text-2xl font-black elegant-font" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 6px rgba(251,191,36,0.4))' }}>GALORE</span>
+  <span className="text-3xl font-black elegant-font" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 6px rgba(251,191,36,0.4))' }}>GALORE</span>
 );
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import RoomSettingsModal from '@/components/RoomSettingsModal';
@@ -23,6 +23,7 @@ import RoomAnalytics from '@/components/RoomAnalytics';
 import MemberModerationModal from '@/components/MemberModerationModal';
 import RealtimeNotifications from '@/components/RealtimeNotifications';
 import RecommendationsPanel from '@/components/RecommendationsPanel';
+import ManagerRoomPreview from '@/components/ManagerRoomPreview';
 import { Toaster } from 'react-hot-toast';
 
 export default function ManagerDashboard() {
@@ -38,6 +39,7 @@ export default function ManagerDashboard() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showModeration, setShowModeration] = useState(false);
   const [showCreateRoom, setShowCreateRoom] = useState(false);
+  const [showPlayerView, setShowPlayerView] = useState(false);
   const [newPrediction, setNewPrediction] = useState({
     title: '',
     description: '',
@@ -203,6 +205,10 @@ export default function ManagerDashboard() {
   const effectiveRoom = room || (managerRooms.length > 0 ? managerRooms[0] : null);
   const roomData = effectiveRoom?.data || effectiveRoom;
 
+  if (showPlayerView && effectiveRoomId) {
+    return <ManagerRoomPreview roomId={effectiveRoomId} onBack={() => setShowPlayerView(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <RealtimeNotifications roomId={effectiveRoomId} userType="manager" />
@@ -262,6 +268,15 @@ export default function ManagerDashboard() {
                 <BookOpen className="h-4 w-4" />
                 Manual
               </Button>
+              {effectiveRoomId && (
+                <Button
+                  onClick={() => setShowPlayerView(true)}
+                  className="gap-2 bg-[#D4AF37] hover:bg-[#B8941F] text-black font-bold"
+                >
+                  <Eye className="h-4 w-4" />
+                  Visão de Jogador
+                </Button>
+              )}
             </div>
           </div>
         </div>
