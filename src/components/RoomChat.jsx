@@ -10,14 +10,16 @@ export default function RoomChat({ roomId, username = 'Visitante', userId = 'gue
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const bottomRef = useRef(null);
 
-  // Buscar mensagens iniciais
+  // Buscar mensagens apenas quando o chat é aberto pela primeira vez
   useEffect(() => {
-    if (!roomId) return;
+    if (!open || !roomId || loaded) return;
+    setLoaded(true);
     base44.entities.ChatMessage.filter({ room_id: roomId }, '-created_date', 50)
       .then((msgs) => setMessages(msgs.reverse()));
-  }, [roomId]);
+  }, [open, roomId, loaded]);
 
   // Subscribe em tempo real
   useEffect(() => {

@@ -31,17 +31,16 @@ export default function RoomView() {
 
   const { data: room } = useQuery({
     queryKey: ['room', roomId],
-    queryFn: async () => {
-      const rooms = await base44.entities.Room.list();
-      return rooms.find(r => r.id === roomId);
-    },
-    enabled: !!roomId
+    queryFn: () => base44.entities.Room.get(roomId),
+    enabled: !!roomId,
+    staleTime: 60 * 1000,
   });
 
   const { data: predictions = [] } = useQuery({
     queryKey: ['predictions', roomId],
     queryFn: () => base44.entities.Prediction.filter({ room_id: roomId, status: 'active' }),
-    enabled: !!roomId
+    enabled: !!roomId,
+    staleTime: 30 * 1000,
   });
 
   const { data: isFollowing = false } = useQuery({
@@ -50,7 +49,8 @@ export default function RoomView() {
       const follows = await base44.entities.Follow.filter({ user_id: userId, room_id: roomId });
       return follows.length > 0;
     },
-    enabled: !!roomId && !!userId
+    enabled: !!roomId && !!userId,
+    staleTime: 60 * 1000,
   });
 
   const followMutation = useMutation({

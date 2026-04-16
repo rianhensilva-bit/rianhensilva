@@ -1,5 +1,5 @@
-import GuidedTour from '@/components/GuidedTour';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
+const GuidedTour = lazy(() => import('@/components/GuidedTour'));
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import Header from '../components/Header';
@@ -28,7 +28,8 @@ export default function Home() {
 
   const { data: rooms = [], isLoading, refetch } = useQuery({
     queryKey: ['rooms'],
-    queryFn: () => base44.entities.Room.list(),
+    queryFn: () => base44.entities.Room.filter({ status: 'active' }),
+    staleTime: 60 * 1000,
   });
 
   const handleLogoClick = () => {
@@ -128,7 +129,7 @@ export default function Home() {
         onClose={() => setShowAccessModal(false)}
         onAccessGranted={handleAccessGranted}
       />
-      <GuidedTour />
+      <Suspense fallback={null}><GuidedTour /></Suspense>
     </div>
   );
 }
