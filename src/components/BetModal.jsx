@@ -180,38 +180,41 @@ export default function BetModal({ isOpen, onClose, prediction, selectedOption }
             {amountNum > 0 && (
               <div className="space-y-2">
                 <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-2">
                     <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400">
                       <TrendingUp className="h-4 w-4" />
-                      Lucro Potencial
+                      Se você ganhar recebe
                     </span>
-                    <span className="text-xl font-bold text-green-600 dark:text-green-400">
-                      R$ {potentialProfit.toFixed(2)}
+                    <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      R$ {potentialReturn.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Retorno total se ganhar</span>
-                    <span className="font-medium">R$ {potentialReturn.toFixed(2)}</span>
+                    <span>Lucro líquido</span>
+                    <span className="font-semibold text-green-600 dark:text-green-400">+R$ {potentialProfit.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground mt-0.5">
+                    <span>Multiplicador atual</span>
+                    <span className="font-medium">{multiplier.toFixed(2)}x</span>
                   </div>
                 </div>
 
                 <div className="bg-muted/30 rounded-xl p-3 text-xs text-muted-foreground space-y-1">
                   <div className="flex justify-between">
-                    <span>Valor apostado</span>
-                    <span>R$ {amountNum.toFixed(2)}</span>
+                    <span>Você aposta</span>
+                    <span className="font-medium text-foreground">R$ {amountNum.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Taxa do gerente ({MANAGER_FEE_PCT}%)</span>
-                    <span>R$ {managerFee.toFixed(2)}</span>
+                    <span>Taxa gerente da sala ({MANAGER_FEE_PCT}%)</span>
+                    <span>−R$ {managerFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Valor na pool ({POOL_PCT}%)</span>
+                    <span>Entra na pool ({POOL_PCT}%)</span>
                     <span>R$ {poolAmount.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between font-semibold text-foreground border-t border-border pt-1 mt-1">
-                    <span>Multiplicador</span>
-                    <span>{multiplier.toFixed(2)}x</span>
-                  </div>
+                  <p className="text-[10px] text-muted-foreground/70 border-t border-border pt-1 mt-1">
+                    * O ganhador leva toda a pool proporcionalmente à sua aposta. Odds baseadas na distribuição atual de votos.
+                  </p>
                 </div>
               </div>
             )}
