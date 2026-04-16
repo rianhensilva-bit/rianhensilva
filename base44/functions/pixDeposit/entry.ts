@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-const ASAAS_API_URL = 'https://api.asaas.com/v3';
+const ASAAS_API_URL = 'https://sandbox.asaas.com/api/v3';
 const ASAAS_API_KEY = Deno.env.get('ASAAS_API_KEY');
 
 async function getOrCreateAsaasCustomer(user) {
